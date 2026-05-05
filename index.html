@@ -6,25 +6,25 @@
  <script src="https://cdn.tailwindcss.com"></script>   
  <link rel="stylesheet" href="style.css">
 </head>
-<body class="text-center bg-gray-100">
+<body class="text-center bg-blue-100">
   <p>Hello To Anyone That Reads This!</p>
-  <h1 class="text-gray-500">
+  <h1 class="text-purple-800 text-2xl font-bold mb-4">
     Hey, My name is Aditya and I am from the Bay Area. I love tech and I wish I knew more about coding.
   </h1>
-  <p>Why am I here?</p>
-  <p>I think with Macondo that I can truly improve my coding and I really need a new computer</p>
-  <p>Also, I am really interested in learning about how to make games and I think that with Macondo I can learn how to do that.</p>
+  <h1 class="text-2xl font-bold mb-3">Why am I here?</h1>
+  <ul>
+    <li>I think with Macondo that I can truly improve my coding and I really need a new computer. Also, I am really interested in learning about how to make games and I think that with Macondo I can learn how to do that.</li>
+  </ul>
+  <h1 class="text-2xl font-bold mb-3 text-grey-200">Every time you click the button above it helps me improve as a developer.</h1>
+  <h2 class="text-5xl mb-4">
+    <span id="display">0</span>
+  </h2>
+  <button onclick="document.getElementById('display').innerText++" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Click Me!</button>
+  <button onclick="document.getElementById('display').innerText=0" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">DO NOT CLICK >:(</button>
+
+
   <div class="flex justify-center items-center">
-    <img class="w-64" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4RR1mL5PF3zW09tpA1WM7ZsZ4ibc2my9Oww&s" alt="Image Of Hack Club Logo"/>
+    <img class="w-64 transform translate-y-10" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4RR1mL5PF3zW09tpA1WM7ZsZ4ibc2my9Oww&s" alt="Image Of Hack Club Logo"/>
   </div>
-  <p>I am here to learn and grow as a developer and every time you click the button above it helps me improve.</p>
-  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Random Button</button>
-  <button onclick="addClick()">Click Me!</button>
-  <p>Total Clicks: <span id="clickCount">0</span></p>
-  <script>//3. The logic let count = 0;
-function addClick() {
-  count++;
-  document.getElementById("clickCount").textContent = count;
-}</script>
 </body>
 </html>
