@@ -6,9 +6,9 @@
  <script src="https://cdn.tailwindcss.com"></script>   
  <link rel="stylesheet" href="style.css">
 </head>
-<body class="text-center bg-green-100">
+<body class="text-center bg-gray-100">
   <p>Hello To Anyone That Reads This!</p>
-  <h1 class="text-blue-500">
+  <h1 class="text-gray-500">
     Hey, My name is Aditya and I am from the Bay Area. I love tech and I wish I knew more about coding.
   </h1>
   <p>Why am I here?</p>
@@ -17,6 +17,14 @@
   <div class="flex justify-center items-center">
     <img class="w-64" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4RR1mL5PF3zW09tpA1WM7ZsZ4ibc2my9Oww&s" alt="Image Of Hack Club Logo"/>
   </div>
+  <p>I am here to learn and grow as a developer and every time you click the button above it helps me improve.</p>
   <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Random Button</button>
+  <button onclick="addClick()">Click Me!</button>
+  <p>Total Clicks: <span id="clickCount">0</span></p>
+  <script>//3. The logic let count = 0;
+function addClick() {
+  count++;
+  document.getElementById("clickCount").textContent = count;
+}</script>
 </body>
 </html>
