@@ -3,26 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <title>My Macondo Website</title>
- <script src="https://cdn.tailwindcss.com"></script>   
+ <script src="https://cdn.tailwindcss.com">
+ </script>   
  <link rel="stylesheet" href="style.css">
 </head>
 <body class="text-center bg-blue-100">
-  <p>Hello To Anyone That Reads This!</p>
-  <h1 class="text-purple-800 text-2xl font-bold mb-4">
+  <h1 class="text-2xl">Hello To Anyone That Reads This!
+  </h1>
+  <h1 class="text-purple-800 text-xl font-bold mb-4 transform translate-y-2">
     Hey, My name is Aditya and I am from the Bay Area. I love tech and I wish I knew more about coding.
   </h1>
-  <h1 class="text-2xl font-bold mb-3">Why am I here?</h1>
-  <ul>
-    <li>I think with Macondo that I can truly improve my coding and I really need a new computer because I want to be able to code more efficiently. Also, I am really interested in learning about how to make games and I think that with Macondo I can learn how to do that.</li>
-  </ul>
-  <h1 class="text-2xl font-bold mb-3 text-grey-200">Every time you click the button above it helps me improve as a developer.</h1>
+  <hr style="border: 1px solid black;">
+  <article>
+    <h1 class="text-2xl font-bold mb-3">Why am I here?
+    </h1>
+    <ul>
+      <li>I think with Macondo that I can truly improve my coding and I really need a new computer because I want to be able to code more efficiently. Also, I am really interested in learning about how to make games and I think that with Macondo I can learn how to do that.
+      </li>
+    </ul>
+  </article>
+  <hr style="border: 1px solid black;">
+  <article>
+  <h1 class="text-2xl font-bold mb-3 text-grey-200 transform translate-y-3">Every time you click the button above it helps me improve as a developer.
+  </h1>
   <h2 class="text-5xl mb-4">
     <span id="display">0</span>
   </h2>
-  <button onclick="document.getElementById('display').innerText++" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Click Me!</button>
-  <button onclick="document.getElementById('display').innerText=0" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">DO NOT CLICK >:(</button>
-
-
+  <button
+ onclick="document.getElementById('display').innerText++" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 hover:scale-105 active:scale-95">Click Me!
+</button>
+  <button 
+onclick="document.getElementById('display').innerText=0" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-200 hover:scale-105 active:scale-95">DO NOT CLICK >:(
+</button>
+  </article>
   <div class="flex justify-center items-center">
     <img class="w-64 transform translate-y-10" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4RR1mL5PF3zW09tpA1WM7ZsZ4ibc2my9Oww&s" alt="This is the image Of Hack Club Logo"/>
   </div>
