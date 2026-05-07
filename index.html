@@ -8,36 +8,63 @@
  <link rel="stylesheet" href="style.css">
 </head>
 <body class="text-center bg-blue-100" style="background-image:url('https://images.unsplash.com/photo-1623150502742-6a849aa94be4?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y2xlYW4lMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww')">
-  <h1 class="text-2xl">Hello To Anyone That Reads This!
-  </h1>
-  <h1 class="text-purple-200 text-xl font-bold mb-4 transform translate-y-2">
-    Hey, My name is Aditya and I am from the Bay Area. I love tech and I wish I knew more about coding.
-  </h1>
-  <hr style="border: 1px solid black;">
-  <article>
-    <h1 class="text-2xl font-bold mb-3">Why am I here?
-    </h1>
-    <ul>
-      <li class="text-purple-200 text-xl font-bold mb-4">I think with Macondo that I can truly improve my coding and I really need a new computer because I want to be able to code more efficiently. Also, I am really interested in learning about how to make games and I think that with Macondo I can learn how to do that.
-      </li>
-    </ul>
-  </article>
-  <hr style="border: 1px solid black;">
-  <article>
-  <h1 class="text-2xl font-bold mb-3 text-grey-200 transform translate-y-3">Every time you click the button above it helps me improve as a developer.
-  </h1>
-  <h2 class="text-5xl mb-4">
-    <span id="display">0</span>
-  </h2>
-  <button
- onclick="document.getElementById('display').innerText++" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 hover:scale-105 active:scale-95">Click Me!
-</button>
-  <button 
-onclick="document.getElementById('display').innerText=0" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-200 hover:scale-105 active:scale-95">DO NOT CLICK >:(
-</button>
-  </article>
-  <div class="flex justify-center items-center">
-    <img class="w-64 transform translate-y-10" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4RR1mL5PF3zW09tpA1WM7ZsZ4ibc2my9Oww&s" alt="This is the image Of Hack Club Logo"/>
+<div class="max-w-4xl mx-auto mt-10 p-6 bg-white/90 backdrop-blur shadow-2xl rounded-3xl">
+<!---Tab Button--->
+  <nav class="flex justify-center -x-4 mb-8 border-b pb-4">
+    <button onclick="openTab('about')" class="tab-btn px-6 py-2 bg-purple-600 text-white rounded-full font-bold">A Bit About Me</button>
+    <button onclick="openTab('goals')" class="tab-btn px-6 py-2 bg-gray-200 hover:bg-purple-200 rounded-full font-bold">Goals</button>
+<button onclick="openTab('minigame')" class="tab-btn px-6 py-2 bg-gray-200 hover:bg-purple-200 rounded-full font-bold">Procrastination</button>
+  </nav>
+<!---Tab:About Me--->
+  <div id="about" class="tabcontent">
+  <h1 class="text-3xl font-bold text-gray-800">Hello Everyone, I'm Aditya</h1>
+  <p class="text-xl text-gray-600 mt-4">I'm a 14 year old who currently lives in Campbell, California. I love tech and coding and some of my hobbies are playing basketball, tennis, 3D Printing, and taking photos</p>
   </div>
+ <!---Tab:Goals/Accomplishments--->
+ <div id ="goals" class="tabcontent hidden">
+  <h1 class="text-3xl font-bold text-gray-800">My Goals/Feats</h1>
+  <ul class="mt-4 text left list-disc list-inside text-gray-700 space-y-2">
+  <li>I want to become a proficient web developer.</li>
+  <li>Get the Macbook from the Macondo shop to code better.</li>
+  <li>Go to either Cal Poly or UC Berkeley.</li>
+  <li>Work for the Top 10 tech companies when I graduate.</li>
+  <li>I have participated in Campfire and won 1st with a 3D printer as the prize.</li>
+  <li>I have gotten accepted as an ambassador for Stardance.</li>
+  <li>I have played tennis competitively for 2 years.</li>
+  </ul>
+  <div class="flex justify-center items-center">
+    <img class="w-64 transform translate-y-3" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4RR1mL5PF3zW09tpA1WM7ZsZ4ibc2my9Oww&s" alt="This is the image Of A RedHack Club Logo"/>
+  </div>
+  </div>
+  <!---Tab:Minigame--->
+  <div id="minigame" class="tabcontent hidden">
+  <h1 class="text-2xl font-bold mb-4">Click Counter</h1>
+  <h2 class="text-6xl font-black text-blue-500 mb-6" id="display">0</h2>
+  <div class="flex justify-center gap-4">
+  <button onclick="document.getElementById('display').innerText++" class="px-6 py-3 bg-green-500 text-white rounded-full font-bold hover:bg-green-600">Click Me!</button>
+  <button onclick="document.getElementById('display').innerText=0" class="px-6 py-3 bg-red-500 text-white rounded-full font-bold hover:bg-red-600">Don't Click >:(</button>
+  </div>
+  </div>
+</div> 
+<!---Java----> 
+<script>
+function openTab(tabId) {
+  // 1. Hide all tab content
+  const contents = document.querySelectorAll('.tabcontent');
+  contents.forEach(content => content.classList.add('hidden'));
+  // 2. Show the specific tab clicked
+  document.getElementById(tabId).classList.remove('hidden');
+  // 3. Reset Button Colors
+  const buttons = document.querySelectorAll('.tab-btn');
+  buttons.forEach(btn => {
+    //Remove the active colors
+    btn.classList.remove('bg-purple-600', 'text-white');
+    //Add the inactive colors
+    btn.classList.add('bg-gray-200', 'text-black');
+  });
+  // 4. Highlight the active button
+  event.currentTarget.classList.add('bg-purple-600', 'text-white');
+}
+</script>
 </body>
 </html>
