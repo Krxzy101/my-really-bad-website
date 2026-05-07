@@ -10,10 +10,10 @@
 <body class="text-center bg-blue-100" style="background-image:url('https://images.unsplash.com/photo-1623150502742-6a849aa94be4?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y2xlYW4lMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww')">
 <div class="max-w-4xl mx-auto mt-10 p-6 bg-white/90 backdrop-blur shadow-2xl rounded-3xl">
 <!---Tab Button--->
-  <nav class="flex justify-center -x-4 mb-8 border-b pb-4">
-    <button onclick="openTab('about')" class="tab-btn px-6 py-2 bg-gray-200 hover:bg-purple-200 rounded-full font-bold">A Bit About Me</button>
-    <button onclick="openTab('goals')" class="tab-btn px-6 py-2 bg-gray-200 hover:bg-purple-200 rounded-full font-bold">Goals</button>
-    <button onclick="openTab('minigame')" class="tab-btn px-6 py-2 bg-gray-200 hover:bg-purple-200 rounded-full font-bold">Procrastination</button>
+  <nav class="flex justify-center gap-x-4 mb-8 border-b pb-4">
+    <button onclick="openTab('about')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">A Bit About Me</button>
+    <button onclick="openTab('goals')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Goals</button>
+    <button onclick="openTab('minigame')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Procrastination</button>
   </nav>
 <!---Tab:About Me--->
   <div id="about" class="tabcontent">
@@ -62,8 +62,8 @@ function openTab(tabId) {
     //Add the inactive colors
     btn.classList.add('bg-gray-200', 'text-black');
   });
-  // 4. Highlight the active button
   event.currentTarget.classList.add('bg-purple-600', 'text-white');
+  event.currentTarget.classList.remove('bg-gray-200', 'text-black');
 }
 </script>
 </body>
