@@ -6,9 +6,22 @@
  <script src="https://cdn.tailwindcss.com">
  </script>   
  <link rel="stylesheet" href="style.css">
-  </style>
+ <style>
+  .fade-hide {
+    opacity:0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+ </style>
 </head>
 <body class="text-center bg-blue-100" style="background-image:url('https://images.unsplash.com/photo-1623150502742-6a849aa94be4?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y2xlYW4lMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww')">
+<!---Welcome--->
+<div id="welcome-popup" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+  <div class="bg-white p-10 rounded-3xl shadow-2xl max-w-lg mx-4 border-4 border-white">
+  <h1 class="text-4xl font-black text-gray-800 mb-2">Welcome To My Really Bad Website</h1>
+  <button onclick="closeWelcome()" class="px-10 py-4 bg-purple-600 text-white rounded-full font-bold hover:bg-purple-700 hover:scale-105 transition-all">See More</button>
+  </div>
+</div>
 <div class="max-w-4xl mx-auto mt-10 p-6 bg-white/90 backdrop-blur shadow-2xl rounded-3xl">
   <!--Clock Part 2-->
   <div id="clock" class="text-2xl font-mono text-grey-700 mb-4"></div>
@@ -42,15 +55,82 @@
   <!---Tab:Minigame--->
   <div id="minigame" class="tabcontent hidden">
   <h1 class="text-2xl font-bold mb-4">Click Counter</h1>
-  <h2 class="text-6xl font-black text-blue-500 mb-6" id="display">0</h2>
-  <div class="flex justify-center gap-4">
-  <button onclick="document.getElementById('display').innerText++" class="px-6 py-3 bg-green-500 text-white rounded-full font-bold hover:bg-green-600">Click Me!</button>
-  <button onclick="document.getElementById('display').innerText=0" class="px-6 py-3 bg-red-500 text-white rounded-full font-bold hover:bg-red-600">Don't Click >:(</button>
+  <h2 class="text-6xl font-black text-purple-500 mb-6" id="display">0</h2>
+  <div class="flex flex-col items-center justify-center gap-y-10  mb-10">
+  </div>
+  <button onclick="addClick()" class="px-8 py-4 bg-purple-500 text-white rounded-full font-bold text-2xl shadow-lg hover:bg-gray-700 active:scale-95 transition-all">Click Me!</button>
+
+  <div class="border-t pt-4">
+  <h3 class="text-xl font-bold mb-3 italic text-gray-700">ClickedIn Shop</h3>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+  <!---Homeless People-->
+  <button id="buy-homeless" onclick="buyhomeless()" class="p-3 bg-stone-100 border-2 border-stone-300 disabled:opacity-50 text-black">
+  <span class="font-bold">Homeless People</span><br>
+  <span class="text-xs">+1 per click (Cost: 15)</span>
+  </button>
+  <!--Jobless-->
+  <button id="buy-jobless" onclick="buyjobless()" class="p-3 bg-orange-100 border-2 border-orange-300 disabled:opacity-50 text-black">
+  <span class="font-bold">Jobless People</span><br>
+  <span class="text-xs">+1 Auto-click (Cost: 150)</span>
+  </button>
+  <!--TinyTask-->
+  <button id="buy-tinytask" onclick="buytinytask()" class="p-3 bg-blue-100 border-2 border-blue-400 disabled:opacity-50 text-black">
+  <span class="font-bold">Tiny Task</span><br>
+  <span class="text-xs">Auto-click +10 (Cost: 750)</span>
+  </button>
   </div>
   </div>
-</div> 
+  </div>
+  </div>
+
 <!---Java----> 
 <script>
+function closeWelcome() {
+  document.getElementById('welcome-popup').classList.add('fade-hide');
+}
+let clicks = 0;
+let clickValue = 1;
+let autoValue = 0;
+
+function updateUI() {
+  document.getElementById('display').innerText = Math.floor(clicks);
+  document.getElementById('buy-homeless').disabled = clicks < 15;
+  document.getElementById('buy-jobless').disabled = clicks < 150;
+  document.getElementById('buy-tinytask').disabled = clicks < 750;
+}
+function addClick() {
+  clicks += clickValue;
+  updateUI();
+}
+function buyhomeless() {
+  if (clicks >= 15) {
+    clicks -= 15;
+    clickValue += 1;
+    updateUI();
+  }
+
+}
+function buyjobless() {
+  if (clicks >= 150) {
+    clicks -= 150;
+    autoValue += 1;
+    updateUI();
+  }
+}
+function buytinytask() {
+  if (clicks >= 750) {
+    clicks -= 750;
+    autoValue += 10;
+    updateUI();
+  }
+}
+
+setInterval(() => {
+  if (autoValue > 0) {
+    clicks += autoValue;
+  updateUI();
+  }
+}, 1000);
 function openTab(tabId) {
   // 1. Hide all tab content
   const contents = document.querySelectorAll('.tabcontent');
