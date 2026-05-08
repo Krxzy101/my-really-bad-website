@@ -15,7 +15,8 @@
  </style>
 </head>
 <body class="text-center bg-blue-100" style="background-image:url('https://images.unsplash.com/photo-1623150502742-6a849aa94be4?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y2xlYW4lMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww')">
-<!---Welcome--->
+
+
 <div id="welcome-popup" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
   <div class="bg-white p-10 rounded-3xl shadow-2xl max-w-lg mx-4 border-4 border-white">
   <h1 class="text-4xl font-black text-gray-800 mb-2">Welcome To My Really Bad Website</h1>
@@ -23,20 +24,21 @@
   </div>
 </div>
 <div class="max-w-4xl mx-auto mt-10 p-6 bg-white/90 backdrop-blur shadow-2xl rounded-3xl">
-  <!--Clock Part 2-->
+
   <div id="clock" class="text-2xl font-mono text-grey-700 mb-4"></div>
-<!---Tab Button--->
+
   <nav class="flex justify-center gap-x-4 mb-8 border-b pb-4">
     <button onclick="openTab('about')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">A Bit About Me</button>
     <button onclick="openTab('goals')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Goals</button>
     <button onclick="openTab('minigame')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Procrastination</button>
+    <button onclick="openTab('comments', this)" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Comments</button>
   </nav>
-<!---Tab:About Me--->
+
   <div id="about" class="tabcontent">
   <h1 class="text-3xl font-bold text-gray-800">Hello Everyone, I'm Aditya</h1>
   <p class="text-xl text-gray-600 mt-4">I'm a 14 year old who currently lives in Campbell, California. I love tech and coding and some of my hobbies are playing basketball, tennis, 3D Printing, and taking photos</p>
   </div>
- <!---Tab:Goals/Accomplishments--->
+
  <div id ="goals" class="tabcontent hidden">
   <h1 class="text-3xl font-bold text-gray-800">My Goals/Feats</h1>
   <ul class="mt-4 text left list-disc list-inside text-gray-700 space-y-2">
@@ -52,7 +54,7 @@
     <img class="w-64 transform translate-y-3" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4RR1mL5PF3zW09tpA1WM7ZsZ4ibc2my9Oww&s" alt="This is the image Of A RedHack Club Logo"/>
   </div>
   </div>
-  <!---Tab:Minigame--->
+ 
   <div id="minigame" class="tabcontent hidden">
   <h1 class="text-2xl font-bold mb-4">Click Counter</h1>
   <h2 class="text-6xl font-black text-purple-500 mb-6" id="display">0</h2>
@@ -63,17 +65,17 @@
   <div class="border-t pt-4">
   <h3 class="text-xl font-bold mb-3 italic text-gray-700">ClickedIn Shop</h3>
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-  <!---Homeless People-->
+
   <button id="buy-homeless" onclick="buyhomeless()" class="p-3 bg-stone-100 border-2 border-stone-300 disabled:opacity-50 text-black">
   <span class="font-bold">Homeless People</span><br>
   <span class="text-xs">+1 per click (Cost: 15)</span>
   </button>
-  <!--Jobless-->
+
   <button id="buy-jobless" onclick="buyjobless()" class="p-3 bg-orange-100 border-2 border-orange-300 disabled:opacity-50 text-black">
   <span class="font-bold">Jobless People</span><br>
   <span class="text-xs">+1 Auto-click (Cost: 150)</span>
   </button>
-  <!--TinyTask-->
+ 
   <button id="buy-tinytask" onclick="buytinytask()" class="p-3 bg-blue-100 border-2 border-blue-400 disabled:opacity-50 text-black">
   <span class="font-bold">Tiny Task</span><br>
   <span class="text-xs">+10 Auto-click (Cost: 750)</span>
@@ -81,9 +83,27 @@
   </div>
   </div>
   </div>
-  </div>
 
-<!---Java----> 
+  
+
+  <div id="comments" class="tabcontent hidden text-left">
+    <h1 class="text-3xl font-bold text-gray-800 mb-4">If you would like to talk to me you can leave a comment here:</h1>
+    <div class="bg-gray-50 p-6 rounded-2xl mb-8 flex flex-col gap-4">
+      <input type="text" id="commenter-name" placeholder="Your Name" class="p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded">
+      <textarea id="commenter-text" placeholder="Type your comments here..." class="p-3 rounded-xl border border-gray-300 h-24 focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+      <button onclick="postComment()" class="bg-purple-600 text-white font-bold py-3 rounded-xl hover:bg-purple-700 transistion-all">Post Comment</button>
+    </div>
+
+    <div id="comments-list" class="space-y-4">
+      <p class="text-gray-400 text-center italic" id="no-comments">No comments yet. Become the first!</p>
+    </div>
+  </div>
+  
+  </div>
+  
+
+
+
 <script>
 function closeWelcome() {
   document.getElementById('welcome-popup').classList.add('fade-hide');
@@ -162,23 +182,23 @@ setInterval(() => {
   }
 }, 1000);
 function openTab(tabId) {
-  // 1. Hide all tab content
+  
   const contents = document.querySelectorAll('.tabcontent');
   contents.forEach(content => content.classList.add('hidden'));
-  // 2. Show the specific tab clicked
+
   document.getElementById(tabId).classList.remove('hidden');
-  // 3. Reset Button Colors
+
   const buttons = document.querySelectorAll('.tab-btn');
   buttons.forEach(btn => {
-    //Remove the active colors
+   
     btn.classList.remove('bg-purple-600', 'text-white');
-    //Add the inactive colors
+   
     btn.classList.add('bg-gray-200', 'text-black');
   });
   event.currentTarget.classList.add('bg-purple-600', 'text-white');
   event.currentTarget.classList.remove('bg-gray-200', 'text-black');
 }
-//Clock
+
 function updateClock() {
   const now = new Date();
   const time = now.toLocaleTimeString('en-US', {
@@ -189,9 +209,41 @@ function updateClock() {
   });
   document.getElementById('clock').innerText = time;
 }
-// Update the clock every second
+
 setInterval(updateClock, 1000);
 updateClock();
+
+function postComment() {
+  const nameInput = document.getElementById('commenter-name');
+  const textInput = document.getElementById('commenter-text');
+  const commentList = document.getElementById('comments-list');
+  const noComments = document.getElementById('no-comments');
+
+  if (nameInput.value.trim() === "" || textInput.value.trim() === "") {
+    alert("Please enter both a name and a comment.");
+    return;
+  }
+
+if (noComments) noComments.style.display = 'none';
+
+const newComment = document.createElement('div');
+newComment.className = "bg-white p-4 rounded-xl shadow-sm border-l-4 border-purple-500 animate-fade-in";
+
+const timestamp = new Date().toLocaleString();
+
+newComment.innerHTML = `
+<div class="flex justify-between items-center mb-2">
+  <span class="font-bold text-purple-600">${nameInput.value}</span>
+  <span class="text-xs text-gray-400">${timestamp}</span>
+</div>
+<p class="text-gray-700">${textInput.value}</p>
+`;
+
+commentList.prepend(newComment);
+
+nameInput.value = '';
+textInput.value = '';
+}
 </script>
 </body>
 </html>
