@@ -76,7 +76,7 @@
   <!--TinyTask-->
   <button id="buy-tinytask" onclick="buytinytask()" class="p-3 bg-blue-100 border-2 border-blue-400 disabled:opacity-50 text-black">
   <span class="font-bold">Tiny Task</span><br>
-  <span class="text-xs">Auto-click +10 (Cost: 750)</span>
+  <span class="text-xs">+10 Auto-click (Cost: 750)</span>
   </button>
   </div>
   </div>
@@ -92,34 +92,64 @@ let clicks = 0;
 let clickValue = 1;
 let autoValue = 0;
 
+let counts = {
+  homeless: 0,
+  jobless: 0,
+  tinytask: 0
+};
+
+const basePrices = {
+  homeless: 15,
+  jobless: 150,
+  tinytask: 750
+};
+
+function getPrice(item) {
+  return Math.floor(basePrices[item] * Math.pow(1.15, counts[item]));
+}
 function updateUI() {
+  const homelessPrice = getPrice('homeless');
+  const joblessPrice = getPrice('jobless');
+  const tinytaskPrice = getPrice('tinytask'); 
+  
   document.getElementById('display').innerText = Math.floor(clicks);
-  document.getElementById('buy-homeless').disabled = clicks < 15;
-  document.getElementById('buy-jobless').disabled = clicks < 150;
-  document.getElementById('buy-tinytask').disabled = clicks < 750;
+
+  document.getElementById('buy-homeless').innerHTML = `<b>Homeless</b><br><span class="text-xs">+1 per click (Cost: ${homelessPrice})</span>`;
+  document.getElementById('buy-jobless').innerHTML = `<b>Jobless</b><br><span class="text-xs">+1 Auto-click (Cost: ${joblessPrice})</span>`;
+  document.getElementById('buy-tinytask').innerHTML = `<b>Tiny Task</b><br><span class="text-xs">+10 Auto-click (Cost: ${tinytaskPrice})</span>`;
+
+  document.getElementById('buy-homeless').disabled = clicks < homelessPrice;
+  document.getElementById('buy-jobless').disabled = clicks < joblessPrice;
+  document.getElementById('buy-tinytask').disabled = clicks < tinytaskPrice;
 }
 function addClick() {
   clicks += clickValue;
   updateUI();
 }
 function buyhomeless() {
-  if (clicks >= 15) {
-    clicks -= 15;
+let price = getPrice('homeless');
+  if (clicks >= price) {
+    clicks -= price;
+    counts.homeless++;
     clickValue += 1;
     updateUI();
   }
 
 }
 function buyjobless() {
-  if (clicks >= 150) {
-    clicks -= 150;
+  let price = getPrice('jobless');
+  if (clicks >= price) {
+    clicks -= price;
+    counts.jobless++;
     autoValue += 1;
     updateUI();
   }
 }
 function buytinytask() {
-  if (clicks >= 750) {
-    clicks -= 750;
+  let price = getPrice('tinytask');
+  if (clicks >= price) {
+    clicks -= price;
+    counts.tinytask++;
     autoValue += 10;
     updateUI();
   }
