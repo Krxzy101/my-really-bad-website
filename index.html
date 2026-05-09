@@ -94,6 +94,24 @@
       <button onclick="postComment()" class="bg-purple-600 text-white font-bold py-3 rounded-xl hover:bg-purple-700 transistion-all">Post Comment</button>
     </div>
 
+    <button onclick="showAdminModal()" class="mt-2 text-xs text-gray-400 hover:text-purple-600 transition-colors underline">?</button>
+
+    <div id="admin-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/80 backdrop-blur-sm">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-80 text-center">
+      <h2 class="text-xl font-bold mb-4 text-gray-800">Admin Login:</h2>
+      <input type="password" id="admin-pass" placeholder="Enter password" class="w-full p-2 border rounded-lg mb-4 focus:ring-2 focus:ring-purple-500 outline-none">
+      <div class="flex gap-2">
+        <button onclick="closeAdminModal()" class="flex-1 px-4 py-2 bg-gray-200 rounded-lg font-bold">Cancel</button>
+      <button onclick="loginAdmin()" class="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg font-bold">Login</button>
+    </div>
+    </div>
+    </div>
+
+
+
+    </div>
+
+
     <div id="comments-list" class="space-y-4">
       <p class="text-gray-400 text-center italic" id="no-comments">No comments yet. Become the first!</p>
     </div>
@@ -108,6 +126,103 @@
 function closeWelcome() {
   document.getElementById('welcome-popup').classList.add('fade-hide');
 }
+
+let isAdmin = false;
+
+function showAdminModal() {
+  document.getElementById('admin-modal').classList.replace('hidden', 'flex');
+}
+function closeAdminModal() {
+  document.getElementById('admin-modal').classList.replace('flex', 'hidden');
+  document.getElementById('admin-pass').value = '';
+}
+function loginAdmin() {
+  const pass = document.getElementById('admin-pass').value;
+  if (pass === 'BoltWarp11') {
+    isAdmin = true;
+    alert('You Are Now An Admin!');
+    closeAdminModal();
+    refreshComments();
+  } else {
+    alert('Incorrect password!');
+  }
+}
+
+
+function refreshComments() {
+  document.getElementById('comments-list').innerHTML = '';
+  loadComments();
+}
+
+function renderComment(name, text, timestamp, index) {
+  const commentList = document.getElementById('comments-list');
+  const noComments = document.getElementById('no-comments');
+  if (noComments) noComments.style.display = 'none';
+
+  const newComment = document.createElement('div');
+  newComment.className = "bg-white p-4 rounded-xl shadow-sm border-l-4 border-purple-500 relative group mb-4 text-left";
+
+  const deleteBtn = isAdmin
+    ? `<button onclick="deleteComment(${index})" class="absolute top-2 right-2 text-red-500 hover:scale-110 transition-transform font-bold text-xs">Delete</button>`
+    : '';
+
+  newComment.innerHTML = `
+<div class="flex justify-between items-center mb-2">
+  <span class="font-bold text-purple-600">${name}</span>
+  <span class="text-xs text-gray-400">${timestamp}</span>
+</div>
+<p class="text-gray-700">${text}</p>
+${deleteBtn}
+`;
+  commentList.prepend(newComment);
+}
+
+function loadComments() {
+  const existingComments = JSON.parse(localStorage.getItem('myComments')) || [];
+  existingComments.forEach((c, index) => renderComment(c.name, c.text, c.timestamp, index));
+}
+
+function deleteComment(index) {
+  if (!confirm('Are you sure you want to delete this comment?')) return;
+
+
+  let comments = JSON.parse(localStorage.getItem('myComments')) || [];
+  comments.reverse();
+  comments.splice(index, 1);
+  comments.reverse();
+
+  localStorage.setItem('myComments', JSON.stringify(comments));
+  refreshComments();
+}
+
+function postComment() {
+  const nameInput = document.getElementById('commenter-name');
+  const textInput = document.getElementById('commenter-text');
+
+  if (nameInput.value.trim() === "" || textInput.value.trim() === "") {
+    alert("Please enter both a name and a comment.");
+    return;
+  }
+
+const timestamp = new Date().toLocaleString();
+
+  const existingComments = JSON.parse(localStorage.getItem('myComments')) || [];
+  existingComments.push({
+    name: nameInput.value,
+    text: textInput.value,
+    timestamp: timestamp
+  });
+  localStorage.setItem('myComments', JSON.stringify(existingComments));
+
+
+
+nameInput.value = '';
+textInput.value = '';
+refreshComments();
+
+}
+
+
 let clicks = parseFloat(localStorage.getItem('clicks')) || 0;
 let clickValue = parseFloat(localStorage.getItem('clickValue')) || 1;
 let autoValue = parseFloat(localStorage.getItem('autoValue')) || 0;
@@ -205,56 +320,6 @@ function openTab(tabId) {
   event.currentTarget.classList.remove('bg-gray-200', 'text-black');
 }
 
-
-function renderComment(name, text, timestamp) {
-  const commentList = document.getElementById('comments-list');
-  const noComments = document.getElementById('no-comments');
-  if (noComments) noComments.style.display = 'none';
-
-const newComment = document.createElement('div');
-newComment.className = "bg-white p-4 rounded-xl shadow-sm border-l-4 border-purple-500 animate-fade-in";
-newComment.innerHTML = `
-<div class="flex justify-between items-center mb-2">
-  <span class="font-bold text-purple-600">${name}</span>
-  <span class="text-xs text-gray-400">${timestamp}</span>
-</div>
-<p class="text-gray-700">${text}</p>
-`;
-commentList.prepend(newComment);
-}
-
-function postComment() {
-  const nameInput = document.getElementById('commenter-name');
-  const textInput = document.getElementById('commenter-text');
-
-  if (nameInput.value.trim() === "" || textInput.value.trim() === "") {
-    alert("Please enter both a name and a comment.");
-    return;
-  }
-  
-const timestamp = new Date().toLocaleString();
-  renderComment(nameInput.value, textInput.value, timestamp);
-
-  const existingComments = JSON.parse(localStorage.getItem('myComments')) || [];
-  existingComments.push({
-    name: nameInput.value,
-    text: textInput.value,
-    timestamp: timestamp
-  });
-  localStorage.setItem('myComments', JSON.stringify(existingComments));
-
-
-
-nameInput.value = '';
-textInput.value = '';
-
-}
-
-function loadComments() {
-  const existingComments = JSON.parse(localStorage.getItem('myComments')) || [];
-  existingComments.forEach(c => renderComment(c.name, c.text, c.timestamp));
-  
-}
 function updateClock() {
   const now = new Date();
   const time = now.toLocaleTimeString('en-US', {
