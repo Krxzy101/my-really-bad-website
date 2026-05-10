@@ -12,6 +12,11 @@
     pointer-events: none;
     transition: opacity 0.5s ease;
   }
+  #cusdis_thread iframe {
+  width: 100% !important;
+  min-height: 800px !important;
+  border: none !important;
+}
  </style>
 </head>
 <body class="text-center bg-blue-100" style="background-image:url('https://images.unsplash.com/photo-1623150502742-6a849aa94be4?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y2xlYW4lMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww')">
@@ -88,148 +93,20 @@
 
   <div id="comments" class="tabcontent hidden text-left">
     <h1 class="text-3xl font-bold text-gray-800 mb-4">Want to talk to me? You can leave a comment here:</h1>
-    <div class="bg-gray-50 p-6 rounded-2xl mb-8 flex flex-col gap-4">
-      <input type="text" id="commenter-name" placeholder="Your Name" class="p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded">
-      <textarea id="commenter-text" placeholder="Type your comments here..." class="p-3 rounded-xl border border-gray-300 h-24 focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
-      <button onclick="postComment()" class="bg-purple-600 text-white font-bold py-3 rounded-xl hover:bg-purple-700 transistion-all">Post Comment</button>
+    <div id="cusdis_thread"
+      data-host="https://cusdis.com"
+      data-app-id="b225d24e-8c9d-4c1a-858f-d2fe346b56d9"
+      data-page-id="macondo-main"
+      data-page-url="https://krxzy101.github.io/my-really-bad-website/"
+      data-page-title="My Macondo Website"
+    ></div>
+    <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
     </div>
-
-
-  
-    <div id="comments-list" class="space-y-4">
-      <p class="text-gray-400 text-center italic" id="no-comments">No comments yet. Become the first!</p>
-      <script src="https://giscus.app/client.js"
-        data-repo="Krxzy101/my-really-bad-website"
-        data-repo-id="R_kgDOSSuZGQ"
-        data-category="General"
-        data-category-id="DIC_kwDOSSuZGc4C8sHc"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="0"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="light"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>
-    </div>
-
-  <button onclick="showAdminModal()" class="mt-2 text-xs text-gray-400 hover:text-purple-600 transition-colors underline">?</button>
-    </div>
-</div>
-  
-    <div id="admin-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/80 backdrop-blur-sm">
-    <div class="bg-white p-8 rounded-2xl shadow-2xl w-80 text-center">
-      <h2 class="text-xl font-bold mb-4 text-gray-800">Admin Login:</h2>
-      <input type="password" id="admin-pass" placeholder="Enter password" class="w-full p-2 border rounded-lg mb-4 focus:ring-2 focus:ring-purple-500 outline-none">
-      <div class="flex gap-2">
-        <button onclick="closeAdminModal()" class="flex-1 px-4 py-2 bg-gray-200 rounded-lg font-bold">Cancel</button>
-      <button onclick="loginAdmin()" class="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg font-bold">Login</button>
-    </div>
-  </div>
-    </div>
-
-
 
 <script>
 function closeWelcome() {
   document.getElementById('welcome-popup').classList.add('fade-hide');
 }
-
-let isAdmin = false;
-
-function showAdminModal() {
-  document.getElementById('admin-modal').classList.replace('hidden', 'flex');
-}
-function closeAdminModal() {
-  document.getElementById('admin-modal').classList.replace('flex', 'hidden');
-  document.getElementById('admin-pass').value = '';
-}
-function loginAdmin() {
-  const pass = document.getElementById('admin-pass').value;
-  if (pass === 'Secret101') {
-    isAdmin = true;
-    alert('You Are Now An Admin!');
-    closeAdminModal();
-    refreshComments();
-  } else {
-    alert('Incorrect password!');
-  }
-}
-
-
-function refreshComments() {
-  document.getElementById('comments-list').innerHTML = '';
-  loadComments();
-}
-
-function renderComment(comment) {
-  const commentList = document.getElementById('comments-list');
-  const noComments = document.getElementById('no-comments');
-  if (noComments) noComments.style.display = 'none';
-
-  const newComment = document.createElement('div');
-  newComment.className = "bg-white p-4 rounded-xl shadow-sm border-l-4 border-purple-500 relative group mb-4 text-left";
-
-  const deleteBtn = isAdmin
-    ? `<button onclick="deleteComment(${comment.id})" class="absolute top-2 right-2 text-red-500 hover:scale-110 transition-transform font-bold text-xs">Delete</button>`
-    : '';
-
-  newComment.innerHTML = `
-<div class="flex justify-between items-center mb-2">
-  <span class="font-bold text-purple-600">${comment.name}</span>
-  <span class="text-xs text-gray-400">${comment.timestamp}</span>
-</div>
-<p class="text-gray-700">${comment.text}</p>
-${deleteBtn}
-`;
-  commentList.prepend(newComment);
-}
-
-function loadComments() {
-  const existingComments = JSON.parse(localStorage.getItem('myComments')) || [];
-   document.getElementById('comments-list').innerHTML = '';
-  existingComments.forEach((comment) => {
-    renderComment(comment);
-  });
-}
-
-function deleteComment(id) {
-  if (!confirm('Are you sure you want to delete this comment?')) return;
-  let comments = JSON.parse(localStorage.getItem('myComments')) || [];
-  const updatedComments = comments.filter(c => c.id !== id);
-  localStorage.setItem('myComments', JSON.stringify(updatedComments));
-  refreshComments();
-}
-
-function postComment() {
-  const nameInput = document.getElementById('commenter-name');
-  const textInput = document.getElementById('commenter-text');
-  if (nameInput.value.trim() === "" || textInput.value.trim() === "") {
-    alert("Please enter both a name and a comment.");
-    return;
-  }
-
-const timestamp = new Date().toLocaleString();
-const id = Date.now();
-  const existingComments = JSON.parse(localStorage.getItem('myComments')) || [];
-  existingComments.push({
-    id: id,
-    name: nameInput.value,
-    text: textInput.value,
-    timestamp: timestamp
-  });
-  localStorage.setItem('myComments', JSON.stringify(existingComments));
-
-
-
-nameInput.value = '';
-textInput.value = '';
-refreshComments();
-
-}
-
 
 let clicks = parseFloat(localStorage.getItem('clicks')) || 0;
 let clickValue = parseFloat(localStorage.getItem('clickValue')) || 1;
