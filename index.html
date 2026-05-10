@@ -95,9 +95,24 @@
     </div>
 
 
-    
+  
     <div id="comments-list" class="space-y-4">
       <p class="text-gray-400 text-center italic" id="no-comments">No comments yet. Become the first!</p>
+      <script src="https://giscus.app/client.js"
+        data-repo="Krxzy101/my-really-bad-website"
+        data-repo-id="R_kgDOSSuZGQ"
+        data-category="General"
+        data-category-id="DIC_kwDOSSuZGc4C8sHc"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
     </div>
 
   <button onclick="showAdminModal()" class="mt-2 text-xs text-gray-400 hover:text-purple-600 transition-colors underline">?</button>
@@ -133,7 +148,7 @@ function closeAdminModal() {
 }
 function loginAdmin() {
   const pass = document.getElementById('admin-pass').value;
-  if (pass === 'Boltwarp11') {
+  if (pass === 'Secret101') {
     isAdmin = true;
     alert('You Are Now An Admin!');
     closeAdminModal();
