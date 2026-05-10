@@ -28,10 +28,10 @@
   <div id="clock" class="text-2xl font-mono text-gray-700 mb-4"></div>
 
   <nav class="flex justify-center gap-x-4 mb-8 border-b pb-4">
-    <button onclick="openTab('about')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">A Bit About Me</button>
-    <button onclick="openTab('goals')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Goals</button>
-    <button onclick="openTab('minigame')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Procrastination</button>
-    <button onclick="openTab('comments', this)" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Comments</button>
+    <button onclick="openTab(event,'about')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">A Bit About Me</button>
+    <button onclick="openTab(event,'goals')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Goals</button>
+    <button onclick="openTab(event,'minigame')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Procrastination</button>
+    <button onclick="openTab(event,'comments')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Comments</button>
   </nav>
 
   <div id="about" class="tabcontent">
@@ -94,8 +94,16 @@
       <button onclick="postComment()" class="bg-purple-600 text-white font-bold py-3 rounded-xl hover:bg-purple-700 transistion-all">Post Comment</button>
     </div>
 
-    <button onclick="showAdminModal()" class="mt-2 text-xs text-gray-400 hover:text-purple-600 transition-colors underline">?</button>
 
+    
+    <div id="comments-list" class="space-y-4">
+      <p class="text-gray-400 text-center italic" id="no-comments">No comments yet. Become the first!</p>
+    </div>
+
+  <button onclick="showAdminModal()" class="mt-2 text-xs text-gray-400 hover:text-purple-600 transition-colors underline">?</button>
+    </div>
+</div>
+  
     <div id="admin-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/80 backdrop-blur-sm">
     <div class="bg-white p-8 rounded-2xl shadow-2xl w-80 text-center">
       <h2 class="text-xl font-bold mb-4 text-gray-800">Admin Login:</h2>
@@ -104,21 +112,8 @@
         <button onclick="closeAdminModal()" class="flex-1 px-4 py-2 bg-gray-200 rounded-lg font-bold">Cancel</button>
       <button onclick="loginAdmin()" class="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg font-bold">Login</button>
     </div>
-    </div>
-    </div>
-
-
-
-    </div>
-
-
-    <div id="comments-list" class="space-y-4">
-      <p class="text-gray-400 text-center italic" id="no-comments">No comments yet. Become the first!</p>
-    </div>
   </div>
-  
-  </div>
-  
+    </div>
 
 
 
@@ -154,7 +149,7 @@ function refreshComments() {
   loadComments();
 }
 
-function renderComment(name, text, timestamp, index) {
+function renderComment(comment) {
   const commentList = document.getElementById('comments-list');
   const noComments = document.getElementById('no-comments');
   if (noComments) noComments.style.display = 'none';
@@ -163,15 +158,15 @@ function renderComment(name, text, timestamp, index) {
   newComment.className = "bg-white p-4 rounded-xl shadow-sm border-l-4 border-purple-500 relative group mb-4 text-left";
 
   const deleteBtn = isAdmin
-    ? `<button onclick="deleteComment(${index})" class="absolute top-2 right-2 text-red-500 hover:scale-110 transition-transform font-bold text-xs">Delete</button>`
+    ? `<button onclick="deleteComment(${comment.id})" class="absolute top-2 right-2 text-red-500 hover:scale-110 transition-transform font-bold text-xs">Delete</button>`
     : '';
 
   newComment.innerHTML = `
 <div class="flex justify-between items-center mb-2">
-  <span class="font-bold text-purple-600">${name}</span>
-  <span class="text-xs text-gray-400">${timestamp}</span>
+  <span class="font-bold text-purple-600">${comment.name}</span>
+  <span class="text-xs text-gray-400">${comment.timestamp}</span>
 </div>
-<p class="text-gray-700">${text}</p>
+<p class="text-gray-700">${comment.text}</p>
 ${deleteBtn}
 `;
   commentList.prepend(newComment);
@@ -179,35 +174,33 @@ ${deleteBtn}
 
 function loadComments() {
   const existingComments = JSON.parse(localStorage.getItem('myComments')) || [];
-  existingComments.forEach((c, index) => renderComment(c.name, c.text, c.timestamp, index));
+   document.getElementById('comments-list').innerHTML = '';
+  existingComments.forEach((comment) => {
+    renderComment(comment);
+  });
 }
 
-function deleteComment(index) {
+function deleteComment(id) {
   if (!confirm('Are you sure you want to delete this comment?')) return;
-
-
   let comments = JSON.parse(localStorage.getItem('myComments')) || [];
-  comments.reverse();
-  comments.splice(index, 1);
-  comments.reverse();
-
-  localStorage.setItem('myComments', JSON.stringify(comments));
+  const updatedComments = comments.filter(c => c.id !== id);
+  localStorage.setItem('myComments', JSON.stringify(updatedComments));
   refreshComments();
 }
 
 function postComment() {
   const nameInput = document.getElementById('commenter-name');
   const textInput = document.getElementById('commenter-text');
-
   if (nameInput.value.trim() === "" || textInput.value.trim() === "") {
     alert("Please enter both a name and a comment.");
     return;
   }
 
 const timestamp = new Date().toLocaleString();
-
+const id = Date.now();
   const existingComments = JSON.parse(localStorage.getItem('myComments')) || [];
   existingComments.push({
+    id: id,
     name: nameInput.value,
     text: textInput.value,
     timestamp: timestamp
@@ -302,7 +295,7 @@ setInterval(() => {
   updateUI();
   }
 }, 1000);
-function openTab(tabId) {
+function openTab(event, tabId) {
   
   const contents = document.querySelectorAll('.tabcontent');
   contents.forEach(content => content.classList.add('hidden'));
