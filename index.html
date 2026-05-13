@@ -52,6 +52,7 @@
     <button onclick="openTab(event,'minigame')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Procrastination</button>
     <button onclick="openTab(event,'comments')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Comments</button>
     <button onclick="openTab(event,'socials')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Socials</button>
+    <button onclick="openTab(event,'gemini')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Gemini AI</button>
   </nav>
 
   <div id="about" class="tabcontent">
@@ -121,6 +122,24 @@
     ></div>
     <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
     </div>
+
+    
+<div id="gemini" class="tabcontent hidden">
+<h1 class="text-3xl font-bold text-gray-800 mb-4">Gemini AI</h1>
+<div class="flex flex-col gap-y-4 text-left">
+  <label class="font-bold text-gray-700">/label>
+
+
+
+
+
+
+  
+</div>
+</div>
+
+
+
     
     <div id="socials" class="tabcontent hidden">
       <h1 class="text-3xl font-bold text-gray-800 mb-6">You can find me on these platforms:</h1>
@@ -142,9 +161,8 @@
 
 </div>
 </div>
-      
 
-  
+
 <script>
 function closeWelcome() {
   document.getElementById('welcome-popup').classList.add('fade-hide');
