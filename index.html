@@ -52,7 +52,7 @@
     <button onclick="openTab(event,'minigame')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Procrastination</button>
     <button onclick="openTab(event,'comments')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Comments</button>
     <button onclick="openTab(event,'socials')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Socials</button>
-    <button onclick="openTab(event,'gemini')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Gemini AI</button>
+    <button onclick="openTab(event,'quotes')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Quotes</button>
   </nav>
 
   <div id="about" class="tabcontent">
@@ -73,7 +73,6 @@
   <li>Try to get Minecraft using this website</li>
   <li>Start a Godot Game as my next project for Macondo</li>
   <li>Volunteer at my local library</li>
-  </li>
   </ul>
   <div class="flex justify-center items-center">
     <img class="w-64 transform translate-y-3" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4RR1mL5PF3zW09tpA1WM7ZsZ4ibc2my9Oww&s" alt="This is the image Of A RedHack Club Logo"/>
@@ -123,20 +122,22 @@
     <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
     </div>
 
-    
-<div id="gemini" class="tabcontent hidden">
-<h1 class="text-3xl font-bold text-gray-800 mb-4">Gemini AI</h1>
-<div class="flex flex-col gap-y-4 text-left">
-  <label class="font-bold text-gray-700">/label>
+  <div id="gemini" class="tabcontent hidden text-left max-x-xl mx-auto">
+<h1 class="text-3xl font-bold text-gray-800 mb-2 text-center">Wisdom:</h1>
+<p class="text-sm text-gray-500 text-center mb-6 italic"> Seek words of advice</p>
 
-
-
-
-
-
-  
+<div class="bg-gray-100 p-6 rounded-2xl border border-gray-200 shadow-inner min-h-[120px] flex items-center justify-center mb-6">
+  <p id="quote-box" class="text-xl font-medium text-gray-700 italic">Click below to find a quote</p>
 </div>
-</div>
+
+<button onclick="generateQuote()" class="px-6 py-3 bg-putple-600 text-white font-bold rounded-full hover: bg-purple-700 transition-color shadow-md">
+  Quotes <i class="fa-solid fa-lightbulb ml-2"></i>
+</button>
+  </div>
+
+
+
+
 
 
 
@@ -184,6 +185,16 @@ const basePrices = {
   tinytask: 750
 };
 
+const aiQuotes = [
+"\"
+
+
+
+
+
+
+
+]
 function getPrice(item) {
   return Math.floor(basePrices[item] * Math.pow(1.15, counts[item]));
 }
