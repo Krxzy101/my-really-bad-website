@@ -4,9 +4,9 @@
 
 -I made this website on **Macondo** and spent around 9 hours on it.
 
--I **love** coding so I used Macondo's YSWS to let me get Minecraft for me and my brother.
-
 -This website has an about me section, some goals and feats I currently have, a clicker game, a comments section, and a socials page.
+
+-I **love** coding so I used Macondo's YSWS to let me get Minecraft for me and my brother.
 
 -To access my website it depends on where you are:
 
