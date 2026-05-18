@@ -10,7 +10,7 @@
 
 -Or
 
--2. f you would like to go via ****GitHub**** then go to the linked which is [here](https://github.com/Krxzy101/my-really-bad-website) and on the right side of your screen you should see a pinned link. Click on the link to see my website.
+-2. If you would like to go via ****GitHub**** then go to the linked which is [here](https://github.com/Krxzy101/my-really-bad-website) and on the right side of your screen you should see a pinned link. Click on the link to see my website.
 
 -A preview of my website is below
 
