@@ -4,10 +4,14 @@
 
 -I **love** coding so I used Macondo to let me get Minecraft for me and my brother
 
--To access my website it depends on where you are. On Macondo simply click demo to go my website or if you would like to go via GitHub then go to the linke which is [here](https://github.com/Krxzy101/my-really-bad-website) and on the right side of your screen you should see a pinned link. Click on the link to see my website.
+-To access my website it depends on where you are. 
+
+-1. On ****Macondo**** simply click demo to go my website
+-Or
+-2. f you would like to go via ****GitHub**** then go to the linked which is [here](https://github.com/Krxzy101/my-really-bad-website) and on the right side of your screen you should see a pinned link. Click on the link to see my website.
 
 -A preview of my website is below
 
 ## Preview
 
-![Website Preview](Screenshot%202026-05-17%20185527.jpg)
+![Website Preview](<img width="1890" height="868" alt="Screenshot 2026-05-17 185527" src="https://github.com/user-attachments/assets/455fc28a-fb83-49c0-baba-f4c5d9bd65bc" />)
