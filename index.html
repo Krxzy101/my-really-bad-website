@@ -116,10 +116,6 @@
     </div>
     <div class="border-t pt-4 flex justify-between items-center text-sm text-gray-500">
       <span>Powered by Firebase Firestore</span>
-      <button id="admin-login-btn" class="text-purple-500 underline font-bold hover:text-purple-700">Admin Login</button>
-    </div>
-    <div id="admin-status" class="hidden mt-2 p-2 bg-red-100 text-red-700 font-bold rounded-lg text-center">
-      🛡️ Admin Mode Active! You can now delete comments below.
     </div>
     </div>
 
@@ -163,7 +159,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-let isAdmin = false;
 const commentsContainer = document.getElementById('comments-container');
 
 window.closeWelcome = function() {
@@ -322,20 +317,10 @@ onSnapshot(q, (snapshot) => {
   }
   snapshot.forEach((docSnap) => {
     const data = docSnap.data();
-    const commentId = docSnap.id;
     const msgDiv = document.createElement('div');
     msgDiv.className = "p-3 bg-white border rounded-xl shadow-sm flex justify-between items-start";
-    let deleteButtonHtml = isAdmin ? `<button data-id="${commentId}" class="delete-btn px-2 py-1 bg-red-500 text-white text-xs font-bold rounded hover:bg-red-600 transition-all">Delete</button>` : '';
-    msgDiv.innerHTML = `<div><span class="font-bold text-gray-800">${data.name || 'Anonymous'}</span><p class="text-gray-600 mt-1">${data.text || ''}</p></div>${deleteButtonHtml}`;
+    msgDiv.innerHTML = `<div><span class="font-bold text-gray-800">${data.name || 'Anonymous'}</span><p class="text-gray-600 mt-1">${data.text || ''}</p></div>`;
     commentsContainer.appendChild(msgDiv);
-  });
-  document.querySelectorAll('.delete-btn').forEach(btn => {
-    btn.addEventListener('click', async (e) => {
-      const id = e.target.getAttribute('data-id');
-      if (confirm("Are you sure you want to delete this comment?")) {
-        await deleteDoc(doc(db, "comments", id));
-      }
-    });
   });
 });
 
@@ -350,18 +335,6 @@ document.getElementById('submit-comment-btn').addEventListener('click', async ()
   });
   textInput.value = "";
   nameInput.value = "";
-});
-
-document.getElementById('admin-login-btn').addEventListener('click', () => {
-  const password = prompt("Enter Admin Password to delete comments:");
-  if (password === "Chompy11*") {
-    isAdmin = true;
-    document.getElementById('admin-status').classList.remove('hidden');
-    const dummyEvent = new Event('change');
-    document.getElementById('comment-name').dispatchEvent(dummyEvent);
-  } else {
-    alert("Wrong password!");
-  }
 });
 </script>
 </body>
