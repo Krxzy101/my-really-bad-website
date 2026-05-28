@@ -175,21 +175,12 @@ function speakWelcome() {
   if (!('speechSynthesis' in window)) return;
   const msg = new SpeechSynthesisUtterance('Welcome to my really bad website.');
   msg.lang = 'en-US';
-  window.speechSynthesis.speak(msg);
-}
-
-
-function speakWelcome() {
-  if (!('speechSynthesis' in window)) return;
-  const msg = new SpeechSynthesisUtterance('Welcome to my really bad website.');
-  msg.lang = 'en-US';
   
-
   const voices = window.speechSynthesis.getVoices();
   
   const preferredVoice = voices.find(v => v.name.includes('Google US English') && v.lang === 'en-US') || 
-  voices.find(v => v.name.toLowerCase().includes('female') && v.lang.startsWith('en')) ||
- voices.find(v => v.name.includes('Zira') || v.name.includes('Samantha'));
+                         voices.find(v => v.name.toLowerCase().includes('female') && v.lang.startsWith('en')) ||
+                         voices.find(v => v.name.includes('Zira') || v.name.includes('Samantha'));
                          
   if (preferredVoice) {
     msg.voice = preferredVoice;
@@ -197,7 +188,6 @@ function speakWelcome() {
   
   window.speechSynthesis.speak(msg);
 }
-
 
 if ('speechSynthesis' in window) {
   window.speechSynthesis.onvoiceschanged = () => {};
