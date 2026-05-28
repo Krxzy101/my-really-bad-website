@@ -6,17 +6,12 @@
  <script src="https://cdn.tailwindcss.com">
  </script>   
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
- <link rel="stylesheet" href="style.css">
+ <link rel="stylesheet" href="styles.css">
  <style>
   .fade-hide {
     opacity:0;
     pointer-events: none;
     transition: opacity 0.5s ease;
-  }
-  #cusdis_thread iframe {
-  width: 100% !important;
-  min-height: 800px !important;
-  border: none !important;
   }
   body {
   background: linear-gradient(-45deg, #94a3b8, #374151, #111827, #000000);
@@ -47,11 +42,11 @@
   <div id="clock" class="text-2xl font-mono text-gray-700 mb-4"></div>
 
   <nav class="flex justify-center gap-x-4 mb-8 border-b pb-4">
-    <button onclick="openTab(event,'about')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">A Bit About Me</button>
-    <button onclick="openTab(event,'goals')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Goals</button>
-    <button onclick="openTab(event,'minigame')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Procrastination</button>
-    <button onclick="openTab(event,'comments')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Comments</button>
-    <button onclick="openTab(event,'socials')" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Socials</button>
+    <button id="about-btn" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">A Bit About Me</button>
+    <button id="goals-btn" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Goals</button>
+    <button id="minigame-btn" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Procrastination</button>
+    <button id="comments-btn" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Comments</button>
+    <button id="socials-btn" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Socials</button>
   </nav>
 
   <div id="about" class="tabcontent">
@@ -83,23 +78,23 @@
   <h2 class="text-6xl font-black text-purple-500 mb-6" id="display">0</h2>
   <div class="flex flex-col items-center justify-center gap-y-10  mb-10">
   </div>
-  <button onclick="addClick()" class="px-8 py-4 bg-purple-500 text-white rounded-full font-bold text-2xl shadow-lg hover:bg-gray-700 active:scale-95 transition-all">Click Me!</button>
+  <button id="click-me-btn" class="px-8 py-4 bg-purple-500 text-white rounded-full font-bold text-2xl shadow-lg hover:bg-gray-700 active:scale-95 transition-all">Click Me!</button>
 
   <div class="border-t pt-4">
   <h3 class="text-xl font-bold mb-3 italic text-gray-700">ClickedIn Shop</h3>
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
 
-  <button id="buy-homeless" onclick="buyhomeless()" class="p-3 bg-stone-100 border-2 border-stone-300 disabled:opacity-50 text-black">
+  <button id="buy-homeless" class="p-3 bg-stone-100 border-2 border-stone-300 disabled:opacity-50 text-black">
   <span class="font-bold">Homeless People</span><br>
   <span class="text-xs">+1 per click (Cost: 15)</span>
   </button>
 
-  <button id="buy-jobless" onclick="buyjobless()" class="p-3 bg-orange-100 border-2 border-orange-300 disabled:opacity-50 text-black">
+  <button id="buy-jobless" class="p-3 bg-orange-100 border-2 border-orange-300 disabled:opacity-50 text-black">
   <span class="font-bold">Jobless People</span><br>
   <span class="text-xs">+1 Auto-click (Cost: 150)</span>
   </button>
  
-  <button id="buy-tinytask" onclick="buytinytask()" class="p-3 bg-blue-100 border-2 border-blue-400 disabled:opacity-50 text-black">
+  <button id="buy-tinytask" class="p-3 bg-blue-100 border-2 border-blue-400 disabled:opacity-50 text-black">
   <span class="font-bold">Tiny Task</span><br>
   <span class="text-xs">+10 Auto-click (Cost: 750)</span>
   </button>
@@ -110,15 +105,22 @@
   
 
   <div id="comments" class="tabcontent hidden text-left">
-    <h1 class="text-3xl font-bold text-gray-800 mb-4">Want to talk to me? You can leave a comment here:</h1>
-    <div id="cusdis_thread"
-      data-host="https://cusdis.com"
-      data-app-id="b225d24e-8c9d-4c1a-858f-d2fe346b56d9"
-      data-page-id="macondo-main"
-      data-page-url="https://krxzy101.github.io/my-really-bad-website/"
-      data-page-title="My Macondo Website"
-    ></div>
-    <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+    <h1 class="text-3xl font-bold text-gray-800 mb-4">Leave a comment here:</h1>
+    <div class="bg-gray-100 p-4 rounded-2xl mb-6">
+      <input type="text" id="comment-name" placeholder="Your Name" class="w-full p-2 mb-2 rounded-lg border focus:outline-purple-500">
+      <textarea id="comment-text" placeholder="Write a comment..." class="w-full p-2 mb-2 rounded-lg border focus:outline-purple-500"></textarea>
+      <button id="submit-comment-btn" class="px-6 py-2 bg-purple-600 text-white font-bold rounded-full hover:bg-purple-700">Post Comment</button>
+    </div>
+    <div id="comments-container" class="space-y-4 mb-8">
+      <p class="text-gray-500 italic">Loading comments...</p>
+    </div>
+    <div class="border-t pt-4 flex justify-between items-center text-sm text-gray-500">
+      <span>Powered by Firebase Firestore</span>
+      <button id="admin-login-btn" class="text-purple-500 underline font-bold hover:text-purple-700">Admin Login</button>
+    </div>
+    <div id="admin-status" class="hidden mt-2 p-2 bg-red-100 text-red-700 font-bold rounded-lg text-center">
+      🛡️ Admin Mode Active! You can now delete comments below.
+    </div>
     </div>
 
     
@@ -143,10 +145,37 @@
 </div>
 </div>
 
+<button id="close-welcome-btn" class="hidden"></button>
 
-<script>
-function closeWelcome() {
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCcikd6Q9P218gx8Y12EJ79NX2PnrwRvRA",
+  authDomain: "my-really-bad-website.firebaseapp.com",
+  projectId: "my-really-bad-website",
+  storageBucket: "my-really-bad-website.firebasestorage.app",
+  messagingSenderId: "267031104350",
+  appId: "1:267031104350:web:d3b30a131907edbd869dcf",
+  measurementId: "G-V4RP6CRG0F"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+let isAdmin = false;
+const commentsContainer = document.getElementById('comments-container');
+
+window.closeWelcome = function() {
   document.getElementById('welcome-popup').classList.add('fade-hide');
+  speakWelcome();
+}
+
+function speakWelcome() {
+  if (!('speechSynthesis' in window)) return;
+  const msg = new SpeechSynthesisUtterance('Welcome to my really bad website.');
+  msg.lang = 'en-US';
+  window.speechSynthesis.speak(msg);
 }
 
 let clicks = parseFloat(localStorage.getItem('clicks')) || 0;
@@ -164,15 +193,6 @@ const basePrices = {
   jobless: 150,
   tinytask: 750
 };
-
-
-
-
-
-
-
-
-
 
 function getPrice(item) {
   return Math.floor(basePrices[item] * Math.pow(1.15, counts[item]));
@@ -198,11 +218,11 @@ function updateUI() {
   localStorage.setItem('counts', JSON.stringify(counts));
 }
 
-function addClick() {
+window.addClick = function() {
   clicks += clickValue;
   updateUI();
 }
-function buyhomeless() {
+window.buyhomeless = function() {
 let price = getPrice('homeless');
   if (clicks >= price) {
     clicks -= price;
@@ -210,9 +230,8 @@ let price = getPrice('homeless');
     clickValue += 1;
     updateUI();
   }
-
 }
-function buyjobless() {
+window.buyjobless = function() {
   let price = getPrice('jobless');
   if (clicks >= price) {
     clicks -= price;
@@ -221,7 +240,7 @@ function buyjobless() {
     updateUI();
   }
 }
-function buytinytask() {
+window.buytinytask = function() {
   let price = getPrice('tinytask');
   if (clicks >= price) {
     clicks -= price;
@@ -237,8 +256,8 @@ setInterval(() => {
   updateUI();
   }
 }, 1000);
-function openTab(event, tabId) {
-  
+
+window.openTab = function(event, tabId) {
   const contents = document.querySelectorAll('.tabcontent');
   contents.forEach(content => content.classList.add('hidden'));
 
@@ -246,9 +265,7 @@ function openTab(event, tabId) {
 
   const buttons = document.querySelectorAll('.tab-btn');
   buttons.forEach(btn => {
-   
     btn.classList.remove('bg-purple-600', 'text-white');
-   
     btn.classList.add('bg-gray-200', 'text-black');
   });
   event.currentTarget.classList.add('bg-purple-600', 'text-white');
@@ -268,10 +285,69 @@ function updateClock() {
 
 setInterval(updateClock, 1000);
 
+document.getElementById('about-btn').addEventListener('click', (e) => openTab(e, 'about'));
+document.getElementById('goals-btn').addEventListener('click', (e) => openTab(e, 'goals'));
+document.getElementById('minigame-btn').addEventListener('click', (e) => openTab(e, 'minigame'));
+document.getElementById('comments-btn').addEventListener('click', (e) => openTab(e, 'comments'));
+document.getElementById('socials-btn').addEventListener('click', (e) => openTab(e, 'socials'));
+document.getElementById('click-me-btn').addEventListener('click', addClick);
+document.getElementById('buy-homeless').addEventListener('click', buyhomeless);
+document.getElementById('buy-jobless').addEventListener('click', buyjobless);
+document.getElementById('buy-tinytask').addEventListener('click', buytinytask);
 
 updateClock();
-loadComments();
 updateUI();
+
+const q = query(collection(db, "comments"), orderBy("timestamp", "desc"));
+onSnapshot(q, (snapshot) => {
+  commentsContainer.innerHTML = "";
+  if (snapshot.empty) {
+    commentsContainer.innerHTML = `<p class="text-gray-500 italic">No comments yet. Be the first!</p>`;
+    return;
+  }
+  snapshot.forEach((docSnap) => {
+    const data = docSnap.data();
+    const commentId = docSnap.id;
+    const msgDiv = document.createElement('div');
+    msgDiv.className = "p-3 bg-white border rounded-xl shadow-sm flex justify-between items-start";
+    let deleteButtonHtml = isAdmin ? `<button data-id="${commentId}" class="delete-btn px-2 py-1 bg-red-500 text-white text-xs font-bold rounded hover:bg-red-600 transition-all">Delete</button>` : '';
+    msgDiv.innerHTML = `<div><span class="font-bold text-gray-800">${data.name || 'Anonymous'}</span><p class="text-gray-600 mt-1">${data.text || ''}</p></div>${deleteButtonHtml}`;
+    commentsContainer.appendChild(msgDiv);
+  });
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      const id = e.target.getAttribute('data-id');
+      if (confirm("Are you sure you want to delete this comment?")) {
+        await deleteDoc(doc(db, "comments", id));
+      }
+    });
+  });
+});
+
+document.getElementById('submit-comment-btn').addEventListener('click', async () => {
+  const nameInput = document.getElementById('comment-name');
+  const textInput = document.getElementById('comment-text');
+  if (!textInput.value.trim()) return alert("Comment cannot be empty!");
+  await addDoc(collection(db, "comments"), {
+    name: nameInput.value.trim() || "Anonymous",
+    text: textInput.value.trim(),
+    timestamp: Date.now()
+  });
+  textInput.value = "";
+  nameInput.value = "";
+});
+
+document.getElementById('admin-login-btn').addEventListener('click', () => {
+  const password = prompt("Enter Admin Password to delete comments:");
+  if (password === "Chompy11*") {
+    isAdmin = true;
+    document.getElementById('admin-status').classList.remove('hidden');
+    const dummyEvent = new Event('change');
+    document.getElementById('comment-name').dispatchEvent(dummyEvent);
+  } else {
+    alert("Wrong password!");
+  }
+});
 </script>
 </body>
 </html>
