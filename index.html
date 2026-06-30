@@ -227,7 +227,7 @@
 
       <div class="flex flex-wrap justify-center gap-2 mb-5">
         <span id="visit-badge" class="inline-block bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full">Visit #1</span>
-        <span id="current-url" class="text-xs font-mono text-gray-400">#about</span>
+        <span id="current-url" class="text-xs font-mono text-gray-400">/</span>
       </div>
 
       <!-- ABOUT TAB -->
@@ -530,7 +530,6 @@
       }, 16);
     }
 
-    // Explicit scoped internal handles for click elements
     function addClick(e) {
       const finalValue = 1 * getMultiplier();
       clicks += finalValue;
@@ -647,7 +646,6 @@
     updateClock();
     setInterval(updateClock, 1000);
 
-    // Direct, structured module listener bindings
     document.getElementById('click-me-btn').addEventListener('click', addClick);
     document.getElementById('buy-homeless').addEventListener('click', buyhomeless);
     document.getElementById('buy-jobless').addEventListener('click', buyjobless);
