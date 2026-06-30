@@ -230,6 +230,7 @@
         <span id="current-url" class="text-xs font-mono text-gray-400">#about</span>
       </div>
 
+      <!-- ABOUT TAB -->
       <div id="about" class="tabcontent active">
         <div class="section-card rounded-3xl p-6 sm:p-8 text-left">
           <p class="text-sm font-bold text-purple-600 mb-2">About Me</p>
@@ -256,6 +257,7 @@
         </div>
       </div>
 
+      <!-- CLICKER TAB -->
       <div id="clicker" class="tabcontent">
         <div class="section-card rounded-3xl p-6 sm:p-8 text-left">
           <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
@@ -274,8 +276,8 @@
             <button id="click-me-btn" class="px-8 py-4 bg-purple-600 text-white rounded-full font-bold text-xl shadow-lg hover:bg-purple-700 active:scale-95 transition-all">
               Click Me!
             </button>
-            <button id="reset-clicks-btn" class="px-6 py-4 bg-red-600 text-white rounded-full font-bold hover:bg-red-700">
-              Reset Progress
+            <button id="rebirth-btn" class="px-6 py-4 bg-emerald-600 text-white rounded-full font-bold hover:bg-emerald-700 transition">
+              Rebirth (Cost: 10,000)
             </button>
           </div>
 
@@ -293,11 +295,12 @@
                 Current Rebirths: <span id="rebirth-count">0</span> | Multiplier: <span id="rebirth-multiplier">1x</span>
               </div>
             </div>
-            <p class="text-sm text-gray-600 mt-2">Reset progress for a permanent multiplier.</p>
+            <p class="text-sm text-gray-600 mt-2">Reset your progress for a permanent production multiplier.</p>
           </div>
         </div>
       </div>
 
+      <!-- COMMENTS TAB -->
       <div id="comments" class="tabcontent">
         <div class="section-card rounded-3xl p-6 sm:p-8 text-left">
           <p class="text-sm font-bold text-purple-600 mb-2">Comments</p>
@@ -318,6 +321,7 @@
         </div>
       </div>
 
+      <!-- SOCIALS TAB -->
       <div id="socials" class="tabcontent">
         <div class="section-card rounded-3xl p-6 sm:p-8 text-left">
           <p class="text-sm font-bold text-purple-600 mb-2">Socials</p>
@@ -351,16 +355,15 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCcikd6Q9P218gx8Y12EJ79NX2PnrwRvRA",
-  authDomain: "my-really-bad-website.firebaseapp.com",
-  projectId: "my-really-bad-website",
-  storageBucket: "my-really-bad-website.firebasestorage.app",
-  messagingSenderId: "267031104350",
-  appId: "1:267031104350:web:d3b30a131907edbd869dcf",
-  measurementId: "G-V4RP6CRG0F"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyCcikd6Q9P218gx8Y12EJ79NX2PnrwRvRA",
+      authDomain: "my-really-bad-website.firebaseapp.com",
+      projectId: "my-really-bad-website",
+      storageBucket: "my-really-bad-website.firebasestorage.app",
+      messagingSenderId: "267031104350",
+      appId: "1:267031104350:web:d3b30a131907edbd869dcf",
+      measurementId: "G-V4RP6CRG0F"
+    };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
@@ -376,7 +379,9 @@ const firebaseConfig = {
     let clicks = parseFloat(localStorage.getItem('clicks')) || 0;
     let clickValue = parseFloat(localStorage.getItem('clickValue')) || 1;
     let autoValue = parseFloat(localStorage.getItem('autoValue')) || 0;
+    let rebirths = parseInt(localStorage.getItem('rebirths')) || 0;
     let counts = JSON.parse(localStorage.getItem('counts') || '{"homeless":0,"jobless":0,"tinytask":0,"aiintern":0}');
+    
     const basePrices = { homeless: 15, jobless: 150, tinytask: 750, aiintern: 3000 };
     let unlockedMilestones = JSON.parse(localStorage.getItem('milestones') || '[]');
     const milestones = [100, 1000, 10000];
@@ -438,6 +443,14 @@ const firebaseConfig = {
       navigateToPage(PAGES.some((p) => p.id === location.hash.slice(1)) ? location.hash.slice(1) : 'about');
     }
 
+    function getRebirthCost() {
+      return Math.floor(10000 * Math.pow(1.5, rebirths));
+    }
+
+    function getMultiplier() {
+      return 1 + rebirths;
+    }
+
     function getPrice(item) {
       return Math.floor(basePrices[item] * Math.pow(1.15, counts[item] || 0));
     }
@@ -461,23 +474,33 @@ const firebaseConfig = {
         aiintern: getPrice('aiintern')
       };
 
+      const currentMultiplier = getMultiplier();
+      const nextRebirthCost = getRebirthCost();
+
       document.getElementById('display').innerText = Math.floor(clicks);
-      document.getElementById('buy-homeless').innerHTML = `<div class="font-bold">Homeless People</div><div class="text-xs mt-1">+1 per click (Cost: ${prices.homeless})</div>`;
-      document.getElementById('buy-jobless').innerHTML = `<div class="font-bold">Jobless People</div><div class="text-xs mt-1">+1 auto-click (Cost: ${prices.jobless})</div>`;
-      document.getElementById('buy-tinytask').innerHTML = `<div class="font-bold">Tiny Task</div><div class="text-xs mt-1">+10 auto-click (Cost: ${prices.tinytask})</div>`;
-      document.getElementById('buy-aiintern').innerHTML = `<div class="font-bold">AI Intern</div><div class="text-xs mt-1">+50 auto-click (Cost: ${prices.aiintern})</div>`;
+      
+      document.getElementById('buy-homeless').innerHTML = `<div class="font-bold">Homeless People</div><div class="text-xs mt-1">+${1 * currentMultiplier} per click (Cost: ${prices.homeless})</div>`;
+      document.getElementById('buy-jobless').innerHTML = `<div class="font-bold">Jobless People</div><div class="text-xs mt-1">+${1 * currentMultiplier} auto-click (Cost: ${prices.jobless})</div>`;
+      document.getElementById('buy-tinytask').innerHTML = `<div class="font-bold">Tiny Task</div><div class="text-xs mt-1">+${10 * currentMultiplier} auto-click (Cost: ${prices.tinytask})</div>`;
+      document.getElementById('buy-aiintern').innerHTML = `<div class="font-bold">AI Intern</div><div class="text-xs mt-1">+${50 * currentMultiplier} auto-click (Cost: ${prices.aiintern})</div>`;
 
       document.getElementById('buy-homeless').disabled = clicks < prices.homeless;
       document.getElementById('buy-jobless').disabled = clicks < prices.jobless;
       document.getElementById('buy-tinytask').disabled = clicks < prices.tinytask;
       document.getElementById('buy-aiintern').disabled = clicks < prices.aiintern;
 
+      const rebirthBtn = document.getElementById('rebirth-btn');
+      rebirthBtn.textContent = `Rebirth (Cost: ${nextRebirthCost.toLocaleString()})`;
+      rebirthBtn.disabled = clicks < nextRebirthCost;
+
       localStorage.setItem('clicks', clicks);
       localStorage.setItem('clickValue', clickValue);
       localStorage.setItem('autoValue', autoValue);
+      localStorage.setItem('rebirths', rebirths);
       localStorage.setItem('counts', JSON.stringify(counts));
-      document.getElementById('rebirth-count').textContent = '0';
-      document.getElementById('rebirth-multiplier').textContent = '1x';
+      
+      document.getElementById('rebirth-count').textContent = rebirths;
+      document.getElementById('rebirth-multiplier').textContent = `${currentMultiplier}x`;
       checkMilestones();
     }
 
@@ -508,41 +531,46 @@ const firebaseConfig = {
     }
 
     window.addClick = function(e) {
-      clicks += clickValue;
-      if (e && e.clientX) spawnClickParticle(e.clientX, e.clientY, clickValue);
+      const finalValue = 1 * getMultiplier();
+      clicks += finalValue;
+      if (e && e.clientX) spawnClickParticle(e.clientX, e.clientY, finalValue);
       updateUI();
     };
 
     window.buyhomeless = function() {
       const price = getPrice('homeless');
-      if (clicks >= price) { clicks -= price; counts.homeless++; clickValue += 1; updateUI(); }
+      if (clicks >= price) { clicks -= price; counts.homeless++; clickValue += (1 * getMultiplier()); updateUI(); }
     };
 
     window.buyjobless = function() {
       const price = getPrice('jobless');
-      if (clicks >= price) { clicks -= price; counts.jobless++; autoValue += 1; updateUI(); }
+      if (clicks >= price) { clicks -= price; counts.jobless++; autoValue += (1 * getMultiplier()); updateUI(); }
     };
 
     window.buytinytask = function() {
       const price = getPrice('tinytask');
-      if (clicks >= price) { clicks -= price; counts.tinytask++; autoValue += 10; updateUI(); }
+      if (clicks >= price) { clicks -= price; counts.tinytask++; autoValue += (10 * getMultiplier()); updateUI(); }
     };
 
     window.buyaiintern = function() {
       const price = getPrice('aiintern');
-      if (clicks >= price) { clicks -= price; counts.aiintern++; autoValue += 50; updateUI(); }
+      if (clicks >= price) { clicks -= price; counts.aiintern++; autoValue += (50 * getMultiplier()); updateUI(); }
     };
 
-    window.resetProgress = function() {
-      if (!confirm('Reset ALL clicker progress? This cannot be undone.')) return;
+    window.triggerRebirth = function() {
+      const cost = getRebirthCost();
+      if (clicks < cost) return;
+
+      if (!confirm(`Are you ready to Rebirth? This resets clicks and items, but boosts your multiplier to ${getMultiplier() + 1}x.`)) return;
+
+      rebirths++;
       clicks = 0;
-      clickValue = 1;
+      clickValue = 1 * getMultiplier();
       autoValue = 0;
       counts = { homeless: 0, jobless: 0, tinytask: 0, aiintern: 0 };
-      unlockedMilestones = [];
-      localStorage.removeItem('milestones');
+      
       updateUI();
-      showToast('Progress reset.');
+      showToast('You have evolved! Multiplier increased.');
     };
 
     setInterval(() => {
@@ -588,7 +616,7 @@ const firebaseConfig = {
       document.getElementById('page-sidebar').classList.add('open');
       document.getElementById('nav-backdrop').classList.add('open');
     });
-
+      
     document.getElementById('nav-close-btn').addEventListener('click', () => {
       document.getElementById('page-sidebar').classList.remove('open');
       document.getElementById('nav-backdrop').classList.remove('open');
@@ -617,7 +645,7 @@ const firebaseConfig = {
     document.getElementById('buy-jobless').addEventListener('click', window.buyjobless);
     document.getElementById('buy-tinytask').addEventListener('click', window.buytinytask);
     document.getElementById('buy-aiintern').addEventListener('click', window.buyaiintern);
-    document.getElementById('reset-clicks-btn').addEventListener('click', window.resetProgress);
+    document.getElementById('rebirth-btn').addEventListener('click', window.triggerRebirth);
 
     updateUI();
   </script>
