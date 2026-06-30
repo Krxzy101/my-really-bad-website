@@ -227,7 +227,6 @@
 
       <div class="flex flex-wrap justify-center gap-2 mb-5">
         <span id="visit-badge" class="inline-block bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full">Visit #1</span>
-        <span id="current-url" class="text-xs font-mono text-gray-400">/</span>
       </div>
 
       <!-- ABOUT TAB -->
@@ -419,7 +418,6 @@
       document.getElementById('page-title').textContent = page.label;
       document.title = page.title;
       history.replaceState(null, '', `#${pageId}`);
-      document.getElementById('current-url').textContent = `#${pageId}`;
       document.getElementById('page-sidebar').classList.remove('open');
       document.getElementById('nav-backdrop').classList.remove('open');
     }
