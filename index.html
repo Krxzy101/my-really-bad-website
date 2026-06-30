@@ -4,195 +4,658 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Adi's Site</title>
-  
-  <!-- Hack Club Favicon -->
-  <link class="favicon" rel="icon" type="image/svg+xml" href="https://assets.hackclub.com/icon-rounded.svg">
-  
-  <!-- Tailwind CSS & FontAwesome Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --accent: #7c3aed;
+      --accent-light: #a855f7;
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --text-primary: #111827;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text-primary);
+      background: linear-gradient(-45deg, #94a3b8, #374151, #111827, #000000);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .main-card,
+    .page-sidebar,
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+    }
+
+    .tabcontent {
+      display: none;
+    }
+
+    .tabcontent.active {
+      display: block;
+    }
+
+    .page-sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: min(300px, 88vw);
+      height: 100vh;
+      transform: translateX(-105%);
+      transition: transform 0.3s ease;
+      z-index: 50;
+      box-shadow: 8px 0 32px rgba(0, 0, 0, 0.2);
+      overflow-y: auto;
+      padding-bottom: 1rem;
+    }
+
+    .page-sidebar.open {
+      transform: translateX(0);
+    }
+
+    .nav-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 40;
+      display: none;
+    }
+
+    .nav-backdrop.open {
+      display: block;
+    }
+
+    .page-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      border-radius: 0.9rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      transition: 0.15s ease;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .page-link:hover {
+      background: rgba(0, 0, 0, 0.06);
+    }
+
+    .page-link.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .toast-container {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 0.9rem;
+      font-weight: 700;
+      box-shadow: 0 12px 30px rgba(124, 58, 237, 0.35);
+      animation: toast-in 0.25s ease, toast-out 0.25s ease 2.5s forwards;
+    }
+
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes toast-out {
+      to { opacity: 0; transform: translateX(20px); }
+    }
+
+    .skill-bar {
+      height: 10px;
+      background: var(--border);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      width: 0;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      transition: width 1s ease;
+    }
+
+    .shop-card {
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1rem;
+      text-align: left;
+      transition: transform 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+      width: 100%;
+    }
+
+    .shop-card:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    .shop-card:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .comment-card {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    input,
+    textarea,
+    button {
+      font: inherit;
+    }
+
+    input:focus,
+    textarea:focus,
+    button:focus {
+      outline: 2px solid rgba(124, 58, 237, 0.35);
+      outline-offset: 2px;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans min-h-screen pb-12">
+<body class="text-center">
+  <div id="nav-backdrop" class="nav-backdrop"></div>
 
-  <!-- Main Container -->
-  <div class="max-w-4xl mx-auto px-4 pt-12">
-    
-    <!-- Header / Intro Section -->
-    <header class="text-center mb-12">
-      <h1 class="text-4xl font-extrabold text-gray-900 mb-2">Welcome to My Project</h1>
-      <p class="text-gray-600">Building features, playing with increments, and saving progress globally.</p>
-    </header>
+  <aside id="page-sidebar" class="page-sidebar p-5 text-left" aria-hidden="true">
+    <div class="flex items-center justify-between mb-5">
+      <div>
+        <h2 id="page-title" class="text-xl font-black">Home</h2>
+        <p class="text-sm text-gray-500">Adi Chopra</p>
+      </div>
+      <button id="nav-close-btn" class="px-3 py-2 rounded-lg bg-gray-200">✕</button>
+    </div>
+    <div id="page-nav" class="space-y-1"></div>
+  </aside>
 
-    <!-- Rebirth Chamber & Game Section -->
-    <section class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8">
-      <h2 class="text-2xl font-bold mb-4 text-purple-700"><i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Rebirth Chamber</h2>
-      
-      <div class="grid grid-cols-2 gap-4 mb-6">
-        <div class="bg-purple-50 p-4 rounded-xl text-center">
-          <span class="block text-sm text-purple-600 font-semibold uppercase tracking-wider">Current Rebirths</span>
-          <span id="rebirthCount" class="text-3xl font-black text-purple-900">0</span>
-        </div>
-        <div class="bg-purple-50 p-4 rounded-xl text-center">
-          <span class="block text-sm text-purple-600 font-semibold uppercase tracking-wider">Multiplier</span>
-          <span id="multiplierValue" class="text-3xl font-black text-purple-900">1x</span>
-        </div>
+  <div id="toast-container" class="toast-container"></div>
+
+  <div class="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="main-card rounded-3xl shadow-2xl p-5 sm:p-8">
+      <div class="flex items-center justify-between gap-3 mb-6">
+        <button id="nav-menu-btn" class="px-4 py-2 rounded-xl bg-gray-200 font-bold">☰ Menu</button>
+        <div id="clock" class="text-sm sm:text-base font-mono text-gray-600"></div>
+        <div class="w-[88px]"></div>
       </div>
 
-      <div class="flex flex-col sm:flex-row gap-4">
-        <button id="clickBtn" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-xl transition shadow-sm">
-          Click for Progress (<span id="pointsDisplay">0</span>)
-        </button>
-        <button id="rebirthBtn" class="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl transition">
-          Perform Rebirth (Cost: 100)
-        </button>
+      <div class="flex flex-wrap justify-center gap-2 mb-5">
+        <span id="visit-badge" class="inline-block bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full">Visit #1</span>
+        <span id="current-url" class="text-xs font-mono text-gray-400">#about</span>
       </div>
-    </section>
 
-    <!-- Socials / Connect Section -->
-    <section class="mb-12">
-      <h3 class="text-xl font-bold mb-4 text-gray-900">Connect with Me</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <!-- Upgraded Gmail Card -->
-        <a class="p-5 rounded-2xl border border-gray-200 hover:border-purple-500 transition bg-white shadow-sm flex flex-col justify-between" 
-           href="https://mail.google.com/mail/?view=cm&fs=1&to=adi.chopra2408@gmail.com" 
-           target="_blank" 
-           rel="noreferrer">
-          <div>
-            <div class="text-2xl text-purple-600 mb-2"><i class="fa-solid fa-envelope"></i></div>
-            <div class="font-bold text-gray-900">Email Me</div>
-            <div class="text-sm text-gray-500">Opens a pre-addressed draft directly inside Gmail.</div>
+      <!-- ABOUT TAB -->
+      <div id="about" class="tabcontent active">
+        <div class="section-card rounded-3xl p-6 sm:p-8 text-left">
+          <p class="text-sm font-bold text-purple-600 mb-2">About Me</p>
+          <h1 class="text-3xl sm:text-5xl font-black mb-4">Hi, I’m Adi.</h1>
+          <p class="text-lg sm:text-xl text-gray-600 max-w-3xl">
+            I’m a student in Campbell, California who likes coding, tech, basketball, tennis, 3D printing, and photography.
+            I’m building skills, making projects, and trying to get better at web development every day.
+          </p>
+
+          <div class="grid md:grid-cols-3 gap-4 mt-6">
+            <div class="p-4 rounded-2xl bg-purple-50">
+              <p class="font-bold">What I like</p>
+              <p class="text-sm text-gray-600 mt-1">Coding, games, sports, and creating stuff.</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-purple-50">
+              <p class="font-bold">What I’m learning</p>
+              <p class="text-sm text-gray-600 mt-1">HTML, CSS, JavaScript, and better UI design.</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-purple-50">
+              <p class="font-bold">What I want</p>
+              <p class="text-sm text-gray-600 mt-1">To become a strong web developer and build cool projects.</p>
+            </div>
           </div>
-          <span class="text-xs text-purple-500 font-medium mt-4 inline-flex items-center">Launch Gmail <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]"></i></span>
-        </a>
-
-        <!-- Hack Club Card -->
-        <div class="p-5 rounded-2xl border border-gray-200 bg-white shadow-sm">
-          <div class="text-2xl text-red-500 mb-2"><i class="fa-solid fa-code"></i></div>
-          <div class="font-bold text-gray-900">Hack Club</div>
-          <div class="text-sm text-gray-500">Proudly sporting the official dinosaur icon up in the browser tab!</div>
         </div>
       </div>
-    </section>
 
-    <!-- Upgraded Global Live Comment Section -->
-    <section class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-      <h3 class="text-xl font-bold mb-2 text-gray-900"><i class="fa-solid fa-earth-americas text-purple-600 mr-2"></i>Global Guestbook</h3>
-      <p class="text-sm text-gray-500 mb-4">Leave a message below. Powered by Firebase, anyone visiting this site can see what you write!</p>
-      
-      <form id="commentForm" class="mb-6">
-        <div class="mb-3">
-          <input type="text" id="commenterName" placeholder="Your Name" required
-                 class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:border-purple-500 transition text-sm" />
-        </div>
-        <div class="mb-3">
-          <textarea id="commentText" rows="3" placeholder="Write a comment..." required
-                    class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:border-purple-500 transition text-sm resize-none"></textarea>
-        </div>
-        <button type="submit" class="bg-gray-900 hover:bg-gray-800 text-white font-medium text-sm py-2 px-5 rounded-xl transition">
-          Post Live Comment
-        </button>
-      </form>
+      <!-- CLICKER TAB -->
+      <div id="clicker" class="tabcontent">
+        <div class="section-card rounded-3xl p-6 sm:p-8 text-left">
+          <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+            <div>
+              <p class="text-sm font-bold text-purple-600 mb-2">Clicker</p>
+              <h1 class="text-3xl font-black">ClickedIn Shop</h1>
+              <p class="text-gray-600 mt-2">Click, buy upgrades, and build your multiplier.</p>
+            </div>
+            <div class="text-center sm:text-right">
+              <div class="text-5xl font-black text-purple-500" id="display">0</div>
+              <div class="text-sm text-gray-500">Clicks</div>
+            </div>
+          </div>
 
-      <!-- Container where live Firebase comments stream in -->
-      <div id="commentsContainer" class="space-y-3 max-h-80 overflow-y-auto pr-2">
-        <div id="loadingIndicator" class="text-center text-sm text-gray-400 py-4">
-          <i class="fa-solid fa-circle-notch animate-spin mr-2"></i>Connecting to live database...
+          <div class="mt-6 flex flex-wrap gap-3 justify-center sm:justify-start">
+            <button id="click-me-btn" class="px-8 py-4 bg-purple-600 text-white rounded-full font-bold text-xl shadow-lg hover:bg-purple-700 active:scale-95 transition-all">
+              Click Me!
+            </button>
+            <button id="rebirth-btn" class="px-6 py-4 bg-emerald-600 text-white rounded-full font-bold hover:bg-emerald-700 transition">
+              Rebirth (Cost: 10,000)
+            </button>
+          </div>
+
+          <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+            <button id="buy-homeless" class="shop-card bg-stone-50">Loading...</button>
+            <button id="buy-jobless" class="shop-card bg-orange-50">Loading...</button>
+            <button id="buy-tinytask" class="shop-card bg-blue-50">Loading...</button>
+            <button id="buy-aiintern" class="shop-card bg-emerald-50">Loading...</button>
+          </div>
+
+          <div class="mt-6 p-4 rounded-2xl bg-purple-50">
+            <div class="flex flex-wrap gap-3 justify-between items-center">
+              <div class="font-bold">Rebirth Chamber</div>
+              <div class="text-sm font-mono text-purple-700">
+                Current Rebirths: <span id="rebirth-count">0</span> | Multiplier: <span id="rebirth-multiplier">1x</span>
+              </div>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Reset your progress for a permanent production multiplier.</p>
+          </div>
         </div>
       </div>
-    </section>
 
+      <!-- COMMENTS TAB -->
+      <div id="comments" class="tabcontent">
+        <div class="section-card rounded-3xl p-6 sm:p-8 text-left">
+          <p class="text-sm font-bold text-purple-600 mb-2">Comments</p>
+          <h1 class="text-3xl font-black mb-3">Leave a message</h1>
+          <p class="text-gray-600 mb-5">Your comments show up live.</p>
+
+          <div class="comment-card rounded-2xl p-4 sm:p-5 mb-6">
+            <input type="text" id="comment-name" placeholder="Your name" class="w-full p-3 mb-3 rounded-xl border border-gray-300 bg-white/90">
+            <textarea id="comment-text" placeholder="Say something..." class="w-full p-3 mb-3 rounded-xl border border-gray-300 bg-white/90 min-h-[120px]"></textarea>
+            <button id="submit-comment-btn" class="px-6 py-3 bg-purple-600 text-white font-bold rounded-full hover:bg-purple-700">
+              Post Comment
+            </button>
+          </div>
+
+          <div id="comments-container" class="space-y-4">
+            <p class="text-gray-500 italic">Loading comments...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOCIALS TAB -->
+      <div id="socials" class="tabcontent">
+        <div class="section-card rounded-3xl p-6 sm:p-8 text-left">
+          <p class="text-sm font-bold text-purple-600 mb-2">Socials</p>
+          <h1 class="text-3xl font-black mb-4">Find me here</h1>
+
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <a class="p-5 rounded-2xl border border-gray-200 hover:border-purple-500 transition bg-white/70" href="https://github.com/Krxzy101" target="_blank" rel="noreferrer">
+              <div class="text-2xl mb-2"><i class="fa-brands fa-github"></i></div>
+              <div class="font-bold">GitHub</div>
+              <div class="text-sm text-gray-500">Code and projects</div>
+            </a>
+
+            <a class="p-5 rounded-2xl border border-gray-200 hover:border-purple-500 transition bg-white/70" href="https://www.instagram.com/big_adittt/" target="_blank" rel="noreferrer">
+              <div class="text-2xl mb-2"><i class="fa-brands fa-instagram"></i></div>
+              <div class="font-bold">Instagram</div>
+              <div class="text-sm text-gray-500">Photos and updates</div>
+            </a>
+
+            <a class="p-5 rounded-2xl border border-gray-200 hover:border-purple-500 transition bg-white/70" href="mailto:adi.chopra2408@gmail.com">
+              <div class="text-2xl mb-2"><i class="fa-solid fa-envelope"></i></div>
+              <div class="font-bold">Email</div>
+              <div class="text-sm text-gray-500">Send me a message</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Firebase JavaScript SDK Modules -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
-      databaseURL: "https://hackclub-guestbook-default-rtdb.firebaseio.com/"
+      apiKey: "AIzaSyCcikd6Q9P218gx8Y12EJ79NX2PnrwRvRA",
+      authDomain: "my-really-bad-website.firebaseapp.com",
+      projectId: "my-really-bad-website",
+      storageBucket: "my-really-bad-website.firebasestorage.app",
+      messagingSenderId: "267031104350",
+      appId: "1:267031104350:web:d3b30a131907edbd869dcf",
+      measurementId: "G-V4RP6CRG0F"
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const commentsRef = ref(db, "global_comments");
+    const db = getFirestore(app);
+    const commentsContainer = document.getElementById('comments-container');
 
-    // --- GAME ENGINE LOGIC ---
-    let points = 0;
-    let rebirths = 0;
-    let multiplier = 1;
+    const PAGES = [
+      { id: 'about', label: 'About Me', icon: 'fa-user', title: 'About Me — Adi' },
+      { id: 'clicker', label: 'Clicker', icon: 'fa-hand-pointer', title: 'Clicker — Adi' },
+      { id: 'comments', label: 'Comments', icon: 'fa-comments', title: 'Comments — Adi' },
+      { id: 'socials', label: 'Socials', icon: 'fa-share-nodes', title: 'Socials — Adi' },
+    ];
 
-    const pointsDisplay = document.getElementById('pointsDisplay');
-    const rebirthCount = document.getElementById('rebirthCount');
-    const multiplierValue = document.getElementById('multiplierValue');
-    const clickBtn = document.getElementById('clickBtn');
-    const rebirthBtn = document.getElementById('rebirthBtn');
+    let clicks = parseFloat(localStorage.getItem('clicks')) || 0;
+    let clickValue = parseFloat(localStorage.getItem('clickValue')) || 1;
+    let autoValue = parseFloat(localStorage.getItem('autoValue')) || 0;
+    let rebirths = parseInt(localStorage.getItem('rebirths')) || 0;
+    let counts = JSON.parse(localStorage.getItem('counts') || '{"homeless":0,"jobless":0,"tinytask":0,"aiintern":0}');
+    
+    const basePrices = { homeless: 15, jobless: 150, tinytask: 750, aiintern: 3000 };
+    let unlockedMilestones = JSON.parse(localStorage.getItem('milestones') || '[]');
+    const milestones = [100, 1000, 10000];
 
-    clickBtn.addEventListener('click', () => {
-      points += 1 * multiplier;
-      pointsDisplay.innerText = points;
-    });
-
-    rebirthBtn.addEventListener('click', () => {
-      if (points >= 100) {
-        points -= 100;
-        rebirths += 1;
-        multiplier = rebirths + 1;
-        
-        pointsDisplay.innerText = points;
-        rebirthCount.innerText = rebirths;
-        multiplierValue.innerText = multiplier + 'x';
-        alert("Rebirth successful! Your production multiplier is now " + multiplier + "x!");
-      } else {
-        alert("Error: You need at least 100 points to trigger a rebirth!");
-      }
-    });
-
-    // --- LIVE GUESTBOOK LOGIC ---
-    const commentForm = document.getElementById('commentForm');
-    const commenterName = document.getElementById('commenterName');
-    const commentText = document.getElementById('commentText');
-    const commentsContainer = document.getElementById('commentsContainer');
-    const loadingIndicator = document.getElementById('loadingIndicator');
-
-    function renderComment(author, message, timestamp) {
-      const commentDiv = document.createElement('div');
-      commentDiv.className = "p-4 bg-gray-50 rounded-xl border border-gray-100 flex flex-col gap-1 transition-all duration-300";
-      commentDiv.innerHTML = `
-        <div class="flex justify-between items-center">
-          <span class="font-bold text-sm text-gray-900">${author}</span>
-          <span class="text-[11px] text-gray-400">${timestamp}</span>
-        </div>
-        <p class="text-sm text-gray-700 whitespace-pre-wrap">${message}</p>
-      `;
-      commentsContainer.prepend(commentDiv);
+    function showToast(msg) {
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.textContent = msg;
+      document.getElementById('toast-container').appendChild(t);
+      setTimeout(() => t.remove(), 3000);
     }
 
-    commentForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').innerText = now.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZoneName: 'short'
+      });
+    }
 
-      const nameValue = commenterName.value.trim();
-      const textValue = commentText.value.trim();
-      const currentTime = new Date().toLocaleString([], { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric' });
+    function initVisitCounter() {
+      const visits = parseInt(localStorage.getItem('visitCount') || '0', 10) + 1;
+      localStorage.setItem('visitCount', visits);
+      document.getElementById('visit-badge').textContent = `Visit #${visits}`;
+    }
 
-      if (nameValue && textValue) {
-        push(commentsRef, {
-          name: nameValue,
-          text: textValue,
-          date: currentTime
+    function navigateToPage(pageId) {
+      const page = PAGES.find((p) => p.id === pageId);
+      if (!page) return;
+      document.querySelectorAll('.tabcontent').forEach((el) => el.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      document.querySelectorAll('.page-link').forEach((link) => link.classList.toggle('active', link.dataset.page === pageId));
+      document.getElementById('page-title').textContent = page.label;
+      document.title = page.title;
+      history.replaceState(null, '', `#${pageId}`);
+      document.getElementById('current-url').textContent = `#${pageId}`;
+      document.getElementById('page-sidebar').classList.remove('open');
+      document.getElementById('nav-backdrop').classList.remove('open');
+    }
+
+    function initPageNav() {
+      const nav = document.getElementById('page-nav');
+      PAGES.forEach((page, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'page-link' + (page.id === 'about' ? ' active' : '');
+        btn.dataset.page = page.id;
+        btn.innerHTML = `<span class="flex items-center gap-3"><i class="fa-solid ${page.icon} w-5 text-center"></i>${page.label}</span><span class="text-xs opacity-60 font-mono">${i + 1}</span>`;
+        btn.addEventListener('click', () => navigateToPage(page.id));
+        nav.appendChild(btn);
+      });
+
+      window.addEventListener('hashchange', () => {
+        const id = location.hash.slice(1) || 'about';
+        navigateToPage(PAGES.some((p) => p.id === id) ? id : 'about');
+      });
+
+      navigateToPage(PAGES.some((p) => p.id === location.hash.slice(1)) ? location.hash.slice(1) : 'about');
+    }
+
+    function getRebirthCost() {
+      return Math.floor(10000 * Math.pow(1.5, rebirths));
+    }
+
+    function getMultiplier() {
+      return 1 + rebirths;
+    }
+
+    function getPrice(item) {
+      return Math.floor(basePrices[item] * Math.pow(1.15, counts[item] || 0));
+    }
+
+    function checkMilestones() {
+      const total = Math.floor(clicks);
+      milestones.forEach((m) => {
+        if (total >= m && !unlockedMilestones.includes(m)) {
+          unlockedMilestones.push(m);
+          localStorage.setItem('milestones', JSON.stringify(unlockedMilestones));
+          showToast(`${m.toLocaleString()} clicks achieved!`);
+        }
+      });
+    }
+
+    function updateUI() {
+      const prices = {
+        homeless: getPrice('homeless'),
+        jobless: getPrice('jobless'),
+        tinytask: getPrice('tinytask'),
+        aiintern: getPrice('aiintern')
+      };
+
+      const currentMultiplier = getMultiplier();
+      const nextRebirthCost = getRebirthCost();
+
+      document.getElementById('display').innerText = Math.floor(clicks);
+      
+      document.getElementById('buy-homeless').innerHTML = `<div class="font-bold">Homeless People</div><div class="text-xs mt-1">+${1 * currentMultiplier} per click (Cost: ${prices.homeless})</div>`;
+      document.getElementById('buy-jobless').innerHTML = `<div class="font-bold">Jobless People</div><div class="text-xs mt-1">+${1 * currentMultiplier} auto-click (Cost: ${prices.jobless})</div>`;
+      document.getElementById('buy-tinytask').innerHTML = `<div class="font-bold">Tiny Task</div><div class="text-xs mt-1">+${10 * currentMultiplier} auto-click (Cost: ${prices.tinytask})</div>`;
+      document.getElementById('buy-aiintern').innerHTML = `<div class="font-bold">AI Intern</div><div class="text-xs mt-1">+${50 * currentMultiplier} auto-click (Cost: ${prices.aiintern})</div>`;
+
+      document.getElementById('buy-homeless').disabled = clicks < prices.homeless;
+      document.getElementById('buy-jobless').disabled = clicks < prices.jobless;
+      document.getElementById('buy-tinytask').disabled = clicks < prices.tinytask;
+      document.getElementById('buy-aiintern').disabled = clicks < prices.aiintern;
+
+      const rebirthBtn = document.getElementById('rebirth-btn');
+      rebirthBtn.textContent = `Rebirth (Cost: ${nextRebirthCost.toLocaleString()})`;
+      rebirthBtn.disabled = clicks < nextRebirthCost;
+
+      localStorage.setItem('clicks', clicks);
+      localStorage.setItem('clickValue', clickValue);
+      localStorage.setItem('autoValue', autoValue);
+      localStorage.setItem('rebirths', rebirths);
+      localStorage.setItem('counts', JSON.stringify(counts));
+      
+      document.getElementById('rebirth-count').textContent = rebirths;
+      document.getElementById('rebirth-multiplier').textContent = `${currentMultiplier}x`;
+      checkMilestones();
+    }
+
+    function spawnClickParticle(x, y, value) {
+      const p = document.createElement('div');
+      p.style.position = 'fixed';
+      p.style.left = `${x}px`;
+      p.style.top = `${y}px`;
+      p.style.transform = 'translate(-50%, -50%)';
+      p.style.color = '#a855f7';
+      p.style.fontWeight = '900';
+      p.style.fontSize = '1.25rem';
+      p.style.pointerEvents = 'none';
+      p.style.zIndex = '1000';
+      p.textContent = `+${value}`;
+      document.body.appendChild(p);
+      const start = Date.now();
+      const anim = setInterval(() => {
+        const elapsed = Date.now() - start;
+        if (elapsed > 800) {
+          clearInterval(anim);
+          p.remove();
+        } else {
+          p.style.top = `${y - (elapsed / 800) * 50}px`;
+          p.style.opacity = `${1 - (elapsed / 800)}`;
+        }
+      }, 16);
+    }
+
+    // Explicit scoped internal handles for click elements
+    function addClick(e) {
+      const finalValue = 1 * getMultiplier();
+      clicks += finalValue;
+      if (e && e.clientX) spawnClickParticle(e.clientX, e.clientY, finalValue);
+      updateUI();
+    }
+
+    function buyhomeless() {
+      const price = getPrice('homeless');
+      if (clicks >= price) { clicks -= price; counts.homeless++; clickValue += (1 * getMultiplier()); updateUI(); }
+    }
+
+    function buyjobless() {
+      const price = getPrice('jobless');
+      if (clicks >= price) { clicks -= price; counts.jobless++; autoValue += (1 * getMultiplier()); updateUI(); }
+    }
+
+    function buytinytask() {
+      const price = getPrice('tinytask');
+      if (clicks >= price) { clicks -= price; counts.tinytask++; autoValue += (10 * getMultiplier()); updateUI(); }
+    }
+
+    function buyaiintern() {
+      const price = getPrice('aiintern');
+      if (clicks >= price) { clicks -= price; counts.aiintern++; autoValue += (50 * getMultiplier()); updateUI(); }
+    }
+
+    function triggerRebirth() {
+      const cost = getRebirthCost();
+      if (clicks < cost) return;
+
+      if (!confirm(`Are you ready to Rebirth? This resets clicks and items, but boosts your multiplier to ${getMultiplier() + 1}x.`)) return;
+
+      rebirths++;
+      clicks = 0;
+      clickValue = 1 * getMultiplier();
+      autoValue = 0;
+      counts = { homeless: 0, jobless: 0, tinytask: 0, aiintern: 0 };
+      
+      updateUI();
+      showToast('You have evolved! Multiplier increased.');
+    }
+
+    setInterval(() => {
+      if (autoValue > 0) {
+        clicks += autoValue;
+        updateUI();
+      }
+    }, 1000);
+
+    function initComments() {
+      const q = query(collection(db, "comments"), orderBy("timestamp", "desc"));
+      onSnapshot(q, (snapshot) => {
+        commentsContainer.innerHTML = "";
+        if (snapshot.empty) {
+          commentsContainer.innerHTML = `<p class="text-gray-500 italic">No comments yet. Be the first!</p>`;
+          return;
+        }
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          const msgDiv = document.createElement('div');
+          msgDiv.className = "comment-card p-4 rounded-2xl shadow-sm";
+          msgDiv.innerHTML = `<div class="font-bold text-gray-800">${data.name || 'Anonymous'}</div><p class="text-gray-600 mt-1">${data.text || ''}</p>`;
+          commentsContainer.appendChild(msgDiv);
         });
+      });
 
-        commenterName.value = '';
-        commentText.value = '';
+      document.getElementById('submit-comment-btn').addEventListener('click', async () => {
+        const nameInput = document.getElementById('comment-name');
+        const textInput = document.getElementById('comment-text');
+        if (!textInput.value.trim()) return alert("Comment cannot be empty!");
+        
+        try {
+          await addDoc(collection(db, "comments"), {
+            name: nameInput.value.trim() || "Anonymous",
+            text: textInput.value.trim(),
+            timestamp: Date.now()
+          });
+          textInput.value = "";
+          nameInput.value = "";
+          showToast('Comment posted!');
+        } catch (error) {
+          console.error("Error writing document: ", error);
+          alert("Failed to post comment. Check console rules.");
+        }
+      });
+    }
+
+    document.getElementById('nav-menu-btn').addEventListener('click', () => {
+      document.getElementById('page-sidebar').classList.add('open');
+      document.getElementById('nav-backdrop').classList.add('open');
+    });
+      
+    document.getElementById('nav-close-btn').addEventListener('click', () => {
+      document.getElementById('page-sidebar').classList.remove('open');
+      document.getElementById('nav-backdrop').classList.remove('open');
+    });
+
+    document.getElementById('nav-backdrop').addEventListener('click', () => {
+      document.getElementById('page-sidebar').classList.remove('open');
+      document.getElementById('nav-backdrop').classList.remove('open');
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.getElementById('page-sidebar').classList.remove('open');
+        document.getElementById('nav-backdrop').classList.remove('open');
       }
     });
 
-    onChildAdded(commentsRef, (snapshot) => {
-      if (loadingIndicator) {
-        loadingIndicator.remove();
-      }
-      const data = snapshot.val();
-      renderComment(data.name, data.text, data.date);
-    });
+    initVisitCounter();
+    initPageNav();
+    initComments();
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Direct, structured module listener bindings
+    document.getElementById('click-me-btn').addEventListener('click', addClick);
+    document.getElementById('buy-homeless').addEventListener('click', buyhomeless);
+    document.getElementById('buy-jobless').addEventListener('click', buyjobless);
+    document.getElementById('buy-tinytask').addEventListener('click', buytinytask);
+    document.getElementById('buy-aiintern').addEventListener('click', buyaiintern);
+    document.getElementById('rebirth-btn').addEventListener('click', triggerRebirth);
+
+    updateUI();
   </script>
 </body>
 </html>
