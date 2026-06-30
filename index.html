@@ -3,347 +3,547 @@
 <head>
   <meta charset="UTF-8" />
   <title>Aditya's Site</title>
- <script src="https://cdn.tailwindcss.com">
- </script>   
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
- <link rel="stylesheet" href="styles.css">
- <style>
-  .fade-hide {
-    opacity:0;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
-  }
-  body {
-  background: linear-gradient(-45deg, #94a3b8, #374151, #111827, #000000);
-  background-size: 400% 400%;
-  animation: gradientBG 12s ease infinite;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  }
-  @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
- </style>
+  <script src="https://cdn.tailwindcss.com"></script>   
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .fade-hide {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    body {
+      background: linear-gradient(-45deg, #94a3b8, #374151, #111827, #000000);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .tabcontent {
+      display: none;
+    }
+    .tabcontent.active {
+      display: block;
+    }
+    .goal-done {
+      text-decoration: line-through;
+      color: #9ca3af;
+    }
+    .skill-bar {
+      background-color: #e5e7eb;
+      border-radius: 9999px;
+      height: 0.5rem;
+      width: 100%;
+      overflow: hidden;
+    }
+    .skill-fill {
+      background-color: #9333ea;
+      height: 100%;
+      width: 0%;
+      transition: width 1s ease-out;
+    }
+    .shop-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .game-card {
+      background-color: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 1.5rem;
+      padding: 1.25rem;
+      text-align: center;
+    }
+    .rps-btn, .guess-btn, .quiz-option {
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      margin: 0.25rem;
+      transition: all 0.2s;
+    }
+    .memory-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .memory-card {
+      aspect-ratio: 1;
+      background-color: #e5e7eb;
+      border-radius: 0.75rem;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .memory-card.flipped {
+      background-color: #f3e8ff;
+    }
+    .memory-card.matched {
+      background-color: #dcfce7;
+      cursor: default;
+    }
+    .typing-display {
+      font-family: monospace;
+      background-color: #f3f4f6;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .typing-display .correct { color: #16a34a; }
+    .typing-display .wrong { color: #dc2626; background-color: #fee2e2; }
+    .quiz-option {
+      width: 100%;
+      text-align: left;
+      background-color: #f3f4f6;
+      border: 1px solid #e5e7eb;
+    }
+    .quiz-option.correct { background-color: #dcfce7; border-color: #22c55e; color: #16a34a; }
+    .quiz-option.wrong { background-color: #fee2e2; border-color: #ef4444; color: #dc2626; }
+    .contact-field {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+      border-radius: 0.75rem;
+      border: 1px solid #e5e7eb;
+    }
+    .contact-field:focus {
+      outline: 2px solid #9333ea;
+    }
+    .timeline {
+      border-left: 2px solid #e5e7eb;
+      padding-left: 1.5rem;
+      space-y: 1.5rem;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: calc(-1.5rem - 5px);
+      top: 4px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #9333ea;
+    }
+    .timeline-year {
+      font-weight: 800;
+      color: #9333ea;
+      font-size: 0.875rem;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 1rem;
+      position: relative;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    }
+    .gallery-item span {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      color: white;
+      font-size: 0.75rem;
+      padding: 0.5rem;
+      font-weight: 600;
+    }
+    #toast-container {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .toast {
+      background-color: #1f2937;
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      font-size: 0.875rem;
+      font-weight: 600;
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateY(1rem); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .page-sidebar {
+      position: fixed;
+      top: 0; bottom: 0; left: -280px;
+      width: 280px;
+      background-color: white;
+      z-index: 40;
+      box-shadow: 4px 0 25px -5px rgb(0 0 0 / 0.1);
+      transition: left 0.3s ease;
+      padding: 1.5rem;
+      text-align: left;
+    }
+    .page-sidebar.open { left: 0; }
+    .nav-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.4);
+      z-index: 30;
+      display: none;
+    }
+    .nav-backdrop.open { display: block; }
+    body.dark-mode {
+      background: linear-gradient(-45deg, #1e293b, #0f172a, #020617, #000000);
+      background-size: 400% 400%;
+    }
+    body.dark-mode .main-card, body.dark-mode .page-sidebar {
+      background-color: rgba(17, 24, 39, 0.95);
+      color: #f3f4f6;
+    }
+    body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode p, body.dark-mode span, body.dark-mode blockquote {
+      color: #f3f4f6 !important;
+    }
+    body.dark-mode .bg-gray-100, body.dark-mode .bg-purple-50, body.dark-mode .game-card {
+      background-color: #1f2937 !important;
+      border-color: #374151 !important;
+    }
+    body.dark-mode input, body.dark-mode textarea {
+      background-color: #374151;
+      color: white;
+      border-color: #4b5563;
+    }
+    body.dark-mode .page-link:hover { background-color: #374151; }
+    body.dark-mode .page-link.active { background-color: #581c87; color: #f3f4f6; }
+    #visit-badge {
+      display: inline-block;
+      background-color: #f3e8ff;
+      color: #9333ea;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      margin-bottom: 0.5rem;
+    }
+    body.dark-mode #visit-badge {
+      background-color: #581c87;
+      color: #f3f4f6;
+    }
+  </style>
 </head>
 <body class="text-center">
 
-
 <div id="welcome-popup" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-  <div class="welcome-card bg-white p-10 rounded-3xl shadow-2xl max-w-lg mx-4 border-4 border-white">
-  <h1 class="text-4xl font-black text-gray-800 mb-2">Hey, I'm Aditya</h1>
-  <p class="text-gray-500 mb-4 text-sm">Use the menu on the left to look around. Dark mode is up top if you want it.</p>
-  <button onclick="closeWelcome()" class="px-10 py-4 bg-purple-600 text-white rounded-full font-bold hover:bg-purple-700 hover:scale-105 transition-all">Enter</button>
+  <div class="welcome-card bg-white p-10 rounded-3xl shadow-2xl max-w-lg mx-4 border-4 border-white text-center">
+    <h1 class="text-4xl font-black text-gray-800 mb-2">Hey, I'm Aditya</h1>
+    <p class="text-gray-500 mb-4 text-sm">Use the menu on the left to look around. Dark mode is up top if you want it.</p>
+    <button onclick="closeWelcome()" class="px-10 py-4 bg-purple-600 text-white rounded-full font-bold hover:bg-purple-700 hover:scale-105 transition-all">Enter</button>
   </div>
 </div>
+
 <div id="toast-container"></div>
 
-<button id="nav-menu-btn" class="nav-menu-btn" type="button" aria-label="Open page menu" aria-expanded="false">
-  <span class="nav-menu-icon"><span></span><span></span><span></span></span>
-</button>
+<div class="fixed top-4 left-4 z-50">
+  <button id="nav-menu-btn" class="p-3 bg-white/90 shadow-lg rounded-2xl hover:bg-purple-50 text-gray-800 transition-all" type="button" aria-label="Open page menu">
+    <i class="fa-solid fa-bars text-xl"></i>
+  </button>
+</div>
+
 <div id="nav-backdrop" class="nav-backdrop" aria-hidden="true"></div>
 
 <aside id="page-sidebar" class="page-sidebar" aria-hidden="true">
-  <div class="sidebar-header">
-    <p class="site-brand">Aditya's Site</p>
-    <button id="nav-close-btn" class="nav-close-btn" type="button" aria-label="Close menu">
-      <i class="fa-solid fa-xmark"></i>
+  <div class="flex justify-between items-center mb-6">
+    <p class="text-xl font-black text-purple-600">Aditya's Site</p>
+    <button id="nav-close-btn" class="p-2 text-gray-500 hover:text-black" type="button" aria-label="Close menu">
+      <i class="fa-solid fa-xmark text-xl"></i>
     </button>
   </div>
-  <p class="site-tagline">Pages</p>
-  <nav id="page-nav"></nav>
+  <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Pages</p>
+  <nav id="page-nav" class="space-y-1"></nav>
 </aside>
 
-<div class="site-layout">
+<div class="pt-20 pb-10 px-4 min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-4xl p-6 md:p-10 bg-white/90 backdrop-blur shadow-2xl rounded-3xl main-card">
 
-  <div class="main-content">
-    <div class="max-w-4xl mx-auto p-6 bg-white/90 backdrop-blur shadow-2xl rounded-3xl main-card">
-
-      <div class="page-header">
-        <div class="text-left">
-          <p id="page-title">Home</p>
-          <div id="clock" class="text-xl font-mono text-gray-700"></div>
-        </div>
-        <button id="dark-mode-btn" title="Toggle dark mode" class="p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-all hover:scale-110">
-          <i id="dark-mode-icon" class="fa-solid fa-moon text-gray-700"></i>
-        </button>
+    <div class="flex justify-between items-center border-b pb-4 mb-6">
+      <div class="text-left">
+        <p id="page-title" class="text-2xl font-black text-purple-600">Home</p>
+        <div id="clock" class="text-sm font-mono text-gray-500"></div>
       </div>
-
-      <div id="page-content">
-
-  <div id="about" class="tabcontent active">
-  <div id="visit-badge"></div>
-  <h1 class="text-3xl font-bold text-gray-800">Hi, I'm Aditya</h1>
-  <p class="text-xl text-gray-600 mt-4">I'm 14 and live in Campbell, CA. I like coding, basketball, tennis, 3D printing, and photography.</p>
-  <blockquote id="daily-quote" class="mt-6 p-4 border-l-4 border-purple-500 bg-purple-50 rounded-r-xl text-gray-700 italic text-left"></blockquote>
-
-  <div class="mt-8 text-left">
-    <h2 class="text-xl font-bold text-gray-800 mb-4"><i class="fa-solid fa-chart-simple mr-2 text-purple-600"></i>Stuff I'm into</h2>
-    <div class="space-y-3">
-      <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Web Dev</span><span class="text-gray-500">75%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="75"></div></div></div>
-      <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Python / JS</span><span class="text-gray-500">70%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="70"></div></div></div>
-      <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Tennis</span><span class="text-gray-500">80%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="80"></div></div></div>
-      <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">3D Printing</span><span class="text-gray-500">65%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="65"></div></div></div>
-      <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Basketball</span><span class="text-gray-500">60%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="60"></div></div></div>
-      <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Photography</span><span class="text-gray-500">55%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="55"></div></div></div>
-    </div>
-  </div>
-  </div>
-
- <div id="goals" class="tabcontent">
-  <h1 class="text-3xl font-bold text-gray-800">Goals</h1>
-  <p class="text-sm text-gray-500 mt-2 mb-4">Things I'm working toward — check them off if you want (saves on your device).</p>
-  <ul id="goals-list" class="mt-4 text-left text-gray-700 space-y-3">
-  <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="0"><span>I want to become a proficient web developer.</span></li>
-  <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="1"><span>Get the Macbook from the Macondo shop to code better.</span></li>
-  <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="2"><span>Go to either Cal Poly or UC Berkeley.</span></li>
-  <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="3"><span>Work for the Top 10 tech companies when I graduate.</span></li>
-  <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="4"><span>I have participated in Campfire and won 1st with a 3D printer as the prize.</span></li>
-  <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="5"><span>I have gotten accepted as an ambassador for Stardance.</span></li>
-  <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="6"><span>I have played tennis competitively for 2 years.</span></li>
-  <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="7"><span>Try to get Minecraft using this website</span></li>
-  <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="8"><span>Start a Godot Game as my next project for Macondo</span></li>
-  <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="9"><span>Volunteer at my local library</span></li>
-  </ul>
-  <p id="goals-progress" class="mt-4 text-sm font-bold text-purple-600"></p>
-  <div class="flex justify-center items-center">
-    <img class="w-64 transform translate-y-3" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4RR1mL5PF3zW09tpA1WM7ZsZ4ibc2my9Oww&s" alt="This is the image Of A RedHack Club Logo"/>
-  </div>
-  </div>
- 
-  <div id="minigame" class="tabcontent">
-  <h1 class="text-2xl font-bold mb-4">Click Counter</h1>
-  <h2 class="text-6xl font-black text-purple-500 mb-2" id="display">0</h2>
-  <p id="cps-display" class="text-sm text-gray-500 mb-6 font-mono">+0 per second · +1 per click</p>
-  <div class="flex flex-col items-center justify-center gap-y-10  mb-10">
-  </div>
-  <button id="click-me-btn" class="px-8 py-4 bg-purple-500 text-white rounded-full font-bold text-2xl shadow-lg hover:bg-gray-700 active:scale-95 transition-all">Click Me!</button>
-  <p class="text-xs text-gray-400 mt-3">Tip: hit <kbd class="px-1 bg-gray-200 rounded text-gray-600">Space</kbd> to click faster</p>
-
-  <div class="border-t pt-4 mt-6">
-  <h3 class="text-xl font-bold mb-3 italic text-gray-700">ClickedIn Shop</h3>
-  <div class="shop-row">
-
-  <button id="buy-homeless" class="p-3 bg-stone-100 border-2 border-stone-300 disabled:opacity-50 text-black rounded-xl">
-  <span class="font-bold">Homeless People</span><br>
-  <span class="text-xs">+1 per click (Cost: 15)</span>
-  </button>
-
-  <button id="buy-jobless" class="p-3 bg-orange-100 border-2 border-orange-300 disabled:opacity-50 text-black rounded-xl">
-  <span class="font-bold">Jobless People</span><br>
-  <span class="text-xs">+1 Auto-click (Cost: 150)</span>
-  </button>
- 
-  <button id="buy-tinytask" class="p-3 bg-blue-100 border-2 border-blue-400 disabled:opacity-50 text-black rounded-xl">
-  <span class="font-bold">Tiny Task</span><br>
-  <span class="text-xs">+10 Auto-click (Cost: 750)</span>
-  </button>
-
-  <button id="buy-aiintern" class="p-3 bg-violet-100 border-2 border-violet-400 disabled:opacity-50 text-black rounded-xl">
-  <span class="font-bold">AI Intern</span><br>
-  <span class="text-xs">+50 Auto-click (Cost: 5000)</span>
-  </button>
-
-  <button id="buy-macbook" class="p-3 bg-gray-100 border-2 border-gray-400 disabled:opacity-50 text-black rounded-xl">
-  <span class="font-bold">MacBook</span><br>
-  <span class="text-xs">+100 per click (Cost: 25000)</span>
-  </button>
-  </div>
-  <button id="reset-clicks-btn" class="mt-4 text-xs text-red-400 hover:text-red-600 underline">Reset all progress</button>
-  </div>
-  </div>
-
-  
-
-  <div id="comments" class="tabcontent text-left">
-    <h1 class="text-3xl font-bold text-gray-800 mb-4">Comments</h1>
-    <div class="bg-gray-100 p-4 rounded-2xl mb-6">
-      <input type="text" id="comment-name" placeholder="Your name" class="w-full p-2 mb-2 rounded-lg border focus:outline-purple-500">
-      <textarea id="comment-text" placeholder="Say something..." class="w-full p-2 mb-2 rounded-lg border focus:outline-purple-500"></textarea>
-      <button id="submit-comment-btn" class="px-6 py-2 bg-purple-600 text-white font-bold rounded-full hover:bg-purple-700">Post</button>
-    </div>
-    <div id="comments-container" class="space-y-4 mb-8">
-      <p class="text-gray-500 italic">Loading comments...</p>
-    </div>
-  </div>
-
-  <div id="socials" class="tabcontent">
-      <h1 class="text-3xl font-bold text-gray-800 mb-6">Find me online</h1>
-     <div class="flex justify-center gap-12 py-10">
-
-<a href="https://github.com/krxzy101" target="_blank" class="group flex flex-col items-center">
-<i class="fa-brands fa-github w-12 h-12 text-gray-600 group-hover:text-black transition-all transform group-hover:scale-125"></i>
-<span class="mt-2 font-bold text-gray-500">GitHub</span>
-</a>
-<a href="https://mail.google.com/mail/?view=cm&fs=1&to=adi.chopra2408@gmail.com" target="_blank" class="group flex flex-col items-center">
-<i class="fa-solid fa-envelope w-12 h-12 text-gray-600 group-hover:text-black transition-all transform group-hover:scale-125"></i>
-<span class="mt-2 font-bold text-gray-500">Gmail</span>
-</a>
-
-<a href="https://www.instagram.com/big_adittt/" target="_blank" class="group flex flex-col items-center">
-<i class="fa-brands fa-instagram w-12 h-12 text-gray-600 group-hover:text-black transition-all transform group-hover:scale-125"></i>
-<span class="mt-2 font-bold text-gray-500">Instagram</span>
-</a>
-
-</div>
-</div>
-
-  <div id="gallery" class="tabcontent">
-    <h1 class="text-3xl font-bold text-gray-800 mb-2">Photos</h1>
-    <p class="text-gray-600 mb-6">Random stuff from my hobbies.</p>
-    <div class="gallery-grid">
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1622279453346-5d26a6e2c7c7?w=400&h=400&fit=crop" alt="Tennis"><span>Tennis</span></div>
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1546519638-68b109498ffc?w=400&h=400&fit=crop" alt="Basketball"><span>Basketball</span></div>
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1612817159949-195245613dae?w=400&h=400&fit=crop" alt="3D Printing"><span>3D Printing</span></div>
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=400&h=400&fit=crop" alt="Photography"><span>Photography</span></div>
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=400&fit=crop" alt="Coding"><span>Coding</span></div>
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop" alt="California"><span>Campbell, CA</span></div>
-    </div>
-  </div>
-
-  <div id="contact" class="tabcontent text-left">
-    <h1 class="text-3xl font-bold text-gray-800 mb-2">Contact</h1>
-    <p class="text-gray-600 mb-6">Want to say hi or talk about something? Send a message.</p>
-
-    <div class="bg-gray-100 p-5 rounded-2xl max-w-lg mx-auto">
-      <input type="text" id="contact-name" placeholder="Your name" class="contact-field">
-      <input type="email" id="contact-email" placeholder="Your email" class="contact-field">
-      <textarea id="contact-message" placeholder="Your message..." rows="5" class="contact-field"></textarea>
-      <button id="send-contact-btn" class="w-full px-6 py-3 bg-purple-600 text-white font-bold rounded-full hover:bg-purple-700 transition-colors">
-        <i class="fa-solid fa-paper-plane mr-2"></i>Send via Gmail
+      <button id="dark-mode-btn" title="Toggle dark mode" class="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-all hover:scale-110">
+        <i id="dark-mode-icon" class="fa-solid fa-moon text-gray-700"></i>
       </button>
     </div>
 
-    <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-sm">
-      <div class="p-4 rounded-xl border border-gray-200">
-        <i class="fa-solid fa-envelope text-purple-600 text-xl mb-2"></i>
-        <p class="font-bold text-gray-800">Email</p>
-        <p class="text-gray-500">adi.chopra2408@gmail.com</p>
-      </div>
-      <div class="p-4 rounded-xl border border-gray-200">
-        <i class="fa-solid fa-location-dot text-purple-600 text-xl mb-2"></i>
-        <p class="font-bold text-gray-800">Location</p>
-        <p class="text-gray-500">Campbell, California</p>
-      </div>
-      <div class="p-4 rounded-xl border border-gray-200">
-        <i class="fa-brands fa-github text-purple-600 text-xl mb-2"></i>
-        <p class="font-bold text-gray-800">GitHub</p>
-        <p class="text-gray-500">@krxzy101</p>
-      </div>
-    </div>
-  </div>
+    <div id="page-content">
 
-  <div id="funzone" class="tabcontent">
-    <h1 class="text-3xl font-bold text-gray-800 mb-2">Fun Zone</h1>
-    <p class="text-gray-600 mb-6">A few mini games if you're bored.</p>
+      <!-- HOME PAGE -->
+      <div id="about" class="tabcontent active text-left">
+        <div id="visit-badge">Visit #1</div>
+        <h1 class="text-3xl font-bold text-gray-800">Hi, I'm Aditya</h1>
+        <p class="text-xl text-gray-600 mt-2">I'm 14 and live in Campbell, CA. I like coding, basketball, tennis, 3D printing, and photography.</p>
+        <blockquote id="daily-quote" class="mt-6 p-4 border-l-4 border-purple-500 bg-purple-50 rounded-r-xl text-gray-700 italic"></blockquote>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div class="game-card">
-        <h2 class="text-lg font-bold text-gray-800 mb-3"><i class="fa-solid fa-hand-scissors mr-2 text-purple-600"></i>Rock Paper Scissors</h2>
-        <p id="rps-result" class="text-gray-600 mb-4 min-h-[1.5rem]">Pick one!</p>
-        <button class="rps-btn bg-stone-200 hover:bg-stone-300" data-rps="rock">🪨 Rock</button>
-        <button class="rps-btn bg-orange-200 hover:bg-orange-300" data-rps="paper">📄 Paper</button>
-        <button class="rps-btn bg-blue-200 hover:bg-blue-300" data-rps="scissors">✂️ Scissors</button>
-        <p id="rps-score" class="text-sm text-gray-500 mt-3 font-mono">You: 0 · CPU: 0</p>
+        <div class="mt-8">
+          <h2 class="text-xl font-bold text-gray-800 mb-4"><i class="fa-solid fa-chart-simple mr-2 text-purple-600"></i>Stuff I'm into</h2>
+          <div class="space-y-3">
+            <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Web Dev</span><span class="text-gray-500">75%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="75"></div></div></div>
+            <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Python / JS</span><span class="text-gray-500">70%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="70"></div></div></div>
+            <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Tennis</span><span class="text-gray-500">80%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="80"></div></div></div>
+            <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">3D Printing</span><span class="text-gray-500">65%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="65"></div></div></div>
+            <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Basketball</span><span class="text-gray-500">60%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="60"></div></div></div>
+            <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Photography</span><span class="text-gray-500">55%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="55"></div></div></div>
+          </div>
+        </div>
       </div>
 
-      <div class="game-card">
-        <h2 class="text-lg font-bold text-gray-800 mb-3"><i class="fa-solid fa-dice mr-2 text-purple-600"></i>Guess the Number</h2>
-        <p class="text-gray-600 text-sm mb-3">I'm thinking of a number 1–100.</p>
-        <input type="number" id="guess-input" min="1" max="100" placeholder="Your guess" class="contact-field text-center mb-2">
-        <button id="guess-btn" class="guess-btn bg-purple-600 text-white hover:bg-purple-700">Guess!</button>
-        <button id="guess-reset-btn" class="guess-btn bg-gray-200 text-gray-700 hover:bg-gray-300">New Game</button>
-        <p id="guess-result" class="text-gray-600 mt-3 min-h-[1.5rem] text-sm"></p>
-        <p id="guess-attempts" class="text-xs text-gray-400 font-mono"></p>
+      <!-- TIMELINE PAGE -->
+      <div id="timeline" class="tabcontent text-left">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Timeline</h1>
+        <p class="text-gray-600 mb-6">Some stuff that's happened so far.</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <p class="timeline-year">2026</p>
+            <h3 class="font-bold text-gray-800 mt-1">Built this site</h3>
+            <p class="text-gray-600 text-sm mt-1">Made this for Macondo and kept adding to it. Still working on it.</p>
+          </div>
+          <div class="timeline-item">
+            <p class="timeline-year">2025</p>
+            <h3 class="font-bold text-gray-800 mt-1">Campfire + Stardance</h3>
+            <p class="text-gray-600 text-sm mt-1">Won 1st at Campfire (got a 3D printer) and became a Stardance ambassador.</p>
+          </div>
+          <div class="timeline-item">
+            <p class="timeline-year">2024–2025</p>
+            <h3 class="font-bold text-gray-800 mt-1">Tennis</h3>
+            <p class="text-gray-600 text-sm mt-1">Played competitively for about two years.</p>
+          </div>
+          <div class="timeline-item">
+            <p class="timeline-year">Now</p>
+            <h3 class="font-bold text-gray-800 mt-1">Coding + Godot</h3>
+            <p class="text-gray-600 text-sm mt-1">Learning web dev and starting a game in Godot for my next Macondo project.</p>
+          </div>
+        </div>
       </div>
 
-      <div class="game-card">
-        <h2 class="text-lg font-bold text-gray-800 mb-3"><i class="fa-solid fa-clone mr-2 text-purple-600"></i>Memory Match</h2>
-        <p id="memory-status" class="text-gray-600 text-sm mb-3">Flip cards to find pairs!</p>
-        <div id="memory-grid" class="memory-grid"></div>
-        <button id="memory-reset-btn" class="guess-btn bg-gray-200 text-gray-700 hover:bg-gray-300 mt-3">New Board</button>
-        <p id="memory-moves" class="text-xs text-gray-400 font-mono mt-2"></p>
+      <!-- GOALS PAGE -->
+      <div id="goals" class="tabcontent text-left">
+        <h1 class="text-3xl font-bold text-gray-800">Goals</h1>
+        <p class="text-sm text-gray-500 mt-2 mb-4">Things I'm working toward — check them off if you want (saves on your device).</p>
+        <ul id="goals-list" class="mt-4 text-left text-gray-700 space-y-3">
+          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="0"><span>I want to become a proficient web developer.</span></li>
+          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="1"><span>Get the Macbook from the Macondo shop to code better.</span></li>
+          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="2"><span>Go to either Cal Poly or UC Berkeley.</span></li>
+          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="3"><span>Work for the Top 10 tech companies when I graduate.</span></li>
+          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="4"><span>I have participated in Campfire and won 1st with a 3D printer as the prize.</span></li>
+          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="5"><span>I have gotten accepted as an ambassador for Stardance.</span></li>
+          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="6"><span>I have played tennis competitively for 2 years.</span></li>
+          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="7"><span>Try to get Minecraft using this website</span></li>
+          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="8"><span>Start a Godot Game as my next project for Macondo</span></li>
+          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="9"><span>Volunteer at my local library</span></li>
+        </ul>
+        <p id="goals-progress" class="mt-4 text-sm font-bold text-purple-600"></p>
+        <div class="flex justify-center items-center mt-6">
+          <img class="w-64 rounded-xl shadow" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4RR1mL5PF3zW09tpA1WM7ZsZ4ibc2my9Oww&s" alt="RedHack Club Logo"/>
+        </div>
       </div>
 
-      <div class="game-card">
-        <h2 class="text-lg font-bold text-gray-800 mb-3"><i class="fa-solid fa-keyboard mr-2 text-purple-600"></i>Typing Sprint</h2>
-        <p class="text-gray-600 text-sm mb-3">Type the phrase as fast as you can.</p>
-        <div id="typing-display" class="typing-display text-left text-gray-700"></div>
-        <input type="text" id="typing-input" placeholder="Start typing…" class="contact-field text-center" autocomplete="off">
-        <p id="typing-stats" class="text-sm text-gray-500 font-mono mt-2"></p>
-        <button id="typing-reset-btn" class="guess-btn bg-purple-600 text-white hover:bg-purple-700 mt-2">New Phrase</button>
+      <!-- GALLERY PAGE -->
+      <div id="gallery" class="tabcontent">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Photos</h1>
+        <p class="text-gray-600 mb-6">Random stuff from my hobbies.</p>
+        <div class="gallery-grid">
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1622279453346-5d26a6e2c7c7?w=400&h=400&fit=crop" alt="Tennis"><span>Tennis</span></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1546519638-68b109498ffc?w=400&h=400&fit=crop" alt="Basketball"><span>Basketball</span></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1612817159949-195245613dae?w=400&h=400&fit=crop" alt="3D Printing"><span>3D Printing</span></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=400&h=400&fit=crop" alt="Photography"><span>Photography</span></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=400&fit=crop" alt="Coding"><span>Coding</span></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop" alt="California"><span>Campbell, CA</span></div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div id="timeline" class="tabcontent text-left">
-    <h1 class="text-3xl font-bold text-gray-800 mb-2">Timeline</h1>
-    <p class="text-gray-600 mb-6">Some stuff that's happened so far.</p>
-    <div class="timeline">
-      <div class="timeline-item">
-        <p class="timeline-year">2026</p>
-        <h3 class="font-bold text-gray-800 mt-1">Built this site</h3>
-        <p class="text-gray-600 text-sm mt-1">Made this for Macondo and kept adding to it. Still working on it.</p>
+      <!-- CONTACT PAGE -->
+      <div id="contact" class="tabcontent text-left">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Contact</h1>
+        <p class="text-gray-600 mb-6">Want to say hi or talk about something? Send a message.</p>
+        <div class="bg-gray-100 p-5 rounded-2xl max-w-lg mx-auto">
+          <input type="text" id="contact-name" placeholder="Your name" class="contact-field">
+          <input type="email" id="contact-email" placeholder="Your email" class="contact-field">
+          <textarea id="contact-message" placeholder="Your message..." rows="5" class="contact-field"></textarea>
+          <button id="send-contact-btn" class="w-full px-6 py-3 bg-purple-600 text-white font-bold rounded-full hover:bg-purple-700 transition-colors">
+            <i class="fa-solid fa-paper-plane mr-2"></i>Send via Gmail
+          </button>
+        </div>
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-sm">
+          <div class="p-4 rounded-xl border border-gray-200">
+            <i class="fa-solid fa-envelope text-purple-600 text-xl mb-2"></i>
+            <p class="font-bold text-gray-800">Email</p>
+            <p class="text-gray-500 text-xs break-all">adi.chopra2408@gmail.com</p>
+          </div>
+          <div class="p-4 rounded-xl border border-gray-200">
+            <i class="fa-solid fa-location-dot text-purple-600 text-xl mb-2"></i>
+            <p class="font-bold text-gray-800">Location</p>
+            <p class="text-gray-500">Campbell, California</p>
+          </div>
+          <div class="p-4 rounded-xl border border-gray-200">
+            <i class="fa-brands fa-github text-purple-600 text-xl mb-2"></i>
+            <p class="font-bold text-gray-800">GitHub</p>
+            <p class="text-gray-500">@krxzy101</p>
+          </div>
+        </div>
       </div>
-      <div class="timeline-item">
-        <p class="timeline-year">2025</p>
-        <h3 class="font-bold text-gray-800 mt-1">Campfire + Stardance</h3>
-        <p class="text-gray-600 text-sm mt-1">Won 1st at Campfire (got a 3D printer) and became a Stardance ambassador.</p>
+
+      <!-- SOCIALS PAGE -->
+      <div id="socials" class="tabcontent">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Find me online</h1>
+        <div class="flex justify-center gap-12 py-10">
+          <a href="https://github.com/krxzy101" target="_blank" class="group flex flex-col items-center">
+            <i class="fa-brands fa-github text-5xl text-gray-600 group-hover:text-black transition-all transform group-hover:scale-125"></i>
+            <span class="mt-2 font-bold text-gray-500">GitHub</span>
+          </a>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=adi.chopra2408@gmail.com" target="_blank" class="group flex flex-col items-center">
+            <i class="fa-solid fa-envelope text-5xl text-gray-600 group-hover:text-red-500 transition-all transform group-hover:scale-125"></i>
+            <span class="mt-2 font-bold text-gray-500">Gmail</span>
+          </a>
+          <a href="https://www.instagram.com/big_adittt/" target="_blank" class="group flex flex-col items-center">
+            <i class="fa-brands fa-instagram text-5xl text-gray-600 group-hover:text-pink-500 transition-all transform group-hover:scale-125"></i>
+            <span class="mt-2 font-bold text-gray-500">Instagram</span>
+          </a>
+        </div>
       </div>
-      <div class="timeline-item">
-        <p class="timeline-year">2024–2025</p>
-        <h3 class="font-bold text-gray-800 mt-1">Tennis</h3>
-        <p class="text-gray-600 text-sm mt-1">Played competitively for about two years.</p>
+
+      <!-- CLICKER GAME PAGE -->
+      <div id="minigame" class="tabcontent">
+        <h1 class="text-2xl font-bold mb-4">Click Counter</h1>
+        <h2 class="text-6xl font-black text-purple-500 mb-2" id="display">0</h2>
+        <p id="cps-display" class="text-sm text-gray-500 mb-6 font-mono">+0 per second · +1 per click</p>
+        <button id="click-me-btn" class="px-8 py-4 bg-purple-50 text-purple-600 border-2 border-purple-500 rounded-full font-bold text-2xl shadow-lg hover:bg-purple-600 hover:text-white active:scale-95 transition-all">Click Me!</button>
+        <p class="text-xs text-gray-400 mt-3 mb-6">Tip: hit <kbd class="px-1 bg-gray-200 rounded text-gray-600">Space</kbd> to click faster</p>
+
+        <div class="border-t pt-4">
+          <h3 class="text-xl font-bold mb-3 italic text-gray-700">ClickedIn Shop</h3>
+          <div class="shop-row">
+            <button id="buy-homeless" class="p-3 bg-stone-100 border-2 border-stone-300 disabled:opacity-50 text-black rounded-xl"></button>
+            <button id="buy-jobless" class="p-3 bg-orange-100 border-2 border-orange-300 disabled:opacity-50 text-black rounded-xl"></button>
+            <button id="buy-tinytask" class="p-3 bg-blue-100 border-2 border-blue-400 disabled:opacity-50 text-black rounded-xl"></button>
+            <button id="buy-aiintern" class="p-3 bg-violet-100 border-2 border-violet-400 disabled:opacity-50 text-black rounded-xl"></button>
+            <button id="buy-macbook" class="p-3 bg-gray-100 border-2 border-gray-400 disabled:opacity-50 text-black rounded-xl"></button>
+          </div>
+          <button id="reset-clicks-btn" class="mt-6 text-xs text-red-400 hover:text-red-600 underline">Reset all progress</button>
+        </div>
       </div>
-      <div class="timeline-item">
-        <p class="timeline-year">Now</p>
-        <h3 class="font-bold text-gray-800 mt-1">Coding + Godot</h3>
-        <p class="text-gray-600 text-sm mt-1">Learning web dev and starting a game in Godot for my next Macondo project.</p>
+
+      <!-- FUN ZONE GAMES -->
+      <div id="funzone" class="tabcontent text-left">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Fun Zone</h1>
+        <p class="text-gray-600 mb-6">A few mini games if you're bored.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="game-card">
+            <h2 class="text-lg font-bold text-gray-800 mb-3"><i class="fa-solid fa-hand-scissors mr-2 text-purple-600"></i>Rock Paper Scissors</h2>
+            <p id="rps-result" class="text-gray-600 mb-4 min-h-[1.5rem]">Pick one!</p>
+            <div class="flex justify-center flex-wrap">
+              <button class="rps-btn bg-stone-200 hover:bg-stone-300 text-black" data-rps="rock">🪨 Rock</button>
+              <button class="rps-btn bg-orange-200 hover:bg-orange-300 text-black" data-rps="paper">📄 Paper</button>
+              <button class="rps-btn bg-blue-200 hover:bg-blue-300 text-black" data-rps="scissors">✂️ Scissors</button>
+            </div>
+            <p id="rps-score" class="text-sm text-gray-500 mt-3 font-mono">You: 0 · CPU: 0</p>
+          </div>
+
+          <div class="game-card">
+            <h2 class="text-lg font-bold text-gray-800 mb-3"><i class="fa-solid fa-dice mr-2 text-purple-600"></i>Guess the Number</h2>
+            <p class="text-gray-600 text-sm mb-3">I'm thinking of a number 1–100.</p>
+            <input type="number" id="guess-input" min="1" max="100" placeholder="Your guess" class="contact-field text-center mb-2">
+            <div class="flex justify-center">
+              <button id="guess-btn" class="guess-btn bg-purple-600 text-white hover:bg-purple-700">Guess!</button>
+              <button id="guess-reset-btn" class="guess-btn bg-gray-200 text-gray-700 hover:bg-gray-300">New Game</button>
+            </div>
+            <p id="guess-result" class="text-gray-600 mt-3 min-h-[1.5rem] text-sm"></p>
+            <p id="guess-attempts" class="text-xs text-gray-400 font-mono"></p>
+          </div>
+
+          <div class="game-card">
+            <h2 class="text-lg font-bold text-gray-800 mb-3"><i class="fa-solid fa-clone mr-2 text-purple-600"></i>Memory Match</h2>
+            <p id="memory-status" class="text-gray-600 text-sm mb-3">Flip cards to find pairs!</p>
+            <div id="memory-grid" class="memory-grid"></div>
+            <button id="memory-reset-btn" class="guess-btn bg-gray-200 text-gray-700 hover:bg-gray-300 mt-3">New Board</button>
+            <p id="memory-moves" class="text-xs text-gray-400 font-mono mt-2"></p>
+          </div>
+
+          <div class="game-card">
+            <h2 class="text-lg font-bold text-gray-800 mb-3"><i class="fa-solid fa-keyboard mr-2 text-purple-600"></i>Typing Sprint</h2>
+            <p class="text-gray-600 text-sm mb-3">Type the phrase as fast as you can.</p>
+            <div id="typing-display" class="typing-display text-left text-gray-700"></div>
+            <input type="text" id="typing-input" placeholder="Start typing…" class="contact-field text-center" autocomplete="off">
+            <p id="typing-stats" class="text-sm text-gray-500 font-mono mt-2"></p>
+            <button id="typing-reset-btn" class="guess-btn bg-purple-600 text-white hover:bg-purple-700 mt-2">New Phrase</button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div id="quiz" class="tabcontent text-left">
-    <h1 class="text-3xl font-bold text-gray-800 mb-2">Quiz</h1>
-    <p class="text-gray-600 mb-4">How well do you know me?</p>
-    <p id="quiz-question" class="font-bold text-gray-800 mb-4 text-lg"></p>
-    <div id="quiz-options"></div>
-    <p id="quiz-score" class="text-sm font-bold text-purple-600 mt-4"></p>
-    <button id="quiz-next-btn" class="hidden mt-3 px-6 py-2 bg-purple-600 text-white font-bold rounded-full hover:bg-purple-700">Next Question</button>
-  </div>
+      <!-- QUIZ PAGE -->
+      <div id="quiz" class="tabcontent text-left">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Quiz</h1>
+        <p class="text-gray-600 mb-4">How well do you know me?</p>
+        <p id="quiz-question" class="font-bold text-gray-800 mb-4 text-lg"></p>
+        <div id="quiz-options" class="space-y-2"></div>
+        <p id="quiz-score" class="text-sm font-bold text-purple-600 mt-4"></p>
+        <button id="quiz-next-btn" class="hidden mt-3 px-6 py-2 bg-purple-600 text-white font-bold rounded-full hover:bg-purple-700">Next Question</button>
+      </div>
 
-  <div id="secrets" class="tabcontent text-left">
-    <h1 class="text-3xl font-bold text-gray-800 mb-2">Shortcuts</h1>
-    <p class="text-gray-600 mb-6">A few things that aren't obvious.</p>
+      <!-- COMMENTS PAGE -->
+      <div id="comments" class="tabcontent text-left">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Comments</h1>
+        <div class="bg-gray-100 p-4 rounded-2xl mb-6">
+          <input type="text" id="comment-name" placeholder="Your name" class="w-full p-2 mb-2 rounded-lg border focus:outline-purple-500">
+          <textarea id="comment-text" placeholder="Say something..." class="w-full p-2 mb-2 rounded-lg border focus:outline-purple-500"></textarea>
+          <button id="submit-comment-btn" class="px-6 py-2 bg-purple-600 text-white font-bold rounded-full hover:bg-purple-700">Post</button>
+        </div>
+        <div id="comments-container" class="space-y-4 mb-8">
+          <p class="text-gray-500 italic">Loading comments...</p>
+        </div>
+      </div>
 
-    <div class="secret-card">
-      <p class="font-bold text-gray-800"><i class="fa-solid fa-keyboard mr-2"></i>Keyboard</p>
-      <p class="text-gray-600 text-sm mt-2">Press <kbd>1</kbd>–<kbd>9</kbd> to jump to pages. On the Clicker page, <kbd>Space</kbd> clicks for you.</p>
-    </div>
-    <div class="secret-card">
-      <p class="font-bold text-gray-800"><i class="fa-solid fa-moon mr-2"></i>Dark mode</p>
-      <p class="text-gray-600 text-sm mt-2">Toggle it with the moon button up top. It remembers your choice.</p>
-    </div>
-    <div class="secret-card">
-      <p class="font-bold text-gray-800"><i class="fa-solid fa-link mr-2"></i>Links</p>
-      <p class="text-gray-600 text-sm mt-2">Each page has its own URL — like <span class="text-purple-600 font-mono">#funzone</span> — so you can share a specific page.</p>
-    </div>
-  </div>
+      <!-- KEYBOARD SHORTCUTS / SECRETS PAGE -->
+      <div id="secrets" class="tabcontent text-left">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Shortcuts</h1>
+        <p class="text-gray-600 mb-6">A few things that aren't obvious.</p>
+        <div class="space-y-4">
+          <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+            <p class="font-bold text-gray-800"><i class="fa-solid fa-keyboard mr-2 text-purple-600"></i>Keyboard</p>
+            <p class="text-gray-600 text-sm mt-1">Press <kbd class="px-1 bg-gray-200 border rounded">1</kbd>–<kbd class="px-1 bg-gray-200 border rounded">9</kbd> to jump across the pages. On the Clicker section, hit <kbd class="px-1 bg-gray-200 border rounded">Space</kbd> to click.</p>
+          </div>
+          <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+            <p class="font-bold text-gray-800"><i class="fa-solid fa-moon mr-2 text-purple-600"></i>Dark mode</p>
+            <p class="text-gray-600 text-sm mt-1">Toggle it with the moon button up top. It remembers your choice.</p>
+          </div>
+          <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+            <p class="font-bold text-gray-800"><i class="fa-solid fa-link mr-2 text-purple-600"></i>Links</p>
+            <p class="text-gray-600 text-sm mt-1">Each page has its own URL address — like <span class="text-purple-600 font-mono">#funzone</span> — so you can jump straight here.</p>
+          </div>
+        </div>
+      </div>
 
-      </div><!-- /page-content -->
+    </div><!-- /page-content -->
 
-  <div id="footer-stats"></div>
-    </div><!-- /main-card -->
-  </div><!-- /main-content -->
-</div><!-- /site-layout -->
-
-<button id="close-welcome-btn" class="hidden"></button>
+    <div id="footer-stats" class="mt-8 pt-4 border-t border-gray-100 text-xs text-gray-400 flex flex-wrap justify-center gap-4 font-mono"></div>
+  </div><!-- /main-card -->
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCcikd6Q9P218gx8Y12EJ79NX2PnrwRvRA",
@@ -365,15 +565,112 @@ const quotes = [
   '"Code is like humor. When you have to explain it, it\'s bad." — Cory House',
 ];
 
+const PAGES = [
+  { id: 'about',    label: 'Home',      icon: 'fa-house',           title: 'Aditya' },
+  { id: 'timeline', label: 'Timeline',  icon: 'fa-road',            title: 'Timeline — Aditya' },
+  { id: 'goals',    label: 'Goals',     icon: 'fa-bullseye',        title: 'Goals — Aditya' },
+  { id: 'gallery',  label: 'Gallery',   icon: 'fa-camera',          title: 'Gallery — Aditya' },
+  { id: 'contact',  label: 'Contact',   icon: 'fa-envelope',        title: 'Contact — Aditya' },
+  { id: 'socials',  label: 'Socials',   icon: 'fa-share-nodes',    title: 'Socials — Aditya' },
+  { id: 'minigame', label: 'Clicker',   icon: 'fa-hand-pointer',    title: 'Clicker — Aditya' },
+  { id: 'funzone',  label: 'Fun Zone',  icon: 'fa-gamepad',         title: 'Fun Zone — Aditya' },
+  { id: 'quiz',     label: 'Quiz',      icon: 'fa-circle-question', title: 'Quiz — Aditya' },
+  { id: 'comments', label: 'Comments',  icon: 'fa-comments',        title: 'Comments — Aditya' },
+  { id: 'secrets',  label: 'Shortcuts', icon: 'fa-keyboard',        title: 'Shortcuts — Aditya' },
+];
+
+let currentPage = 'about';
+
+// --- Global UI Helpers ---
 function showToast(message) {
   const container = document.getElementById('toast-container');
   const toast = document.createElement('div');
   toast.className = 'toast';
-  toast.innerHTML = `<i class="fa-solid fa-trophy mr-2"></i>${message}`;
+  toast.innerHTML = `<i class="fa-solid fa-trophy mr-2 text-yellow-400"></i>${message}`;
   container.appendChild(toast);
   setTimeout(() => toast.remove(), 3000);
 }
 
+window.closeWelcome = function() {
+  document.getElementById('welcome-popup').classList.add('fade-hide');
+}
+
+// --- Navigation Handling ---
+function navigateToPage(pageId) {
+  const page = PAGES.find((p) => p.id === pageId);
+  if (!page) return;
+
+  currentPage = pageId;
+  document.querySelectorAll('.tabcontent').forEach((el) => el.classList.remove('active'));
+  
+  const targetTab = document.getElementById(pageId);
+  if (targetTab) targetTab.classList.add('active');
+
+  document.querySelectorAll('.page-link').forEach((link) => {
+    link.classList.toggle('active', link.dataset.page === pageId);
+  });
+
+  document.getElementById('page-title').textContent = page.label;
+  document.title = page.title;
+  history.replaceState(null, '', `#${pageId}`);
+
+  if (pageId === 'about') {
+    setTimeout(() => {
+      document.querySelectorAll('.skill-fill').forEach((bar) => {
+        bar.style.width = `${bar.dataset.skill}%`;
+      });
+    }, 100);
+  }
+
+  closeNavMenu();
+}
+
+function initPageNav() {
+  const nav = document.getElementById('page-nav');
+  PAGES.forEach((page, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'page-link flex items-center justify-between w-full p-2.5 my-0.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100 text-gray-700' + (page.id === 'about' ? ' active bg-purple-50 text-purple-600' : '');
+    btn.dataset.page = page.id;
+    btn.innerHTML = `<span class="flex items-center gap-3"><i class="fa-solid ${page.icon} w-5 text-center text-gray-500"></i> ${page.label}</span><span class="text-xs text-gray-400 font-mono">${i + 1 <= 9 ? i + 1 : 0}</span>`;
+    btn.addEventListener('click', () => navigateToPage(page.id));
+    nav.appendChild(btn);
+  });
+
+  window.addEventListener('hashchange', () => {
+    const id = location.hash.slice(1) || 'about';
+    navigateToPage(PAGES.some((p) => p.id === id) ? id : 'about');
+  });
+
+  const hash = location.hash.slice(1);
+  navigateToPage(PAGES.some((p) => p.id === hash) ? hash : 'about');
+}
+
+// --- Sidebar Toggles ---
+function openNavMenu() {
+  document.getElementById('page-sidebar').classList.add('open');
+  document.getElementById('nav-backdrop').classList.add('open');
+  document.getElementById('page-sidebar').setAttribute('aria-hidden', 'false');
+  document.getElementById('nav-backdrop').setAttribute('aria-hidden', 'false');
+}
+
+function closeNavMenu() {
+  document.getElementById('page-sidebar').classList.remove('open');
+  document.getElementById('nav-backdrop').classList.remove('open');
+  document.getElementById('page-sidebar').setAttribute('aria-hidden', 'true');
+  document.getElementById('nav-backdrop').setAttribute('aria-hidden', 'true');
+}
+
+function initNavMenu() {
+  document.getElementById('nav-menu-btn').addEventListener('click', openNavMenu);
+  document.getElementById('nav-close-btn').addEventListener('click', closeNavMenu);
+  document.getElementById('nav-backdrop').addEventListener('click', closeNavMenu);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeNavMenu();
+  });
+}
+
+// --- App State Initializations ---
 function initVisitCounter() {
   let visits = parseInt(localStorage.getItem('visitCount') || '0', 10) + 1;
   localStorage.setItem('visitCount', visits);
@@ -400,96 +697,30 @@ function initDarkMode() {
 
   applyDark(saved);
   btn.addEventListener('click', () => applyDark(!document.body.classList.contains('dark-mode')));
-
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (localStorage.getItem('darkMode') === null) applyDark(e.matches);
-  });
-}
-
-function openNavMenu() {
-  document.getElementById('page-sidebar').classList.add('open');
-  document.getElementById('nav-backdrop').classList.add('open');
-  document.getElementById('nav-menu-btn').classList.add('open');
-  document.getElementById('nav-menu-btn').setAttribute('aria-expanded', 'true');
-  document.getElementById('page-sidebar').setAttribute('aria-hidden', 'false');
-  document.getElementById('nav-backdrop').setAttribute('aria-hidden', 'false');
-  document.body.classList.add('nav-open');
-}
-
-function closeNavMenu() {
-  document.getElementById('page-sidebar').classList.remove('open');
-  document.getElementById('nav-backdrop').classList.remove('open');
-  document.getElementById('nav-menu-btn').classList.remove('open');
-  document.getElementById('nav-menu-btn').setAttribute('aria-expanded', 'false');
-  document.getElementById('page-sidebar').setAttribute('aria-hidden', 'true');
-  document.getElementById('nav-backdrop').setAttribute('aria-hidden', 'true');
-  document.body.classList.remove('nav-open');
-}
-
-function initNavMenu() {
-  document.getElementById('nav-menu-btn').addEventListener('click', () => {
-    const sidebar = document.getElementById('page-sidebar');
-    sidebar.classList.contains('open') ? closeNavMenu() : openNavMenu();
-  });
-  document.getElementById('nav-close-btn').addEventListener('click', closeNavMenu);
-  document.getElementById('nav-backdrop').addEventListener('click', closeNavMenu);
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeNavMenu();
-  });
-}
-
-const milestones = [100, 500, 1000, 5000, 10000];
-let unlockedMilestones = JSON.parse(localStorage.getItem('milestones') || '[]');
-
-function checkMilestones() {
-  const total = Math.floor(clicks);
-  milestones.forEach((m) => {
-    if (total >= m && !unlockedMilestones.includes(m)) {
-      unlockedMilestones.push(m);
-      localStorage.setItem('milestones', JSON.stringify(unlockedMilestones));
-      showToast(`${m.toLocaleString()} clicks`);
-    }
-  });
-}
-
-function spawnClickParticle(x, y, value) {
-  const p = document.createElement('div');
-  p.className = 'click-particle';
-  p.textContent = `+${value}`;
-  p.style.left = `${x}px`;
-  p.style.top = `${y}px`;
-  document.body.appendChild(p);
-  setTimeout(() => p.remove(), 800);
 }
 
 function initSkillBars() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.querySelectorAll('.skill-fill').forEach((bar) => {
-          bar.style.width = `${bar.dataset.skill}%`;
-        });
-      }
-    });
-  }, { threshold: 0.3 });
-  const about = document.getElementById('about');
-  if (about) observer.observe(about);
+  document.querySelectorAll('.skill-fill').forEach((bar) => {
+    bar.style.width = `${bar.dataset.skill}%`;
+  });
 }
 
 function initGoalsChecklist() {
   const saved = JSON.parse(localStorage.getItem('checkedGoals') || '{}');
   const checks = document.querySelectorAll('.goal-check');
+  
   checks.forEach((cb) => {
     const id = cb.dataset.goal;
     cb.checked = !!saved[id];
     if (cb.checked) cb.parentElement.querySelector('span').classList.add('goal-done');
+    
     cb.addEventListener('change', () => {
       saved[id] = cb.checked;
       localStorage.setItem('checkedGoals', JSON.stringify(saved));
       cb.parentElement.querySelector('span').classList.toggle('goal-done', cb.checked);
       updateGoalsProgress();
       if (checks.length === Object.values(saved).filter(Boolean).length) {
-        showToast('All goals checked');
+        showToast('All goals checked!');
       }
     });
   });
@@ -502,63 +733,58 @@ function updateGoalsProgress() {
   document.getElementById('goals-progress').textContent = `${done} / ${checks.length} goals checked`;
 }
 
-function initKeyboardShortcuts() {
-  document.addEventListener('keydown', (e) => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-    if (e.key === '0' && PAGES.length >= 10) {
-      navigateToPage(PAGES[9].id);
-      return;
-    }
-    const num = parseInt(e.key, 10);
-    if (num >= 1 && num <= Math.min(9, PAGES.length)) {
-      navigateToPage(PAGES[num - 1].id);
-    }
-    if (e.code === 'Space' && currentPage === 'minigame') {
-      e.preventDefault();
-      addClick(e);
+// --- Incremental Clicker Game ---
+let clicks = parseFloat(localStorage.getItem('clicks')) || 0;
+let clickValue = parseFloat(localStorage.getItem('clickValue')) || 1;
+let autoValue = parseFloat(localStorage.getItem('autoValue')) || 0;
+let counts = JSON.parse(localStorage.getItem('counts')) || { homeless: 0, jobless: 0, tinytask: 0, aiintern: 0, macbook: 0 };
+
+const basePrices = { homeless: 15, jobless: 150, tinytask: 750, aiintern: 5000, macbook: 25000 };
+const milestones = [100, 500, 1000, 5000, 10000];
+let unlockedMilestones = JSON.parse(localStorage.getItem('milestones') || '[]');
+
+function getPrice(item) {
+  return Math.floor(basePrices[item] * Math.pow(1.15, counts[item] || 0));
+}
+
+function checkMilestones() {
+  const total = Math.floor(clicks);
+  milestones.forEach((m) => {
+    if (total >= m && !unlockedMilestones.includes(m)) {
+      unlockedMilestones.push(m);
+      localStorage.setItem('milestones', JSON.stringify(unlockedMilestones));
+      showToast(`${m.toLocaleString()} clicks achieved!`);
     }
   });
 }
 
-function updateFooterStats() {
-  const total = Math.floor(clicks);
-  const upgrades = counts.homeless + counts.jobless + counts.tinytask + counts.aiintern + counts.macbook;
-  document.getElementById('footer-stats').innerHTML = `
-    <span><i class="fa-solid fa-hand-pointer mr-1"></i>${total.toLocaleString()} total clicks</span>
-    <span><i class="fa-solid fa-cart-shopping mr-1"></i>${upgrades} upgrades owned</span>
-    <span><i class="fa-solid fa-bolt mr-1"></i>${autoValue}/sec auto</span>
-  `;
+function spawnClickParticle(x, y, value) {
+  const p = document.createElement('div');
+  p.style.position = 'fixed';
+  p.style.left = `${x}px`;
+  p.style.top = `${y}px`;
+  p.style.transform = 'translate(-50%, -50%)';
+  p.style.color = '#a855f7';
+  p.style.fontWeight = '900';
+  p.style.fontSize = '1.25rem';
+  p.style.pointerEvents = 'none';
+  p.style.zIndex = '1000';
+  p.textContent = `+${value}`;
+  document.body.appendChild(p);
+
+  let start = Date.now();
+  let anim = setInterval(() => {
+    let elapsed = Date.now() - start;
+    if (elapsed > 800) {
+      clearInterval(anim);
+      p.remove();
+    } else {
+      p.style.top = `${y - (elapsed / 800) * 50}px`;
+      p.style.opacity = `${1 - (elapsed / 800)}`;
+    }
+  }, 16);
 }
 
-window.closeWelcome = function() {
-  document.getElementById('welcome-popup').classList.add('fade-hide');
-}
-
-let clicks = parseFloat(localStorage.getItem('clicks')) || 0;
-let clickValue = parseFloat(localStorage.getItem('clickValue')) || 1;
-let autoValue = parseFloat(localStorage.getItem('autoValue')) || 0;
-
-let counts = JSON.parse(localStorage.getItem('counts')) || {
-  homeless: 0,
-  jobless: 0,
-  tinytask: 0,
-  aiintern: 0,
-  macbook: 0
-};
-counts.aiintern = counts.aiintern || 0;
-counts.macbook = counts.macbook || 0;
-
-const basePrices = {
-  homeless: 15,
-  jobless: 150,
-  tinytask: 750,
-  aiintern: 5000,
-  macbook: 25000
-};
-
-function getPrice(item) {
-  return Math.floor(basePrices[item] * Math.pow(1.15, counts[item]));
-}
 function updateUI() {
   const homelessPrice = getPrice('homeless');
   const joblessPrice = getPrice('jobless');
@@ -566,14 +792,14 @@ function updateUI() {
   const aiinternPrice = getPrice('aiintern');
   const macbookPrice = getPrice('macbook');
   
-  document.getElementById('display').innerText = Math.floor(clicks);
+  document.getElementById('display').innerText = Math.floor(clicks).toLocaleString();
   document.getElementById('cps-display').innerText = `+${autoValue} per second · +${clickValue} per click`;
 
-  document.getElementById('buy-homeless').innerHTML = `<b>Homeless People</b><br><span class="text-xs">+1 per click (Cost: ${homelessPrice}) · Own: ${counts.homeless}</span>`;
-  document.getElementById('buy-jobless').innerHTML = `<b>Jobless People</b><br><span class="text-xs">+1 Auto-click (Cost: ${joblessPrice}) · Own: ${counts.jobless}</span>`;
-  document.getElementById('buy-tinytask').innerHTML = `<b>Tiny Task</b><br><span class="text-xs">+10 Auto-click (Cost: ${tinytaskPrice}) · Own: ${counts.tinytask}</span>`;
-  document.getElementById('buy-aiintern').innerHTML = `<b>AI Intern</b><br><span class="text-xs">+50 Auto-click (Cost: ${aiinternPrice}) · Own: ${counts.aiintern}</span>`;
-  document.getElementById('buy-macbook').innerHTML = `<b>MacBook</b><br><span class="text-xs">+100 per click (Cost: ${macbookPrice}) · Own: ${counts.macbook}</span>`;
+  document.getElementById('buy-homeless').innerHTML = `<b>Homeless People</b><br><span class="text-xs">+1/click (Cost: ${homelessPrice}) · Own: ${counts.homeless}</span>`;
+  document.getElementById('buy-jobless').innerHTML = `<b>Jobless People</b><br><span class="text-xs">+1 Auto (Cost: ${joblessPrice}) · Own: ${counts.jobless}</span>`;
+  document.getElementById('buy-tinytask').innerHTML = `<b>Tiny Task</b><br><span class="text-xs">+10 Auto (Cost: ${tinytaskPrice}) · Own: ${counts.tinytask}</span>`;
+  document.getElementById('buy-aiintern').innerHTML = `<b>AI Intern</b><br><span class="text-xs">+50 Auto (Cost: ${aiinternPrice}) · Own: ${counts.aiintern}</span>`;
+  document.getElementById('buy-macbook').innerHTML = `<b>MacBook</b><br><span class="text-xs">+100/click (Cost: ${macbookPrice}) · Own: ${counts.macbook}</span>`;
 
   document.getElementById('buy-homeless').disabled = clicks < homelessPrice;
   document.getElementById('buy-jobless').disabled = clicks < joblessPrice;
@@ -595,51 +821,25 @@ window.addClick = function(e) {
   updateUI();
 }
 window.buyhomeless = function() {
-let price = getPrice('homeless');
-  if (clicks >= price) {
-    clicks -= price;
-    counts.homeless++;
-    clickValue += 1;
-    updateUI();
-  }
+  let price = getPrice('homeless');
+  if (clicks >= price) { clicks -= price; counts.homeless++; clickValue += 1; updateUI(); }
 }
 window.buyjobless = function() {
   let price = getPrice('jobless');
-  if (clicks >= price) {
-    clicks -= price;
-    counts.jobless++;
-    autoValue += 1;
-    updateUI();
-  }
+  if (clicks >= price) { clicks -= price; counts.jobless++; autoValue += 1; updateUI(); }
 }
 window.buytinytask = function() {
   let price = getPrice('tinytask');
-  if (clicks >= price) {
-    clicks -= price;
-    counts.tinytask++;
-    autoValue += 10;
-    updateUI();
-  }
+  if (clicks >= price) { clicks -= price; counts.tinytask++; autoValue += 10; updateUI(); }
 }
 window.buyaiintern = function() {
   let price = getPrice('aiintern');
-  if (clicks >= price) {
-    clicks -= price;
-    counts.aiintern++;
-    autoValue += 50;
-    updateUI();
-  }
+  if (clicks >= price) { clicks -= price; counts.aiintern++; autoValue += 50; updateUI(); }
 }
 window.buymacbook = function() {
   let price = getPrice('macbook');
-  if (clicks >= price) {
-    clicks -= price;
-    counts.macbook++;
-    clickValue += 100;
-    updateUI();
-  }
+  if (clicks >= price) { clicks -= price; counts.macbook++; clickValue += 100; updateUI(); }
 }
-
 window.resetProgress = function() {
   if (!confirm('Reset ALL clicker progress? This cannot be undone.')) return;
   clicks = 0; clickValue = 1; autoValue = 0;
@@ -647,84 +847,24 @@ window.resetProgress = function() {
   unlockedMilestones = [];
   localStorage.removeItem('milestones');
   updateUI();
-  showToast('Progress reset');
+  showToast('Progress reset completed.');
 }
 
 setInterval(() => {
-  if (autoValue > 0) {
-    clicks += autoValue;
-  updateUI();
-  }
+  if (autoValue > 0) { clicks += autoValue; updateUI(); }
 }, 1000);
 
-const PAGES = [
-  { id: 'about',    label: 'Home',      icon: 'fa-house',          title: 'Aditya' },
-  { id: 'timeline', label: 'Timeline',  icon: 'fa-road',           title: 'Timeline — Aditya' },
-  { id: 'goals',    label: 'Goals',     icon: 'fa-bullseye',       title: 'Goals — Aditya' },
-  { id: 'gallery',  label: 'Gallery',   icon: 'fa-camera',         title: 'Gallery — Aditya' },
-  { id: 'contact',  label: 'Contact',   icon: 'fa-envelope',       title: 'Contact — Aditya' },
-  { id: 'socials',  label: 'Socials',   icon: 'fa-share-nodes',    title: 'Socials — Aditya' },
-  { id: 'minigame', label: 'Clicker',   icon: 'fa-hand-pointer',   title: 'Clicker — Aditya' },
-  { id: 'funzone',  label: 'Fun Zone',  icon: 'fa-gamepad',        title: 'Fun Zone — Aditya' },
-  { id: 'quiz',     label: 'Quiz',      icon: 'fa-circle-question',title: 'Quiz — Aditya' },
-  { id: 'comments', label: 'Comments',  icon: 'fa-comments',       title: 'Comments — Aditya' },
-  { id: 'secrets',  label: 'Shortcuts', icon: 'fa-keyboard',       title: 'Shortcuts — Aditya' },
-];
-
-let currentPage = 'about';
-
-function navigateToPage(pageId) {
-  const page = PAGES.find((p) => p.id === pageId);
-  if (!page) return;
-
-  currentPage = pageId;
-  document.querySelectorAll('.tabcontent').forEach((el) => el.classList.remove('active'));
-  document.getElementById(pageId).classList.add('active');
-
-  document.querySelectorAll('.page-link').forEach((link) => {
-    link.classList.toggle('active', link.dataset.page === pageId);
-  });
-
-  document.getElementById('page-title').textContent = page.label;
-  document.title = page.title;
-  history.replaceState(null, '', `#${pageId}`);
-
-  closeNavMenu();
+function updateFooterStats() {
+  const total = Math.floor(clicks);
+  const upgrades = counts.homeless + counts.jobless + counts.tinytask + counts.aiintern + counts.macbook;
+  document.getElementById('footer-stats').innerHTML = `
+    <span><i class="fa-solid fa-hand-pointer mr-1"></i>${total.toLocaleString()} clicks</span>
+    <span><i class="fa-solid fa-cart-shopping mr-1"></i>${upgrades} upgrades owned</span>
+    <span><i class="fa-solid fa-bolt mr-1"></i>${autoValue}/sec auto</span>
+  `;
 }
 
-function initPageNav() {
-  const nav = document.getElementById('page-nav');
-  PAGES.forEach((page, i) => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'page-link' + (page.id === 'about' ? ' active' : '');
-    btn.dataset.page = page.id;
-    btn.innerHTML = `<i class="fa-solid ${page.icon}"></i> ${page.label}<span class="page-link-num">${i + 1}</span>`;
-    btn.addEventListener('click', () => navigateToPage(page.id));
-    nav.appendChild(btn);
-  });
-
-  window.addEventListener('hashchange', () => {
-    const id = location.hash.slice(1) || 'about';
-    navigateToPage(PAGES.some((p) => p.id === id) ? id : 'about');
-  });
-
-  const hash = location.hash.slice(1);
-  navigateToPage(PAGES.some((p) => p.id === hash) ? hash : 'about');
-}
-
-function initContactForm() {
-  document.getElementById('send-contact-btn').addEventListener('click', () => {
-    const name = document.getElementById('contact-name').value.trim();
-    const email = document.getElementById('contact-email').value.trim();
-    const message = document.getElementById('contact-message').value.trim();
-    if (!message) return alert('Please write a message!');
-    const subject = encodeURIComponent(`Website message from ${name || 'Someone'}`);
-    const body = encodeURIComponent(`From: ${name}\nEmail: ${email}\n\n${message}`);
-    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=adi.chopra2408@gmail.com&su=${subject}&body=${body}`, '_blank');
-  });
-}
-
+// --- Fun Zone Module ---
 function initFunZone() {
   const choices = ['rock', 'paper', 'scissors'];
   let rpsYou = 0, rpsCpu = 0;
@@ -822,7 +962,7 @@ function initMemoryGame() {
         lock = false;
         if (document.querySelectorAll('.memory-card.matched').length === cards.length) {
           document.getElementById('memory-status').textContent = `You won in ${moves} moves! 🎉`;
-          showToast(`Cleared in ${moves} moves`);
+          showToast(`Cleared map in ${moves} moves`);
         }
       } else {
         setTimeout(() => {
@@ -873,7 +1013,7 @@ function initTypingSprint() {
       const secs = (Date.now() - startTime) / 1000;
       const wpm = Math.round((target.split(' ').length / secs) * 60);
       document.getElementById('typing-stats').textContent = `Done in ${secs.toFixed(1)}s · ~${wpm} WPM`;
-      showToast(`${wpm} WPM`);
+      showToast(`${wpm} WPM Performance`);
     }
   });
 
@@ -881,6 +1021,7 @@ function initTypingSprint() {
   newPhrase();
 }
 
+// --- Quiz System ---
 const QUIZ_DATA = [
   { q: 'Where does Aditya live?', options: ['Los Angeles', 'Campbell, CA', 'San Francisco', 'Seattle'], answer: 1 },
   { q: 'What prize did he win at Campfire?', options: ['MacBook', '3D Printer', 'Minecraft', 'Trophy only'], answer: 1 },
@@ -916,12 +1057,12 @@ function initQuiz() {
       if (i === correct) b.classList.add('correct');
       else if (i === pick) b.classList.add('wrong');
     });
-    if (pick === correct) { score++; showToast('Correct'); }
+    if (pick === correct) { score++; showToast('Correct Ans!'); }
     if (idx < QUIZ_DATA.length - 1) {
       document.getElementById('quiz-next-btn').classList.remove('hidden');
     } else {
       document.getElementById('quiz-score').textContent = `Finished! You got ${score} / ${QUIZ_DATA.length}`;
-      showToast(`Score: ${score}/${QUIZ_DATA.length}`);
+      showToast(`Final Quiz Score: ${score}/${QUIZ_DATA.length}`);
     }
   });
 
@@ -933,32 +1074,52 @@ function initQuiz() {
   showQuestion();
 }
 
-window.openTab = function(event, tabId) {
-  navigateToPage(tabId);
+// --- Integrations ---
+function initContactForm() {
+  document.getElementById('send-contact-btn').addEventListener('click', () => {
+    const name = document.getElementById('contact-name').value.trim();
+    const email = document.getElementById('contact-email').value.trim();
+    const message = document.getElementById('contact-message').value.trim();
+    if (!message) return alert('Please write a message!');
+    const subject = encodeURIComponent(`Website message from ${name || 'Someone'}`);
+    const body = encodeURIComponent(`From: ${name}\nEmail: ${email}\n\n${message}`);
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=adi.chopra2408@gmail.com&su=${subject}&body=${body}`, '_blank');
+  });
+}
+
+function initKeyboardShortcuts() {
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    const num = parseInt(e.key, 10);
+    if (num >= 1 && num <= Math.min(9, PAGES.length)) {
+      navigateToPage(PAGES[num - 1].id);
+    }
+    if (e.code === 'Space' && currentPage === 'minigame') {
+      e.preventDefault();
+      window.addClick(e);
+    }
+  });
 }
 
 function updateClock() {
   const now = new Date();
-  const time = now.toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  timeZoneName: 'short'
+  document.getElementById('clock').innerText = now.toLocaleTimeString('en-US', {
+    hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short'
   });
-  document.getElementById('clock').innerText = time;
 }
 
-setInterval(updateClock, 1000);
-
-document.getElementById('click-me-btn').addEventListener('click', addClick);
-document.getElementById('buy-homeless').addEventListener('click', buyhomeless);
-document.getElementById('buy-jobless').addEventListener('click', buyjobless);
-document.getElementById('buy-tinytask').addEventListener('click', buytinytask);
-document.getElementById('buy-aiintern').addEventListener('click', buyaiintern);
-document.getElementById('buy-macbook').addEventListener('click', buymacbook);
-document.getElementById('reset-clicks-btn').addEventListener('click', resetProgress);
+// --- Mount Everything ---
+document.getElementById('click-me-btn').addEventListener('click', window.addClick);
+document.getElementById('buy-homeless').addEventListener('click', window.buyhomeless);
+document.getElementById('buy-jobless').addEventListener('click', window.buyjobless);
+document.getElementById('buy-tinytask').addEventListener('click', window.buytinytask);
+document.getElementById('buy-aiintern').addEventListener('click', window.buyaiintern);
+document.getElementById('buy-macbook').addEventListener('click', window.buymacbook);
+document.getElementById('reset-clicks-btn').addEventListener('click', window.resetProgress);
 
 updateClock();
+setInterval(updateClock, 1000);
+
 updateUI();
 initPageNav();
 initVisitCounter();
@@ -974,6 +1135,7 @@ initMemoryGame();
 initTypingSprint();
 initQuiz();
 
+// --- Live Firebase Data Streams ---
 const q = query(collection(db, "comments"), orderBy("timestamp", "desc"));
 onSnapshot(q, (snapshot) => {
   commentsContainer.innerHTML = "";
@@ -984,8 +1146,8 @@ onSnapshot(q, (snapshot) => {
   snapshot.forEach((docSnap) => {
     const data = docSnap.data();
     const msgDiv = document.createElement('div');
-    msgDiv.className = "p-3 bg-white border rounded-xl shadow-sm flex justify-between items-start";
-    msgDiv.innerHTML = `<div><span class="font-bold text-gray-800">${data.name || 'Anonymous'}</span><p class="text-gray-600 mt-1">${data.text || ''}</p></div>`;
+    msgDiv.className = "p-3 bg-white border rounded-xl shadow-sm flex justify-between items-start dark:bg-gray-800 dark:border-gray-700";
+    msgDiv.innerHTML = `<div><span class="font-bold text-gray-800 dark:text-gray-200">${data.name || 'Anonymous'}</span><p class="text-gray-600 mt-1 dark:text-gray-300">${data.text || ''}</p></div>`;
     commentsContainer.appendChild(msgDiv);
   });
 });
