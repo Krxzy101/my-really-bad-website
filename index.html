@@ -246,240 +246,82 @@
 <body class="text-center">
 
 <div id="welcome-popup" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-  <div class="welcome-card bg-white p-10 rounded-3xl shadow-2xl max-w-lg mx-4 border-4 border-white text-center">
-    <h1 class="text-4xl font-black text-gray-800 mb-2">Hey, I'm Aditya</h1>
-    <p class="text-gray-500 mb-4 text-sm">Use the menu on the left to look around. Dark mode is up top if you want it.</p>
-    <button onclick="closeWelcome()" class="px-10 py-4 bg-purple-600 text-white rounded-full font-bold hover:bg-purple-700 hover:scale-105 transition-all">Enter</button>
+  <div class="bg-white p-10 rounded-3xl shadow-2xl max-w-lg mx-4 border-4 border-white">
+  <h1 class="text-4xl font-black text-gray-800 mb-2">Welcome To My Really Bad Website</h1>
+  <button onclick="closeWelcome()" class="px-10 py-4 bg-purple-600 text-white rounded-full font-bold hover:bg-purple-700 hover:scale-105 transition-all">See More</button>
   </div>
 </div>
+<div class="max-w-4xl mx-auto mt-10 p-6 bg-white/90 backdrop-blur shadow-2xl rounded-3xl">
 
-<div id="toast-container"></div>
+  <div id="clock" class="text-2xl font-mono text-gray-700 mb-4"></div>
 
-<div class="fixed top-4 left-4 z-50">
-  <button id="nav-menu-btn" class="p-3 bg-white/90 shadow-lg rounded-2xl hover:bg-purple-50 text-gray-800 transition-all" type="button" aria-label="Open page menu">
-    <i class="fa-solid fa-bars text-xl"></i>
+  <nav class="flex justify-center gap-x-4 mb-8 border-b pb-4">
+    <button id="about-btn" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">A Bit About Me</button>
+    <button id="goals-btn" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Goals</button>
+    <button id="minigame-btn" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Procrastination</button>
+    <button id="comments-btn" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Comments</button>
+    <button id="socials-btn" class="tab-btn px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 rounded-full font-bold transition-colors">Socials</button>
+  </nav>
+
+  <div id="about" class="tabcontent">
+  <h1 class="text-3xl font-bold text-gray-800">Hello Everyone, I'm Aditya</h1>
+  <p class="text-xl text-gray-600 mt-4">I'm a 14 year old who currently lives in Campbell, California. I love tech and coding and some of my hobbies are playing basketball, tennis, 3D Printing, and taking photos</p>
+  </div>
+
+ <div id ="goals" class="tabcontent hidden">
+  <h1 class="text-3xl font-bold text-gray-800">My Goals/Feats</h1>
+  <ul class="mt-4 text left list-disc list-inside text-gray-700 space-y-2">
+  <li>I want to become a proficient web developer.</li>
+  <li>Get the Macbook from the Macondo shop to code better.</li>
+  <li>Go to either Cal Poly or UC Berkeley.</li>
+  <li>Work for the Top 10 tech companies when I graduate.</li>
+  <li>I have participated in Campfire and won 1st with a 3D printer as the prize.</li>
+  <li>I have gotten accepted as an ambassador for Stardance.</li>
+  <li>I have played tennis competitively for 2 years.</li>
+  <li>Try to get Minecraft using this website</li>
+  <li>Start a Godot Game as my next project for Macondo</li>
+  <li>Volunteer at my local library</li>
+  </ul>
+  <div class="flex justify-center items-center">
+    <img class="w-64 transform translate-y-3" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4RR1mL5PF3zW09tpA1WM7ZsZ4ibc2my9Oww&s" alt="This is the image Of A RedHack Club Logo"/>
+  </div>
+  </div>
+ 
+  <div id="minigame" class="tabcontent hidden">
+  <h1 class="text-2xl font-bold mb-4">Click Counter</h1>
+  <h2 class="text-6xl font-black text-purple-500 mb-6" id="display">0</h2>
+  <div class="flex flex-col items-center justify-center gap-y-10  mb-10">
+  </div>
+  <button id="click-me-btn" class="px-8 py-4 bg-purple-500 text-white rounded-full font-bold text-2xl shadow-lg hover:bg-gray-700 active:scale-95 transition-all">Click Me!</button>
+
+  <div class="border-t pt-4">
+  <h3 class="text-xl font-bold mb-3 italic text-gray-700">ClickedIn Shop</h3>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+
+  <button id="buy-homeless" class="p-3 bg-stone-100 border-2 border-stone-300 disabled:opacity-50 text-black">
+  <span class="font-bold">Homeless People</span><br>
+  <span class="text-xs">+1 per click (Cost: 15)</span>
   </button>
-</div>
 
-<div id="nav-backdrop" class="nav-backdrop" aria-hidden="true"></div>
-
-<aside id="page-sidebar" class="page-sidebar" aria-hidden="true">
-  <div class="flex justify-between items-center mb-6">
-    <p class="text-xl font-black text-purple-600">Aditya's Site</p>
-    <button id="nav-close-btn" class="p-2 text-gray-500 hover:text-black" type="button" aria-label="Close menu">
-      <i class="fa-solid fa-xmark text-xl"></i>
-    </button>
+  <button id="buy-jobless" class="p-3 bg-orange-100 border-2 border-orange-300 disabled:opacity-50 text-black">
+  <span class="font-bold">Jobless People</span><br>
+  <span class="text-xs">+1 Auto-click (Cost: 150)</span>
+  </button>
+ 
+  <button id="buy-tinytask" class="p-3 bg-blue-100 border-2 border-blue-400 disabled:opacity-50 text-black">
+  <span class="font-bold">Tiny Task</span><br>
+  <span class="text-xs">+10 Auto-click (Cost: 750)</span>
+  </button>
   </div>
-  <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Pages</p>
-  <nav id="page-nav" class="space-y-1"></nav>
-</aside>
+  </div>
+  
+  <div class="border-t pt-6 mt-6">
+   <h3 class="text-xl font-bold mb-2 italic text-gray-700">Rebirth Chamber</h3>
+   <p class="class=text-sm font-bold text-purple-700 mb-3">Reset progress for a permanent multiplier!</p>
+   <div class="text-sm font-bold text-purple-700 mb-3">Current Rebirths: <span id="rebirth-count">0</span>| Multiplier: <span id="rebirth-multiplier">1x</span></div>
+  </div>
 
-<div class="pt-20 pb-10 px-4 min-h-screen flex items-center justify-center">
-  <div class="w-full max-w-4xl p-6 md:p-10 bg-white/90 backdrop-blur shadow-2xl rounded-3xl main-card">
-
-    <div class="flex justify-between items-center border-b pb-4 mb-6">
-      <div class="text-left">
-        <p id="page-title" class="text-2xl font-black text-purple-600">Home</p>
-        <div id="clock" class="text-sm font-mono text-gray-500"></div>
-      </div>
-      <button id="dark-mode-btn" title="Toggle dark mode" class="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-all hover:scale-110">
-        <i id="dark-mode-icon" class="fa-solid fa-moon text-gray-700"></i>
-      </button>
-    </div>
-
-    <div id="page-content">
-
-      <!-- HOME PAGE -->
-      <div id="about" class="tabcontent active text-left">
-        <div id="visit-badge">Visit #1</div>
-        <h1 class="text-3xl font-bold text-gray-800">Hi, I'm Aditya</h1>
-        <p class="text-xl text-gray-600 mt-2">I'm 14 and live in Campbell, CA. I like coding, basketball, tennis, 3D printing, and photography.</p>
-        <blockquote id="daily-quote" class="mt-6 p-4 border-l-4 border-purple-500 bg-purple-50 rounded-r-xl text-gray-700 italic"></blockquote>
-
-        <div class="mt-8">
-          <h2 class="text-xl font-bold text-gray-800 mb-4"><i class="fa-solid fa-chart-simple mr-2 text-purple-600"></i>Stuff I'm into</h2>
-          <div class="space-y-3">
-            <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Web Dev</span><span class="text-gray-500">75%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="75"></div></div></div>
-            <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Python / JS</span><span class="text-gray-500">70%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="70"></div></div></div>
-            <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Tennis</span><span class="text-gray-500">80%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="80"></div></div></div>
-            <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">3D Printing</span><span class="text-gray-500">65%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="65"></div></div></div>
-            <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Basketball</span><span class="text-gray-500">60%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="60"></div></div></div>
-            <div><div class="flex justify-between text-sm mb-1"><span class="font-semibold text-gray-700">Photography</span><span class="text-gray-500">55%</span></div><div class="skill-bar"><div class="skill-fill" data-skill="55"></div></div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TIMELINE PAGE -->
-      <div id="timeline" class="tabcontent text-left">
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">Timeline</h1>
-        <p class="text-gray-600 mb-6">Some stuff that's happened so far.</p>
-        <div class="timeline">
-          <div class="timeline-item">
-            <p class="timeline-year">2026</p>
-            <h3 class="font-bold text-gray-800 mt-1">Built this site</h3>
-            <p class="text-gray-600 text-sm mt-1">Made this for Macondo and kept adding to it. Still working on it.</p>
-          </div>
-          <div class="timeline-item">
-            <p class="timeline-year">2025</p>
-            <h3 class="font-bold text-gray-800 mt-1">Campfire + Stardance</h3>
-            <p class="text-gray-600 text-sm mt-1">Won 1st at Campfire (got a 3D printer) and became a Stardance ambassador.</p>
-          </div>
-          <div class="timeline-item">
-            <p class="timeline-year">2024–2025</p>
-            <h3 class="font-bold text-gray-800 mt-1">Tennis</h3>
-            <p class="text-gray-600 text-sm mt-1">Played competitively for about two years.</p>
-          </div>
-          <div class="timeline-item">
-            <p class="timeline-year">Now</p>
-            <h3 class="font-bold text-gray-800 mt-1">Coding + Godot</h3>
-            <p class="text-gray-600 text-sm mt-1">Learning web dev and starting a game in Godot for my next Macondo project.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- GOALS PAGE -->
-      <div id="goals" class="tabcontent text-left">
-        <h1 class="text-3xl font-bold text-gray-800">Goals</h1>
-        <p class="text-sm text-gray-500 mt-2 mb-4">Things I'm working toward — check them off if you want (saves on your device).</p>
-        <ul id="goals-list" class="mt-4 text-left text-gray-700 space-y-3">
-          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="0"><span>I want to become a proficient web developer.</span></li>
-          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="1"><span>Get the Macbook from the Macondo shop to code better.</span></li>
-          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="2"><span>Go to either Cal Poly or UC Berkeley.</span></li>
-          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="3"><span>Work for the Top 10 tech companies when I graduate.</span></li>
-          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="4"><span>I have participated in Campfire and won 1st with a 3D printer as the prize.</span></li>
-          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="5"><span>I have gotten accepted as an ambassador for Stardance.</span></li>
-          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="6"><span>I have played tennis competitively for 2 years.</span></li>
-          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="7"><span>Try to get Minecraft using this website</span></li>
-          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="8"><span>Start a Godot Game as my next project for Macondo</span></li>
-          <li class="flex items-start gap-3"><input type="checkbox" class="goal-check mt-1" data-goal="9"><span>Volunteer at my local library</span></li>
-        </ul>
-        <p id="goals-progress" class="mt-4 text-sm font-bold text-purple-600"></p>
-        <div class="flex justify-center items-center mt-6">
-          <img class="w-64 rounded-xl shadow" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4RR1mL5PF3zW09tpA1WM7ZsZ4ibc2my9Oww&s" alt="RedHack Club Logo"/>
-        </div>
-      </div>
-
-      <!-- GALLERY PAGE -->
-      <div id="gallery" class="tabcontent">
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">Photos</h1>
-        <p class="text-gray-600 mb-6">Random stuff from my hobbies.</p>
-        <div class="gallery-grid">
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1622279453346-5d26a6e2c7c7?w=400&h=400&fit=crop" alt="Tennis"><span>Tennis</span></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1546519638-68b109498ffc?w=400&h=400&fit=crop" alt="Basketball"><span>Basketball</span></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1612817159949-195245613dae?w=400&h=400&fit=crop" alt="3D Printing"><span>3D Printing</span></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=400&h=400&fit=crop" alt="Photography"><span>Photography</span></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=400&fit=crop" alt="Coding"><span>Coding</span></div>
-          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop" alt="California"><span>Campbell, CA</span></div>
-        </div>
-      </div>
-
-      <!-- CONTACT PAGE -->
-      <div id="contact" class="tabcontent text-left">
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">Contact</h1>
-        <p class="text-gray-600 mb-6">Want to say hi or talk about something? Send a message.</p>
-        <div class="bg-gray-100 p-5 rounded-2xl max-w-lg mx-auto">
-          <input type="text" id="contact-name" placeholder="Your name" class="contact-field">
-          <input type="email" id="contact-email" placeholder="Your email" class="contact-field">
-          <textarea id="contact-message" placeholder="Your message..." rows="5" class="contact-field"></textarea>
-          <button id="send-contact-btn" class="w-full px-6 py-3 bg-purple-600 text-white font-bold rounded-full hover:bg-purple-700 transition-colors">
-            <i class="fa-solid fa-paper-plane mr-2"></i>Send via Gmail
-          </button>
-        </div>
-        <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-sm">
-          <div class="p-4 rounded-xl border border-gray-200">
-            <i class="fa-solid fa-envelope text-purple-600 text-xl mb-2"></i>
-            <p class="font-bold text-gray-800">Email</p>
-            <p class="text-gray-500 text-xs break-all">adi.chopra2408@gmail.com</p>
-          </div>
-          <div class="p-4 rounded-xl border border-gray-200">
-            <i class="fa-solid fa-location-dot text-purple-600 text-xl mb-2"></i>
-            <p class="font-bold text-gray-800">Location</p>
-            <p class="text-gray-500">Campbell, California</p>
-          </div>
-          <div class="p-4 rounded-xl border border-gray-200">
-            <i class="fa-brands fa-github text-purple-600 text-xl mb-2"></i>
-            <p class="font-bold text-gray-800">GitHub</p>
-            <p class="text-gray-500">@krxzy101</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- SOCIALS PAGE -->
-      <div id="socials" class="tabcontent">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Find me online</h1>
-        <div class="flex justify-center gap-12 py-10">
-          <a href="https://github.com/krxzy101" target="_blank" class="group flex flex-col items-center">
-            <i class="fa-brands fa-github text-5xl text-gray-600 group-hover:text-black transition-all transform group-hover:scale-125"></i>
-            <span class="mt-2 font-bold text-gray-500">GitHub</span>
-          </a>
-          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=adi.chopra2408@gmail.com" target="_blank" class="group flex flex-col items-center">
-            <i class="fa-solid fa-envelope text-5xl text-gray-600 group-hover:text-red-500 transition-all transform group-hover:scale-125"></i>
-            <span class="mt-2 font-bold text-gray-500">Gmail</span>
-          </a>
-          <a href="https://www.instagram.com/big_adittt/" target="_blank" class="group flex flex-col items-center">
-            <i class="fa-brands fa-instagram text-5xl text-gray-600 group-hover:text-pink-500 transition-all transform group-hover:scale-125"></i>
-            <span class="mt-2 font-bold text-gray-500">Instagram</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- CLICKER GAME PAGE -->
-      <div id="minigame" class="tabcontent">
-        <h1 class="text-2xl font-bold mb-4">Click Counter</h1>
-        <h2 class="text-6xl font-black text-purple-500 mb-2" id="display">0</h2>
-        <p id="cps-display" class="text-sm text-gray-500 mb-6 font-mono">+0 per second · +1 per click</p>
-        <button id="click-me-btn" class="px-8 py-4 bg-purple-50 text-purple-600 border-2 border-purple-500 rounded-full font-bold text-2xl shadow-lg hover:bg-purple-600 hover:text-white active:scale-95 transition-all">Click Me!</button>
-        <p class="text-xs text-gray-400 mt-3 mb-6">Tip: hit <kbd class="px-1 bg-gray-200 rounded text-gray-600">Space</kbd> to click faster</p>
-
-        <div class="border-t pt-4">
-          <h3 class="text-xl font-bold mb-3 italic text-gray-700">ClickedIn Shop</h3>
-          <div class="shop-row">
-            <button id="buy-homeless" class="p-3 bg-stone-100 border-2 border-stone-300 disabled:opacity-50 text-black rounded-xl"></button>
-            <button id="buy-jobless" class="p-3 bg-orange-100 border-2 border-orange-300 disabled:opacity-50 text-black rounded-xl"></button>
-            <button id="buy-tinytask" class="p-3 bg-blue-100 border-2 border-blue-400 disabled:opacity-50 text-black rounded-xl"></button>
-            <button id="buy-aiintern" class="p-3 bg-violet-100 border-2 border-violet-400 disabled:opacity-50 text-black rounded-xl"></button>
-            <button id="buy-macbook" class="p-3 bg-gray-100 border-2 border-gray-400 disabled:opacity-50 text-black rounded-xl"></button>
-          </div>
-          <button id="reset-clicks-btn" class="mt-6 text-xs text-red-400 hover:text-red-600 underline">Reset all progress</button>
-        </div>
-      </div>
-
-      <!-- FUN ZONE GAMES -->
-      <div id="funzone" class="tabcontent text-left">
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">Fun Zone</h1>
-        <p class="text-gray-600 mb-6">A few mini games if you're bored.</p>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="game-card">
-            <h2 class="text-lg font-bold text-gray-800 mb-3"><i class="fa-solid fa-hand-scissors mr-2 text-purple-600"></i>Rock Paper Scissors</h2>
-            <p id="rps-result" class="text-gray-600 mb-4 min-h-[1.5rem]">Pick one!</p>
-            <div class="flex justify-center flex-wrap">
-              <button class="rps-btn bg-stone-200 hover:bg-stone-300 text-black" data-rps="rock">🪨 Rock</button>
-              <button class="rps-btn bg-orange-200 hover:bg-orange-300 text-black" data-rps="paper">📄 Paper</button>
-              <button class="rps-btn bg-blue-200 hover:bg-blue-300 text-black" data-rps="scissors">✂️ Scissors</button>
-            </div>
-            <p id="rps-score" class="text-sm text-gray-500 mt-3 font-mono">You: 0 · CPU: 0</p>
-          </div>
-
-          <div class="game-card">
-            <h2 class="text-lg font-bold text-gray-800 mb-3"><i class="fa-solid fa-dice mr-2 text-purple-600"></i>Guess the Number</h2>
-            <p class="text-gray-600 text-sm mb-3">I'm thinking of a number 1–100.</p>
-            <input type="number" id="guess-input" min="1" max="100" placeholder="Your guess" class="contact-field text-center mb-2">
-            <div class="flex justify-center">
-              <button id="guess-btn" class="guess-btn bg-purple-600 text-white hover:bg-purple-700">Guess!</button>
-              <button id="guess-reset-btn" class="guess-btn bg-gray-200 text-gray-700 hover:bg-gray-300">New Game</button>
-            </div>
-            <p id="guess-result" class="text-gray-600 mt-3 min-h-[1.5rem] text-sm"></p>
-            <p id="guess-attempts" class="text-xs text-gray-400 font-mono"></p>
-          </div>
-
-          <div class="game-card">
-            <h2 class="text-lg font-bold text-gray-800 mb-3"><i class="fa-solid fa-clone mr-2 text-purple-600"></i>Memory Match</h2>
-            <p id="memory-status" class="text-gray-600 text-sm mb-3">Flip cards to find pairs!</p>
-            <div id="memory-grid" class="memory-grid"></div>
-            <button id="memory-reset-btn" class="guess-btn bg-gray-200 text-gray-700 hover:bg-gray-300 mt-3">New Board</button>
-            <p id="memory-moves" class="text-xs text-gray-400 font-mono mt-2"></p>
-          </div>
+  </div>
 
           <div class="game-card">
             <h2 class="text-lg font-bold text-gray-800 mb-3"><i class="fa-solid fa-keyboard mr-2 text-purple-600"></i>Typing Sprint</h2>
@@ -541,6 +383,8 @@
   </div><!-- /main-card -->
 </div>
 
+<button id="close-welcome-btn" class="hidden"></button>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -558,38 +402,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const commentsContainer = document.getElementById('comments-container');
-
-const quotes = [
-  '"The best way to predict the future is to invent it." — Alan Kay',
-  '"First, solve the problem. Then, write the code." — Unknown',
-  '"Code is like humor. When you have to explain it, it\'s bad." — Cory House',
-];
-
-const PAGES = [
-  { id: 'about',    label: 'Home',      icon: 'fa-house',           title: 'Aditya' },
-  { id: 'timeline', label: 'Timeline',  icon: 'fa-road',            title: 'Timeline — Aditya' },
-  { id: 'goals',    label: 'Goals',     icon: 'fa-bullseye',        title: 'Goals — Aditya' },
-  { id: 'gallery',  label: 'Gallery',   icon: 'fa-camera',          title: 'Gallery — Aditya' },
-  { id: 'contact',  label: 'Contact',   icon: 'fa-envelope',        title: 'Contact — Aditya' },
-  { id: 'socials',  label: 'Socials',   icon: 'fa-share-nodes',    title: 'Socials — Aditya' },
-  { id: 'minigame', label: 'Clicker',   icon: 'fa-hand-pointer',    title: 'Clicker — Aditya' },
-  { id: 'funzone',  label: 'Fun Zone',  icon: 'fa-gamepad',         title: 'Fun Zone — Aditya' },
-  { id: 'quiz',     label: 'Quiz',      icon: 'fa-circle-question', title: 'Quiz — Aditya' },
-  { id: 'comments', label: 'Comments',  icon: 'fa-comments',        title: 'Comments — Aditya' },
-  { id: 'secrets',  label: 'Shortcuts', icon: 'fa-keyboard',        title: 'Shortcuts — Aditya' },
-];
-
-let currentPage = 'about';
-
-// --- Global UI Helpers ---
-function showToast(message) {
-  const container = document.getElementById('toast-container');
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.innerHTML = `<i class="fa-solid fa-trophy mr-2 text-yellow-400"></i>${message}`;
-  container.appendChild(toast);
-  setTimeout(() => toast.remove(), 3000);
-}
 
 window.closeWelcome = function() {
   document.getElementById('welcome-popup').classList.add('fade-hide');
@@ -737,11 +549,18 @@ function updateGoalsProgress() {
 let clicks = parseFloat(localStorage.getItem('clicks')) || 0;
 let clickValue = parseFloat(localStorage.getItem('clickValue')) || 1;
 let autoValue = parseFloat(localStorage.getItem('autoValue')) || 0;
-let counts = JSON.parse(localStorage.getItem('counts')) || { homeless: 0, jobless: 0, tinytask: 0, aiintern: 0, macbook: 0 };
 
-const basePrices = { homeless: 15, jobless: 150, tinytask: 750, aiintern: 5000, macbook: 25000 };
-const milestones = [100, 500, 1000, 5000, 10000];
-let unlockedMilestones = JSON.parse(localStorage.getItem('milestones') || '[]');
+let counts = JSON.parse(localStorage.getItem('counts')) || {
+  homeless: 0,
+  jobless: 0,
+  tinytask: 0
+};
+
+const basePrices = {
+  homeless: 15,
+  jobless: 150,
+  tinytask: 750
+};
 
 function getPrice(item) {
   return Math.floor(basePrices[item] * Math.pow(1.15, counts[item] || 0));
@@ -792,14 +611,11 @@ function updateUI() {
   const aiinternPrice = getPrice('aiintern');
   const macbookPrice = getPrice('macbook');
   
-  document.getElementById('display').innerText = Math.floor(clicks).toLocaleString();
-  document.getElementById('cps-display').innerText = `+${autoValue} per second · +${clickValue} per click`;
+  document.getElementById('display').innerText = Math.floor(clicks);
 
-  document.getElementById('buy-homeless').innerHTML = `<b>Homeless People</b><br><span class="text-xs">+1/click (Cost: ${homelessPrice}) · Own: ${counts.homeless}</span>`;
-  document.getElementById('buy-jobless').innerHTML = `<b>Jobless People</b><br><span class="text-xs">+1 Auto (Cost: ${joblessPrice}) · Own: ${counts.jobless}</span>`;
-  document.getElementById('buy-tinytask').innerHTML = `<b>Tiny Task</b><br><span class="text-xs">+10 Auto (Cost: ${tinytaskPrice}) · Own: ${counts.tinytask}</span>`;
-  document.getElementById('buy-aiintern').innerHTML = `<b>AI Intern</b><br><span class="text-xs">+50 Auto (Cost: ${aiinternPrice}) · Own: ${counts.aiintern}</span>`;
-  document.getElementById('buy-macbook').innerHTML = `<b>MacBook</b><br><span class="text-xs">+100/click (Cost: ${macbookPrice}) · Own: ${counts.macbook}</span>`;
+  document.getElementById('buy-homeless').innerHTML = `<b>Homeless People</b><br><span class="text-xs">+1 per click (Cost: ${homelessPrice})</span>`;
+  document.getElementById('buy-jobless').innerHTML = `<b>Jobless People</b><br><span class="text-xs">+1 Auto-click (Cost: ${joblessPrice})</span>`;
+  document.getElementById('buy-tinytask').innerHTML = `<b>Tiny Task</b><br><span class="text-xs">+10 Auto-click (Cost: ${tinytaskPrice})</span>`;
 
   document.getElementById('buy-homeless').disabled = clicks < homelessPrice;
   document.getElementById('buy-jobless').disabled = clicks < joblessPrice;
@@ -849,22 +665,113 @@ window.resetProgress = function() {
   updateUI();
   showToast('Progress reset completed.');
 }
+window.buyaiintern = function() {
+  let price = getPrice('aiintern');
+  if (clicks >= price) {
+    clicks -= price;
+    counts.aiintern++;
+    autoValue += 50;
+    updateUI();
+  }
+}
+window.buymacbook = function() {
+  let price = getPrice('macbook');
+  if (clicks >= price) {
+    clicks -= price;
+    counts.macbook++;
+    clickValue += 100;
+    updateUI();
+  }
+}
+
+window.resetProgress = function() {
+  if (!confirm('Reset ALL clicker progress? This cannot be undone.')) return;
+  clicks = 0; clickValue = 1; autoValue = 0;
+  counts = { homeless: 0, jobless: 0, tinytask: 0, aiintern: 0, macbook: 0 };
+  unlockedMilestones = [];
+  localStorage.removeItem('milestones');
+  updateUI();
+  showToast('Progress reset — start grinding again!');
+}
 
 setInterval(() => {
   if (autoValue > 0) { clicks += autoValue; updateUI(); }
 }, 1000);
 
-function updateFooterStats() {
-  const total = Math.floor(clicks);
-  const upgrades = counts.homeless + counts.jobless + counts.tinytask + counts.aiintern + counts.macbook;
-  document.getElementById('footer-stats').innerHTML = `
-    <span><i class="fa-solid fa-hand-pointer mr-1"></i>${total.toLocaleString()} clicks</span>
-    <span><i class="fa-solid fa-cart-shopping mr-1"></i>${upgrades} upgrades owned</span>
-    <span><i class="fa-solid fa-bolt mr-1"></i>${autoValue}/sec auto</span>
-  `;
+const PAGES = [
+  { id: 'about',    label: 'Home',      icon: 'fa-house',       title: 'Home — Aditya' },
+  { id: 'projects', label: 'Projects',  icon: 'fa-folder',      title: 'Projects — Aditya' },
+  { id: 'goals',    label: 'Goals',     icon: 'fa-bullseye',    title: 'Goals — Aditya' },
+  { id: 'timeline', label: 'Timeline',  icon: 'fa-road',        title: 'Timeline — Aditya' },
+  { id: 'gallery',  label: 'Gallery',   icon: 'fa-camera',      title: 'Gallery — Aditya' },
+  { id: 'blog',     label: 'Blog',      icon: 'fa-newspaper',   title: 'Blog — Aditya' },
+  { id: 'contact',  label: 'Contact',   icon: 'fa-envelope',    title: 'Contact — Aditya' },
+  { id: 'minigame', label: 'Clicker',   icon: 'fa-hand-pointer',title: 'Clicker — Aditya' },
+  { id: 'funzone',  label: 'Fun Zone',  icon: 'fa-gamepad',     title: 'Fun Zone — Aditya' },
+  { id: 'quiz',     label: 'Quiz',      icon: 'fa-circle-question', title: 'Quiz — Aditya' },
+  { id: 'comments', label: 'Comments',  icon: 'fa-comments',    title: 'Comments — Aditya' },
+  { id: 'socials',  label: 'Socials',   icon: 'fa-share-nodes', title: 'Socials — Aditya' },
+  { id: 'secrets',  label: 'Secrets',   icon: 'fa-user-secret', title: 'Secrets — Aditya' },
+];
+
+let currentPage = 'about';
+
+function navigateToPage(pageId) {
+  const page = PAGES.find((p) => p.id === pageId);
+  if (!page) return;
+
+  currentPage = pageId;
+  document.querySelectorAll('.tabcontent').forEach((el) => el.classList.add('hidden'));
+  document.getElementById(pageId).classList.remove('hidden');
+
+  document.querySelectorAll('.page-link').forEach((link) => {
+    link.classList.toggle('active', link.dataset.page === pageId);
+  });
+
+  document.getElementById('page-title').textContent = page.label;
+  document.title = page.title;
+  history.replaceState(null, '', `#${pageId}`);
+  document.getElementById('current-url').textContent = `#${pageId}`;
+
+  document.getElementById('page-sidebar').classList.remove('open');
 }
 
-// --- Fun Zone Module ---
+function initPageNav() {
+  const nav = document.getElementById('page-nav');
+  PAGES.forEach((page, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'page-link' + (page.id === 'about' ? ' active' : '');
+    btn.dataset.page = page.id;
+    btn.innerHTML = `<i class="fa-solid ${page.icon}"></i> ${page.label}<span style="margin-left:auto;font-size:0.65rem;opacity:0.5">${i + 1}</span>`;
+    btn.addEventListener('click', () => navigateToPage(page.id));
+    nav.appendChild(btn);
+  });
+
+  document.getElementById('mobile-nav-toggle').addEventListener('click', () => {
+    document.getElementById('page-sidebar').classList.toggle('open');
+  });
+
+  window.addEventListener('hashchange', () => {
+    const id = location.hash.slice(1) || 'about';
+    navigateToPage(PAGES.some((p) => p.id === id) ? id : 'about');
+  });
+
+  const hash = location.hash.slice(1);
+  navigateToPage(PAGES.some((p) => p.id === hash) ? hash : 'about');
+}
+
+function initContactForm() {
+  document.getElementById('send-contact-btn').addEventListener('click', () => {
+    const name = document.getElementById('contact-name').value.trim();
+    const email = document.getElementById('contact-email').value.trim();
+    const message = document.getElementById('contact-message').value.trim();
+    if (!message) return alert('Please write a message!');
+    const subject = encodeURIComponent(`Website message from ${name || 'Someone'}`);
+    const body = encodeURIComponent(`From: ${name}\nEmail: ${email}\n\n${message}`);
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=adi.chopra2408@gmail.com&su=${subject}&body=${body}`, '_blank');
+  });
+}
+
 function initFunZone() {
   const choices = ['rock', 'paper', 'scissors'];
   let rpsYou = 0, rpsCpu = 0;
@@ -908,7 +815,7 @@ function initFunZone() {
       document.getElementById('guess-result').textContent = `🎉 Correct! The number was ${secret}.`;
       document.getElementById('guess-attempts').textContent = `Solved in ${attempts} attempt${attempts === 1 ? '' : 's'}`;
       gameOver = true;
-      showToast(`Got it in ${attempts} tries`);
+      showToast(`Guessed it in ${attempts} tries!`);
     } else if (guess < secret) {
       document.getElementById('guess-result').textContent = 'Too low! Go higher.';
       document.getElementById('guess-attempts').textContent = `Attempt ${attempts}`;
@@ -962,7 +869,7 @@ function initMemoryGame() {
         lock = false;
         if (document.querySelectorAll('.memory-card.matched').length === cards.length) {
           document.getElementById('memory-status').textContent = `You won in ${moves} moves! 🎉`;
-          showToast(`Cleared map in ${moves} moves`);
+          showToast(`Memory match cleared in ${moves} moves!`);
         }
       } else {
         setTimeout(() => {
@@ -1013,7 +920,7 @@ function initTypingSprint() {
       const secs = (Date.now() - startTime) / 1000;
       const wpm = Math.round((target.split(' ').length / secs) * 60);
       document.getElementById('typing-stats').textContent = `Done in ${secs.toFixed(1)}s · ~${wpm} WPM`;
-      showToast(`${wpm} WPM Performance`);
+      showToast(`${wpm} WPM — nice typing!`);
     }
   });
 
@@ -1021,7 +928,6 @@ function initTypingSprint() {
   newPhrase();
 }
 
-// --- Quiz System ---
 const QUIZ_DATA = [
   { q: 'Where does Aditya live?', options: ['Los Angeles', 'Campbell, CA', 'San Francisco', 'Seattle'], answer: 1 },
   { q: 'What prize did he win at Campfire?', options: ['MacBook', '3D Printer', 'Minecraft', 'Trophy only'], answer: 1 },
@@ -1057,12 +963,12 @@ function initQuiz() {
       if (i === correct) b.classList.add('correct');
       else if (i === pick) b.classList.add('wrong');
     });
-    if (pick === correct) { score++; showToast('Correct Ans!'); }
+    if (pick === correct) { score++; showToast('Correct!'); }
     if (idx < QUIZ_DATA.length - 1) {
       document.getElementById('quiz-next-btn').classList.remove('hidden');
     } else {
       document.getElementById('quiz-score').textContent = `Finished! You got ${score} / ${QUIZ_DATA.length}`;
-      showToast(`Final Quiz Score: ${score}/${QUIZ_DATA.length}`);
+      showToast(`Quiz done: ${score}/${QUIZ_DATA.length}`);
     }
   });
 
@@ -1074,31 +980,19 @@ function initQuiz() {
   showQuestion();
 }
 
-// --- Integrations ---
-function initContactForm() {
-  document.getElementById('send-contact-btn').addEventListener('click', () => {
-    const name = document.getElementById('contact-name').value.trim();
-    const email = document.getElementById('contact-email').value.trim();
-    const message = document.getElementById('contact-message').value.trim();
-    if (!message) return alert('Please write a message!');
-    const subject = encodeURIComponent(`Website message from ${name || 'Someone'}`);
-    const body = encodeURIComponent(`From: ${name}\nEmail: ${email}\n\n${message}`);
-    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=adi.chopra2408@gmail.com&su=${subject}&body=${body}`, '_blank');
-  });
-}
+window.openTab = function(event, tabId) {
+  const contents = document.querySelectorAll('.tabcontent');
+  contents.forEach(content => content.classList.add('hidden'));
 
-function initKeyboardShortcuts() {
-  document.addEventListener('keydown', (e) => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-    const num = parseInt(e.key, 10);
-    if (num >= 1 && num <= Math.min(9, PAGES.length)) {
-      navigateToPage(PAGES[num - 1].id);
-    }
-    if (e.code === 'Space' && currentPage === 'minigame') {
-      e.preventDefault();
-      window.addClick(e);
-    }
+  document.getElementById(tabId).classList.remove('hidden');
+
+  const buttons = document.querySelectorAll('.tab-btn');
+  buttons.forEach(btn => {
+    btn.classList.remove('bg-purple-600', 'text-white');
+    btn.classList.add('bg-gray-200', 'text-black');
   });
+  event.currentTarget.classList.add('bg-purple-600', 'text-white');
+  event.currentTarget.classList.remove('bg-gray-200', 'text-black');
 }
 
 function updateClock() {
@@ -1120,22 +1014,19 @@ document.getElementById('reset-clicks-btn').addEventListener('click', window.res
 updateClock();
 setInterval(updateClock, 1000);
 
-updateUI();
-initPageNav();
-initVisitCounter();
-initDailyQuote();
-initDarkMode();
-initNavMenu();
-initSkillBars();
-initGoalsChecklist();
-initKeyboardShortcuts();
-initContactForm();
-initFunZone();
-initMemoryGame();
-initTypingSprint();
-initQuiz();
+document.getElementById('about-btn').addEventListener('click', (e) => openTab(e, 'about'));
+document.getElementById('goals-btn').addEventListener('click', (e) => openTab(e, 'goals'));
+document.getElementById('minigame-btn').addEventListener('click', (e) => openTab(e, 'minigame'));
+document.getElementById('comments-btn').addEventListener('click', (e) => openTab(e, 'comments'));
+document.getElementById('socials-btn').addEventListener('click', (e) => openTab(e, 'socials'));
+document.getElementById('click-me-btn').addEventListener('click', addClick);
+document.getElementById('buy-homeless').addEventListener('click', buyhomeless);
+document.getElementById('buy-jobless').addEventListener('click', buyjobless);
+document.getElementById('buy-tinytask').addEventListener('click', buytinytask);
 
-// --- Live Firebase Data Streams ---
+updateClock();
+updateUI();
+
 const q = query(collection(db, "comments"), orderBy("timestamp", "desc"));
 onSnapshot(q, (snapshot) => {
   commentsContainer.innerHTML = "";
