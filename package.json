@@ -1,4 +1,11 @@
 {
+  "name": "my-really-bad-website",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
   "devDependencies": {
     "vite": "^8.0.10"
   }
